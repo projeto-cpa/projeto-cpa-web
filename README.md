@@ -1,28 +1,28 @@
 # cpa-cliente
 
-This template should help get you started developing with Vue 3 in Vite.
+Esse projeto foi criado a partir de um template disponibilizado pela Vue
 
-## Recommended IDE Setup
+## Recomendação de IDE
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize configuration
+## Customize o projeto
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## Instalação do projeto
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Comando para rodar o projeto localmente em tempo real
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Comando para compilar o projeto
 
 ```sh
 npm run build
