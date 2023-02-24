@@ -6,9 +6,9 @@ Esse projeto foi criado a partir de um template disponibilizado pela Vue
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize o projeto
+## Configure o projeto
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Veja a documentação [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Instalação do projeto
 
