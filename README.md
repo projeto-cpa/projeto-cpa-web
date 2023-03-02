@@ -1,35 +1,14 @@
-# cpa-cliente
+# Projeto CPA Web
 
-Esse projeto foi criado a partir de um template disponibilizado pela Vue
+Projeto CPA Biopark, servidor de cliente.
 
-## Recomendação de IDE
+## Dependencias
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- Vite v4.1.0
+- Vitest v0.29.2
+- Vue v4.0.0
 
-## Configure o projeto
+## Ferramentas de testes
 
-Veja a documentação [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Instalação do projeto
-
-```sh
-npm install
-```
-
-### Comando para rodar o projeto localmente em tempo real
-
-```sh
-npm run dev
-```
-
-### Comando para compilar o projeto
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- Selenium
+- Vitest
