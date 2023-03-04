@@ -2,10 +2,12 @@
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import NotFound from './views/NotFound.vue'
+import Login from './views/Login.vue'
 
 const routes = {
   '/': Home,
-  '/about': About
+  '/about': About,
+  '/login': Login
 }
 
 export default {
@@ -28,8 +30,5 @@ export default {
 </script>
 
 <template>
-  <a href="#/">Home</a> |
-  <a href="#/about">About</a> |
-  <a href="#/non-existent-path">Broken Link</a>
   <component :is="currentView" />
 </template>
