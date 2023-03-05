@@ -1,4 +1,6 @@
 <script>
+import * as bootstrap from 'bootstrap';
+import * as Popper from "@popperjs/core"
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import NotFound from './views/NotFound.vue'
