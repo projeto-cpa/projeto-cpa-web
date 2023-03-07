@@ -9,6 +9,7 @@ Projeto CPA Biopark
 - Vue v3.0.0: [visitar documentação](https://vuejs.org/guide/introduction.html)
 - Bootstrap v5.3.0: [visitar documentação](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 - FontAwesome v4.7.0: [Visitar documentação](https://fontawesome.com/v4/icons/)
+- NuxtJS v2.15.8: [Visitar documentação](https://nuxtjs.org/docs/get-started/installation)
 
 ## Ferramentas de testes
 
@@ -31,9 +32,11 @@ $ npm run start
 $ npm run generate
 ```
 
-**Conteudo original do read me**
+## Conteudo original do read me abaixo
 
 Segue conteudo original do readme
+
+---
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 
