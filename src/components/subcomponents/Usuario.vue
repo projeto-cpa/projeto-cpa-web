@@ -34,6 +34,7 @@ export default {
 </script>
 
 <template>
+    <a href="#/about" class="btn btn-dark">About</a>
     <p>Nome: {{ nome }}</p>
     <p>Sobrenome: {{ sobrenome }}</p>
     <p>Nome completo: {{ nomeCompleto }}</p>

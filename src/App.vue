@@ -2,14 +2,11 @@
 import * as bootstrap from 'bootstrap';
 import * as Popper from "@popperjs/core"
 import Home from './views/Home.vue'
-import About from './views/About.vue'
-import NotFound from './views/NotFound.vue'
-import Login from './views/Login.vue'
+import Usuarios from './views/Usuarios.vue'
 
 const routes = {
   '/': Home,
-  '/about': About,
-  '/login': Login
+  '/usuarios/': Usuarios,
 }
 
 export default {
