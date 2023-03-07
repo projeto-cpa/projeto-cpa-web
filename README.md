@@ -1,5 +1,7 @@
 # cpa
 
+Projeto CPA Biopark
+
 ## Dependencias
 
 - Vite v4.1.0 [visitar documentação](https://vitejs.dev/)
@@ -10,24 +12,28 @@
 
 ## Ferramentas de testes
 
-Não definido ainda.
+Ainda não definido.
 
-## Build Setup
+## Execução
 
 ```bash
-# install dependencies
+# Instala as dependencias
 $ npm install
 
-# serve with hot reload at localhost:3000
+# Inicia o servidor localmente (usar esse comando para desenvolver)
 $ npm run dev
 
-# build for production and launch server
+# compilar e rodar
 $ npm run build
 $ npm run start
 
-# generate static project
+# compila como estatico
 $ npm run generate
 ```
+
+**Conteudo original do read me**
+
+Segue conteudo original do readme
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
 

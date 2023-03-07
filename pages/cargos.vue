@@ -5,10 +5,10 @@ import Aside from '../components/Aside.vue';
 import Footer from '../components/Footer.vue';
 import Super from '../components/Super.vue';
 
-import paginaCargos from '../components/views/paginaCargos.vue';
+import paginaCargos from '../components/view/paginaCargos.vue';
 
 export default {
-  name: 'IndexPage',
+  name: 'pageCargos',
   components: {
     'Aside': Aside,
     'Main': Main,
