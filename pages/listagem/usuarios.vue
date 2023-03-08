@@ -16,9 +16,6 @@ export default {
     'Header': Header,
     'Super': Super,
     'listagemUsuarios': listagemUsuarios
-  },
-  mounted: function () {
-    const bootstrap = require('bootstrap');
   }
 }
 </script>

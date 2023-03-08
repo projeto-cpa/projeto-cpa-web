@@ -1,3 +1,11 @@
+<script>
+export default {
+    mounted: function () {
+        require('bootstrap')
+    }
+};
+</script>
+
 <template>
     <header class="col-12 p-0">
         <nav class="navbar navbar-expand-lg bg-light py-0" data-bs-theme="light">

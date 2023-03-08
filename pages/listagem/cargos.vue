@@ -16,9 +16,6 @@ export default {
     'Header': Header,
     'Super': Super,
     'listagemCargos': listagemCargos
-  },
-  mounted: function () {
-    const bootstrap = require('bootstrap');
   }
 }
 </script>

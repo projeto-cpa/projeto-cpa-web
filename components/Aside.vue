@@ -80,6 +80,14 @@ export default {
                 return 'show';
             }
         },
+        classeItemAtivo: function (item) {
+            if (this.$nuxt.$route.path === item.caminho) {
+                return 'active';
+            } else {
+                return '';
+            }
+            
+        },
         recuperarEstado: function () {
             var caminho = this.$nuxt.$route.path;
             var link;
@@ -98,9 +106,17 @@ export default {
             } else {
                 return 'text-dark'
             }
+        },
+        corItemTexto: function (item) {
+            if (this.$nuxt.$route.path === item.caminho) {
+                return 'text-white';
+            } else {
+                return 'text-dark'
+            }
         }
     },
     mounted: function () {
+        require('bootstrap')
         this.recuperarEstado();
     }
 }
@@ -110,7 +126,7 @@ export default {
     <aside class="col p-0">
         <div class="list-group rounded-0">
             <div v-for="(link, index) in links" :key="index" @click="aoClicarPrincipal(link)" :class="classeAtiva(link)"
-                class="list-group-item list-group-item-action btn rounded-0" data-bs-toggle="collapse"
+                class="principal list-group-item list-group-item-action btn rounded-0" data-bs-toggle="collapse"
                 :data-bs-target="'#a' + link.id">
                 <div class="link-header">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
@@ -118,10 +134,10 @@ export default {
                 </div>
                 <div :class="classeMostrar(link)" class="list-group collapse"
                     v-if="link.items && link.items.length > 0" :id="'a' + link.id">
-                    <a @click="aoClicarItem(item)" v-for="(item, index2) in link.items" :key="index2"
+                    <a :class="classeItemAtivo(item)" @click="aoClicarItem(item)" v-for="(item, index2) in link.items" :key="index2"
                         class="list-group-item list-group-item-action btn mb-2">
-                        <i class="list-icon" :class="item.icone"></i>
-                        <span class="list-text">{{ item.texto }}</span>
+                        <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
+                        <span :class="corItemTexto(item)" class="list-text">{{ item.texto }}</span>
                     </a>
                 </div>
             </div>
@@ -139,7 +155,7 @@ aside {
 }
 
 .link-header {
-    padding: 5px;
+    padding: 7.5px;
 }
 
 .list-group-item.active {
@@ -147,8 +163,12 @@ aside {
     border-color: #273c4f !important;
 }
 
-.list-group .list-group{
-    padding-top: 5px;
+.list-group-item .list-group-item{
+    padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.list-group-item .list-group-item.active{
+    border:1px solid currentColor !important;
 }
 </style>

@@ -16,9 +16,6 @@ export default {
     'Header': Header,
     'Super': Super,
     'paginaInicial': paginaInicial
-  },
-  mounted: function () {
-    const bootstrap = require('../node_modules/bootstrap/dist/js/bootstrap.js');
   }
 }
 </script>

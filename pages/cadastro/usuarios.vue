@@ -16,9 +16,6 @@ export default {
     'Header': Header,
     'Super': Super,
     'cadastroUsuarios': cadastroUsuarios
-  },
-  mounted: function () {
-    const bootstrap = require('bootstrap');
   }
 }
 </script>
