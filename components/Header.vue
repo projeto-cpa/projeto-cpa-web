@@ -1,6 +1,6 @@
 <template>
     <header class="col-12 p-0">
-        <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
+        <nav class="navbar navbar-expand-lg bg-light py-0" data-bs-theme="light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="../static/biopark_logo.png" alt="Logo" height="40"
@@ -43,3 +43,19 @@
         </nav>
     </header>
 </template>
+
+<style scoped>
+header{
+    position: fixed !important;
+    height: 60px !important;
+    border-bottom:1px solid #cccccc !important;
+}
+
+header nav{
+    position: absolute !important;
+    top:50% !important;
+    left:0px !important;
+    transform: translate(0, -50%) !important;
+    width:100% !important
+}
+</style>
