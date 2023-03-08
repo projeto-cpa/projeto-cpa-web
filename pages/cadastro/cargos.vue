@@ -5,10 +5,10 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import cadastroCargos from '../../components/view/cadastroCargos.vue';
+import cadastroCargos from '../../components/view/cadastro/cadastroCargos.vue';
 
 export default {
-  name: 'cadastroCargos',
+  name: 'cadastro-cargos',
   components: {
     'Aside': Aside,
     'Main': Main,
@@ -27,7 +27,7 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main>  
+    <Main titulo="Página de cadastro de cargos">  
       <cadastroCargos></cadastroCargos>
     </Main>
     <Footer></Footer>

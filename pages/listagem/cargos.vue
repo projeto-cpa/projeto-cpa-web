@@ -5,17 +5,17 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import cadastroUsuarios from '../../components/view/cadastroUsuario.vue';
+import listagemCargos from '../../components/view/listagem/listagemCargos.vue';
 
 export default {
-  name: 'cadastroUsuarios',
+  name: 'listagem-cargos',
   components: {
     'Aside': Aside,
     'Main': Main,
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'cadastroUsuarios': cadastroUsuarios
+    'listagemCargos': listagemCargos
   },
   mounted: function () {
     const bootstrap = require('bootstrap');
@@ -27,8 +27,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main>
-      <cadastroUsuarios></cadastroUsuarios>
+    <Main titulo="Página de listagem de cargos">  
+      <listagemCargos></listagemCargos>
     </Main>
     <Footer></Footer>
   </Super>

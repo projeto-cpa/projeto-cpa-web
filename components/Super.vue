@@ -25,6 +25,8 @@ export default {
 
 <style>
 body *:not(.fa){
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
+    color:#273c4f;
+    font-size: 18px;
 }
 </style>

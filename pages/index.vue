@@ -8,7 +8,7 @@ import Super from '../components/Super.vue';
 import paginaInicial from '../components/view/paginaInicial.vue';
 
 export default {
-  name: 'pageIndex',
+  name: 'index',
   components: {
     'Aside': Aside,
     'Main': Main,
@@ -26,8 +26,8 @@ export default {
 <template>
   <Super>
     <Header></Header>
-    <Aside paginaAtiva="/"></Aside>
-    <Main>
+    <Aside></Aside>
+    <Main titulo="Página inícial">
       <paginaInicial></paginaInicial>
     </Main>
     <Footer></Footer>

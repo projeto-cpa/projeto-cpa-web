@@ -6,85 +6,102 @@ export default {
         return {
             links: [
                 {
-                    url: '/',
+                    caminho: '/',
                     texto: 'Página inícial',
                     icone: 'fa fa-home',
                     id: uuidv4(),
-                    active: false
+                    ativo: false
                 },
                 {
-                    url: '/usuarios/',
+                    caminho: '/usuarios',
                     texto: 'Usuários',
                     icone: 'fa fa-user',
                     id: uuidv4(),
-                    active: false,
+                    ativo: false,
                     items: [
                         {
-                            url: '/usuarios/cadastro/',
+                            caminho: '/cadastro/usuarios',
                             texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
                         },
                         {
-                            url: '/usuarios/listagem/',
+                            caminho: '/listagem/usuarios',
                             texto: 'Listagem',
+                            icone: 'fa fa-list',
                         }
                     ]
                 },
                 {
-                    url: '/cargos/',
+                    caminho: '/cargos',
                     texto: 'Cargos',
                     icone: 'fa fa-users',
                     id: uuidv4(),
-                    active: false,
+                    ativo: false,
                     items: [
                         {
-                            url: '/cargos/cadastro/',
+                            caminho: '/cadastro/cargos',
                             texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
                         },
                         {
-                            url: '/cargos/listagem/',
+                            caminho: '/listagem/cargos',
                             texto: 'Listagem',
+                            icone: 'fa fa-list',
                         }
                     ]
                 }
-            ],
-            rotaVirtual: this.$nuxt.$route.path
+            ]
         };
     },
     methods: {
         aoClicarPrincipal: function (link) {
-            if (link.url.indexOf('#') === -1 && link.items === undefined) {
-                //console.log(link.url)
-                //console.log('aqui',link.url.indexOf('#'))
-                window.location.href = link.url;
+            console.log('clicou')
+            if (!link.items) {
+                this.$router.push({ path: link.caminho });
             }
             for (var x = 0; x < this.links.length; x++) {
                 if (this.links[x].id === link.id) {
-                    this.links[x].active = true;
+                    this.links[x].ativo = true;
                 } else {
-                    this.links[x].active = false;
+                    this.links[x].ativo = false;
                 }
             }
         },
-        aoClicarItem:function (item) {
-            window.location.href = item.url;
+        aoClicarItem: function (item) {
+            this.$router.push({ path: item.caminho });
         },
         classeAtiva: function (link) {
-            if (link.url === this.rotaVirtual || link.active) {
+            if (link.ativo) {
                 return 'active';
             }
         },
         classeMostrar: function (link) {
-            if (link.url === this.rotaVirtual || link.active) {
+            if (link.ativo) {
                 return 'show';
             }
         },
-        linkPrincipal: function (link) {
-            if (link.url === this.rotaVirtual || link.active) {
-                return '#a' + link.id;
+        recuperarEstado: function () {
+            var caminho = this.$nuxt.$route.path;
+            var link;
+            for (var x = 0; x < this.links.length; x++) {
+                link = this.links[x];
+                if (caminho.indexOf(link.caminho) > 0 || caminho === link.caminho) {
+                    this.links[x].ativo = true;
+                } else {
+                    this.links[x].ativo = false;
+                }
+            }
+        },
+        corTexto: function (link) {
+            if (link.ativo) {
+                return 'text-white';
             } else {
-                return link.url;
+                return 'text-dark'
             }
         }
+    },
+    mounted: function () {
+        this.recuperarEstado();
     }
 }
 </script>
@@ -92,18 +109,22 @@ export default {
 <template>
     <aside class="col p-0">
         <div class="list-group rounded-0">
-            <a v-for="(link, index) in links" :key="index" :href="linkPrincipal(link)" @click="aoClicarPrincipal(link)"
-                :class="classeAtiva(link)" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
+            <div v-for="(link, index) in links" :key="index" @click="aoClicarPrincipal(link)" :class="classeAtiva(link)"
+                class="list-group-item list-group-item-action btn rounded-0" data-bs-toggle="collapse"
+                :data-bs-target="'#a' + link.id">
                 <div class="link-header">
-                    <i class="link-icon" :class="link.icone"></i>
-                    <span class="link-text">{{ link.texto }}</span>
+                    <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
+                    <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
                 </div>
-                <div :class="classeMostrar(link)" class="list-group collapse" v-if="link.items && link.items.length > 0"
-                    :id="'a' + link.id">
+                <div :class="classeMostrar(link)" class="list-group collapse"
+                    v-if="link.items && link.items.length > 0" :id="'a' + link.id">
                     <a @click="aoClicarItem(item)" v-for="(item, index2) in link.items" :key="index2"
-                        class="list-group-item list-group-item-action">{{ item.texto }}</a>
+                        class="list-group-item list-group-item-action btn mb-2">
+                        <i class="list-icon" :class="item.icone"></i>
+                        <span class="list-text">{{ item.texto }}</span>
+                    </a>
                 </div>
-            </a>
+            </div>
         </div>
     </aside>
 </template>
@@ -111,13 +132,23 @@ export default {
 <style scoped>
 aside {
     padding-top: 60px !important;
-    border: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
     max-width: 320px !important;
     flex: 1 1 320px !important;
     height: 100vh !important;
 }
 
 .link-header {
-    padding: 10px;
+    padding: 5px;
+}
+
+.list-group-item.active {
+    background-color: #273c4f !important;
+    border-color: #273c4f !important;
+}
+
+.list-group .list-group{
+    padding-top: 5px;
+    padding-bottom: 10px;
 }
 </style>
