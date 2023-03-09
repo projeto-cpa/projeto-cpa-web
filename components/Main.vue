@@ -6,10 +6,10 @@ export default {
 
 <template>
     <main class="col p-0">
-        <header>
+        <header class="bg-primary">
             <h1 class="text-white">{{ titulo }}</h1>
         </header>
-        <div class="content-frame">
+        <div class="content-frame bg-light">
             <slot></slot>
         </div>
     </main>
@@ -23,7 +23,7 @@ header{
     left:0px;
     width:100%;
     height: 60px;
-    background-color: #273c4f;;
+    /*background-color: #273c4f;*/
 }
 
 header h1{
@@ -35,8 +35,10 @@ header h1{
 }
 
 .content-frame{
-    padding-left:20px;
-    padding-right:20px;
+    position:relative;
+    padding:20px;
+    height:calc(100vh - 120px) !important;
+    z-index: 2;
 }
 
 main{

@@ -16,7 +16,7 @@ export default {
                     caminho: '/usuarios',
                     texto: 'Usuários',
                     icone: 'fa fa-user',
-                    id: uuidv4(),
+                    id: 'a' + uuidv4().replace('-',''),
                     ativo: false,
                     items: [
                         {
@@ -35,7 +35,7 @@ export default {
                     caminho: '/cargos',
                     texto: 'Cargos',
                     icone: 'fa fa-users',
-                    id: uuidv4(),
+                    id: 'a' + uuidv4().replace('-',''),
                     ativo: false,
                     items: [
                         {
@@ -86,7 +86,7 @@ export default {
             } else {
                 return '';
             }
-            
+
         },
         recuperarEstado: function () {
             var caminho = this.$nuxt.$route.path;
@@ -116,7 +116,7 @@ export default {
         }
     },
     mounted: function () {
-        require('bootstrap')
+        require('bootstrap');
         this.recuperarEstado();
     }
 }
@@ -125,17 +125,17 @@ export default {
 <template>
     <aside class="col p-0">
         <div class="list-group rounded-0">
-            <div v-for="(link, index) in links" :key="index" @click="aoClicarPrincipal(link)" :class="classeAtiva(link)"
+            <div v-for="link in links" :key="link.id" @click="aoClicarPrincipal(link)" :class="classeAtiva(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0" data-bs-toggle="collapse"
-                :data-bs-target="'#a' + link.id">
+                :data-bs-target="'#' + link.id">
                 <div class="link-header">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
                 </div>
-                <div :class="classeMostrar(link)" class="list-group collapse"
-                    v-if="link.items && link.items.length > 0" :id="'a' + link.id">
-                    <a :class="classeItemAtivo(item)" @click="aoClicarItem(item)" v-for="(item, index2) in link.items" :key="index2"
-                        class="list-group-item list-group-item-action btn mb-2">
+                <div :class="classeMostrar(link)" class="list-group collapse ms-2" v-if="link.items && link.items.length > 0"
+                    :id="link.id">
+                    <a :class="classeItemAtivo(item)" @click="aoClicarItem(item)" v-for="(item, index2) in link.items"
+                        :key="index2" class="list-group-item list-group-item-action btn mb-2 rounded-4">
                         <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
                         <span :class="corItemTexto(item)" class="list-text">{{ item.texto }}</span>
                     </a>
@@ -159,16 +159,28 @@ aside {
 }
 
 .list-group-item.active {
-    background-color: #273c4f !important;
-    border-color: #273c4f !important;
+    /*background-color: #273c4f !important;*/
+    /*border-color: #273c4f !important;*/
 }
 
-.list-group-item .list-group-item{
+.list-group-item .list-group-item {
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-.list-group-item .list-group-item.active{
-    border:1px solid currentColor !important;
+.list-group-item .list-group-item.active {
+    border: 1px solid currentColor !important;
+}
+
+.principal.list-group-item {
+    height: 60px;
+}
+
+.principal.list-group-item.active {
+    height: auto;
+}
+
+.list-group.collapse{
+    margin-top:5px;
 }
 </style>
