@@ -18,3 +18,15 @@ export default {
         </div>
     </div>
 </template>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+</style>
+
+<style>
+body{
+    font-family: 'Roboto', sans-serif !important;
+    color:#273c4f;
+    font-size: 16px;
+}
+</style>
