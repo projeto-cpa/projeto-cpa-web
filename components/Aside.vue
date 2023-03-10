@@ -260,6 +260,7 @@ footer .card {
 
 .list-group-item:active .link-header *,
 .list-group-item:active .list-group-item:active * {
-    color: black !important;
+    color: #0d6efd !important;
+    border-color:#0d6efd !important;
 }
 </style>

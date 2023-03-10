@@ -37,7 +37,7 @@ export default {
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..." aria-label="Search">
-                        <button class="btn btn-outline-primary rounded-5" type="submit">Pesquisar</button>
+                        <button class="btn btn-primary rounded-5" type="submit">Pesquisar</button>
                     </form>
                     <ul class="navbar-nav d-flex ms-2">
                         <li class="nav-item dropdown no-caret dropdown-user">
