@@ -5,8 +5,8 @@ import Swal from 'sweetalert2';
 
 export default {
     loading: {
-        color: 'blue',
-        height: '5px',
+        color: 'red',
+        height: '10px',
         continuous: true
     },
     data: function () {
@@ -84,7 +84,9 @@ export default {
             this.enviando = true;
             this.$nuxt.$loading.start();
             var resposta = await apiCadastroCargos(data);
-            setTimeout(() => this.$nuxt.$loading.finish(), 1000)
+            setTimeout(function () {
+                this.$nuxt.$loading.finish()
+            }, 750);;
             setTimeout(function () {
                 that.enviando = false;
                 if (resposta.sucesso) {
@@ -104,7 +106,7 @@ export default {
                         confirmButtonText: 'Entendido'
                     });
                 }
-            }, 1250);
+            }, 1000);
         }
     },
     mounted: async function () {
@@ -118,35 +120,39 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid">
-        <form class="row" ref="formularioCadastro">
-            <div class="card p-0">
-                <div class="card-body">
-                    <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
-                        <div class="form-floating">
-                            <template v-if="campo.tipo !== 'textarea'">
-                                <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                    :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                    :class="inputClass(campo.valido)">
-                            </template>
-                            <template v-else>
-                                <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                    class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                    :class="inputClass(campo.valido)" styte="height:400px !important"></textarea>
-                            </template>
-                            <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
-                            <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
-                                data-bs-placement="bottom" data-bs-delay="250"><i class="fa fa-question-circle"
-                                    aria-hidden="true"></i></span>
-                            <div class="valid-feedback">{{ campo.validacao.valido }}</div>
-                            <div class="invalid-feedback">{{ campo.validacao.invalido }}</div>
+    <div class="container-fluid conteudo-principal">
+        <section>
+            <article>
+                <form class="row m-0" ref="formularioCadastro">
+                    <div class="card p-0">
+                        <div class="card-body">
+                            <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
+                                <div class="form-floating">
+                                    <template v-if="campo.tipo !== 'textarea'">
+                                        <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                    </template>
+                                    <template v-else>
+                                        <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @keypress="campo.validar()"
+                                            :class="inputClass(campo.valido)"></textarea>
+                                    </template>
+                                    <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
+                                    <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
+                                        data-bs-placement="bottom" data-bs-delay="250"><i class="fa fa-question-circle"
+                                            aria-hidden="true"></i></span>
+                                    <div class="valid-feedback">{{ campo.validacao.valido }}</div>
+                                    <div class="invalid-feedback">{{ campo.validacao.invalido }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </form>
+                </form>
+            </article>
+        </section>
         <footer class="form-footer bg-white text-end">
-            <button class="btn btn-lg btn-primary" @click="enviarFormulario" :disabled="enviando">
+            <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando">
                 <span>Cadastrar</span>
                 <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
             </button>
@@ -161,17 +167,14 @@ export default {
     right: 20px;
 }
 
+textarea {
+    max-height: 400px !important;
+    min-height: 58px !important
+}
+
 textarea,
 input {
     background-position: calc(100% - 40px) 20px !important;
 }
 
-.form-footer {
-    border-top:1px solid #cccccc;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    padding: 20px;
-}
 </style>

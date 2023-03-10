@@ -16,7 +16,7 @@ export default {
                     caminho: '/usuarios',
                     texto: 'Usuários',
                     icone: 'fa fa-user',
-                    id: 'a' + uuidv4().replace('-',''),
+                    id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
                         {
@@ -35,7 +35,7 @@ export default {
                     caminho: '/cargos',
                     texto: 'Cargos',
                     icone: 'fa fa-users',
-                    id: 'a' + uuidv4().replace('-',''),
+                    id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
                         {
@@ -120,6 +120,13 @@ export default {
             } else {
                 return 'text-dark'
             }
+        },
+        classeTemItem: function (link) {
+            if (link.items) {
+                return 'has-items';
+            } else {
+                return '';
+            }
         }
     },
     mounted: function () {
@@ -132,7 +139,8 @@ export default {
 <template>
     <aside class="col p-0">
         <div class="list-group rounded-0">
-            <div v-for="link in links" :key="link.id" @click="aoClicarPrincipal(link)" :class="classeAtiva(link)"
+            <div v-for="link in links" :key="link.id" @click="aoClicarPrincipal(link)"
+                :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0" data-bs-toggle="collapse"
                 :data-bs-target="'#' + link.id">
                 <div class="link-header">
@@ -142,8 +150,8 @@ export default {
                         <i :class="classeFlexa(link)"></i>
                     </span>
                 </div>
-                <div :class="classeMostrar(link)" class="list-group collapse ms-2" v-if="link.items && link.items.length > 0"
-                    :id="link.id">
+                <div :class="classeMostrar(link)" class="list-group collapse ms-2"
+                    v-if="link.items && link.items.length > 0" :id="link.id">
                     <a :class="classeItemAtivo(item)" @click="aoClicarItem(item)" v-for="(item, index2) in link.items"
                         :key="index2" class="list-group-item list-group-item-action btn mb-2 rounded-4">
                         <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
@@ -152,28 +160,64 @@ export default {
                 </div>
             </div>
         </div>
+        <footer class="aside-footer">
+            <div class="card rounded-0">
+                <div class="card-body py-2 bg-light">
+                    <div class="container-fluid p-0">
+                        <div class="row m-0">
+                            <div class="col-8">
+                                <a href="/conta" class="dropdown-header d-flex align-items-center" data-v-1a9bb128=""><img
+                                        src="/_nuxt/static/user.png" class="dropdown-user-img avatar" data-v-1a9bb128="">
+                                    <div class="dropdown-user-details" data-v-1a9bb128="">
+                                        <div class="dropdown-user-details-name" data-v-1a9bb128="">Lucas Neitzke</div>
+                                        <div class="dropdown-user-details-email small" data-v-1a9bb128="">admin@admin</div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-4 align-items-center d-flex">
+                                <a href="/acesso" class="w-100 btn btn-sm btn-secondary rounded-5">Sair</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </aside>
 </template>
 
 <style scoped>
 aside {
-    padding-top: 60px !important;
+    position: relative;
+    margin-top: 60px !important;
     border-right: 1px solid #cccccc;
     max-width: 320px !important;
     flex: 1 1 320px !important;
-    height: 100vh !important;
+    height: calc(100vh - 60px) !important;
+}
+
+aside footer {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 60px;
+}
+
+footer .card {
+    height: 60px;
+    padding: 0 !important;
 }
 
 .link-header {
-    position:relative;
+    position: relative;
     padding: 7.5px;
 }
 
-.link-arrow{
-    position:absolute;
+.link-arrow {
+    position: absolute;
     top: 50%;
-    right:0px;
-    transform:translate(0, -50%);
+    right: 0px;
+    transform: translate(0, -50%);
 }
 
 .list-group-item.active {
@@ -190,15 +234,15 @@ aside {
     border: 1px solid currentColor !important;
 }
 
-.principal.list-group-item {
-    height: 60px;
+.principal.list-group-item:not(.active),
+.principal.list-group-item:not(.has-item) {
+    height: 60px !important;
 }
 
 .principal.list-group-item.active {
-    height: auto;
+    height: auto !important;
 }
 
-.list-group.collapse{
-    margin-top:5px;
-}
-</style>
+.list-group.collapse {
+    margin-top: 5px;
+}</style>

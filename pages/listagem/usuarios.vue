@@ -5,7 +5,7 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import listagemUsuarios from '../../components/view/listagem/listagemUsuarios.vue';
+import telaListagemUsuarios from '../../components/view/listagem/telaListagemUsuarios.vue';
 
 export default {
   name: 'listagem-usuarios',
@@ -15,7 +15,7 @@ export default {
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'listagemUsuarios': listagemUsuarios
+    'telaListagemUsuarios': telaListagemUsuarios
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Página de listagem de usuários">
-      <listagemUsuarios></listagemUsuarios>
+    <Main titulo="Tela de listagem de usuários">
+      <telaListagemUsuarios></telaListagemUsuarios>
     </Main>
     <Footer></Footer>
   </Super>

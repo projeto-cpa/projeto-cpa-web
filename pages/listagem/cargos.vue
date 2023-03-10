@@ -5,7 +5,7 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import listagemCargos from '../../components/view/listagem/listagemCargos.vue';
+import telaListagemCargos from '../../components/view/listagem/telaListagemCargos.vue';
 
 export default {
   name: 'listagem-cargos',
@@ -15,7 +15,7 @@ export default {
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'listagemCargos': listagemCargos
+    'telaListagemCargos': telaListagemCargos
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Página de listagem de cargos">  
-      <listagemCargos></listagemCargos>
+    <Main titulo="Tela de listagem de cargos">  
+      <telaListagemCargos></telaListagemCargos>
     </Main>
     <Footer></Footer>
   </Super>

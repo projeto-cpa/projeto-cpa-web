@@ -12,7 +12,7 @@ async function apiCadastroCargos(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('/cadastro/cargos.json', opcoes).then(function (response) {
+        fetch('/cadastro/acesso.json', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
