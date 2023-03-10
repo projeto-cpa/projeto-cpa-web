@@ -245,4 +245,10 @@ footer .card {
 
 .list-group.collapse {
     margin-top: 5px;
-}</style>
+}
+
+.principal.list-group-item:active .link-header * {
+    color: black !important;
+}
+
+</style>
