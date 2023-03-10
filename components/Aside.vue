@@ -13,6 +13,13 @@ export default {
                     ativo: false
                 },
                 {
+                    caminho: '/conta',
+                    texto: 'Conta',
+                    icone: 'fa fa-user',
+                    id: uuidv4(),
+                    ativo: false
+                },
+                {
                     caminho: '/usuarios',
                     texto: 'Usuários',
                     icone: 'fa fa-user',
@@ -61,7 +68,11 @@ export default {
             }
             for (var x = 0; x < this.links.length; x++) {
                 if (this.links[x].id === link.id) {
-                    this.links[x].ativo = true;
+                    if (this.links[x].ativo) {
+                        this.links[x].ativo = false;
+                    } else {
+                        this.links[x].ativo = true;
+                    }
                 } else {
                     this.links[x].ativo = false;
                 }
@@ -130,8 +141,8 @@ export default {
         }
     },
     mounted: function () {
-        require('bootstrap');
         this.recuperarEstado();
+        require('bootstrap');
     }
 }
 </script>
@@ -139,11 +150,10 @@ export default {
 <template>
     <aside class="col p-0">
         <div class="list-group rounded-0">
-            <div v-for="link in links" :key="link.id" @click="aoClicarPrincipal(link)"
-                :class="classeAtiva(link) + ' ' + classeTemItem(link)"
-                class="principal list-group-item list-group-item-action btn rounded-0" data-bs-toggle="collapse"
-                :data-bs-target="'#' + link.id">
-                <div class="link-header">
+            <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
+                class="principal list-group-item list-group-item-action btn rounded-0">
+                <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id"
+                    @click="aoClicarPrincipal(link)">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
                     <span v-if="link.items" class="link-arrow">
@@ -235,7 +245,8 @@ footer .card {
 }
 
 .principal.list-group-item:not(.active),
-.principal.list-group-item:not(.has-item) {
+.principal.list-group-item:not(.has-items),
+.principal.list-group-item.active:not(.has-items) {
     height: 60px !important;
 }
 
@@ -247,8 +258,8 @@ footer .card {
     margin-top: 5px;
 }
 
-.principal.list-group-item:active .link-header * {
+.list-group-item:active .link-header *,
+.list-group-item:active .list-group-item:active * {
     color: black !important;
 }
-
 </style>
