@@ -88,6 +88,13 @@ export default {
             }
 
         },
+        classeFlexa: function (link) {
+            if (link.ativo) {
+                return 'fa fa-chevron-down';
+            } else {
+                return 'fa fa-chevron-right';
+            }
+        },
         recuperarEstado: function () {
             var caminho = this.$nuxt.$route.path;
             var link;
@@ -131,6 +138,9 @@ export default {
                 <div class="link-header">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
+                    <span v-if="link.items" class="link-arrow">
+                        <i :class="classeFlexa(link)"></i>
+                    </span>
                 </div>
                 <div :class="classeMostrar(link)" class="list-group collapse ms-2" v-if="link.items && link.items.length > 0"
                     :id="link.id">
@@ -155,7 +165,15 @@ aside {
 }
 
 .link-header {
+    position:relative;
     padding: 7.5px;
+}
+
+.link-arrow{
+    position:absolute;
+    top: 50%;
+    right:0px;
+    transform:translate(0, -50%);
 }
 
 .list-group-item.active {

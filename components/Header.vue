@@ -56,7 +56,7 @@ export default {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#!">
                                     <i class="fa fa-user"></i> Account </a>
-                                <a class="dropdown-item" href="#!">
+                                <a class="dropdown-item" href="/acessar">
                                     <i class="fa fa-sign-out"></i> Logout </a>
                             </div>
                         </li>
