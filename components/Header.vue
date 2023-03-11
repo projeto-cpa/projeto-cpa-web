@@ -10,7 +10,7 @@ export default {
     <header class="col-12 p-0">
         <nav class="navbar navbar-expand-lg bg-white py-0" data-bs-theme="light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/">
                     <img src="../static/biopark_logo.png" alt="Logo" height="40"
                         class="d-inline-block align-text-top">CPA</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -36,12 +36,12 @@ export default {
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Pesquisar..." aria-label="Search">
-                        <button class="btn btn-outline-primary" type="submit">Pesquisar</button>
+                        <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..." aria-label="Search">
+                        <button class="btn btn-primary rounded-5" type="submit">Pesquisar</button>
                     </form>
                     <ul class="navbar-nav d-flex ms-2">
                         <li class="nav-item dropdown no-caret dropdown-user">
-                            <a class="btn btn-icon btn-outline-light dropdown-toggle" id="navbarDropdownUserImage"
+                            <a class="btn text-primary border-primary rounded-5 btn-icon btn-outline-light dropdown-toggle" id="navbarDropdownUserImage"
                                 href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
                             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
@@ -54,10 +54,10 @@ export default {
                                     </div>
                                 </h6>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#!">
-                                    <i class="fa fa-user"></i> Account </a>
-                                <a class="dropdown-item" href="#!">
-                                    <i class="fa fa-sign-out"></i> Logout </a>
+                                <a class="dropdown-item" href="/conta">
+                                    <i class="fa fa-user"></i> Minha conta </a>
+                                <a class="dropdown-item" href="/acesso">
+                                    <i class="fa fa-sign-out"></i> Sair </a>
                             </div>
                         </li>
                     </ul>

@@ -5,7 +5,7 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import cadastroUsuarios from '../../components/view/cadastro/cadastroUsuarios.vue';
+import telaCadastroUsuarios from '../../components/view/cadastro/telaCadastroUsuarios.vue';
 
 export default {
   name: 'cadastro-usuarios',
@@ -15,7 +15,7 @@ export default {
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'cadastroUsuarios': cadastroUsuarios
+    'telaCadastroUsuarios': telaCadastroUsuarios
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Página de cadastro de usuários">
-      <cadastroUsuarios></cadastroUsuarios>
+    <Main titulo="Tela de cadastro de usuários">
+      <telaCadastroUsuarios></telaCadastroUsuarios>
     </Main>
     <Footer></Footer>
   </Super>

@@ -5,15 +5,44 @@ export default {
 </script>
 
 <template>
-    <main class="col p-0">
+    <main class="col p-0 bg-light">
         <header class="bg-primary">
             <h1 class="text-white">{{ titulo }}</h1>
         </header>
-        <div class="content-frame bg-light">
+        <div class="content-frame">
             <slot></slot>
         </div>
     </main>
 </template>
+
+<style>
+
+.conteudo-principal{
+    padding:  0 !important;
+    overflow-y: auto !important;
+}
+
+.conteudo-principal section{
+    position: relative !important;
+    height: calc(100vh - 180px) !important;
+    padding: 20px !important;
+}
+
+.conteudo-principal section article{
+    padding-bottom: 20px;;
+}
+
+.form-footer {
+    border-top: 1px solid #cccccc !important;
+    position: absolute !important;
+    bottom: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    padding: 0 20px !important;
+    height: 60px !important;
+    line-height: 60px !important;
+}
+</style>
 
 <style scoped>
 header{
@@ -36,7 +65,6 @@ header h1{
 
 .content-frame{
     position:relative;
-    padding:20px;
     height:calc(100vh - 120px) !important;
     z-index: 2;
 }

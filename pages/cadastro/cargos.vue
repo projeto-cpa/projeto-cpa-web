@@ -5,7 +5,7 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import cadastroCargos from '../../components/view/cadastro/cadastroCargos.vue';
+import telaCadastroCargos from '../../components/view/cadastro/telaCadastroCargos.vue';
 
 export default {
   name: 'cadastro-cargos',
@@ -15,7 +15,7 @@ export default {
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'cadastroCargos': cadastroCargos
+    'telaCadastroCargos': telaCadastroCargos
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Página de cadastro de cargos">  
-      <cadastroCargos></cadastroCargos>
+    <Main titulo="Tela de cadastro de cargos">  
+      <telaCadastroCargos></telaCadastroCargos>
     </Main>
     <Footer></Footer>
   </Super>

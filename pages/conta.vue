@@ -5,17 +5,17 @@ import Aside from '../components/Aside.vue';
 import Footer from '../components/Footer.vue';
 import Super from '../components/Super.vue';
 
-import telaInicial from '../components/view/telaInicial.vue';
+import telaConta from '../components/view/telaConta.vue';
 
 export default {
-  name: 'index',
+  name: 'conta',
   components: {
     'Aside': Aside,
     'Main': Main,
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'telaInicial': telaInicial
+    'telaConta': telaConta
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Tela inícial">
-      <telaInicial></telaInicial>
+    <Main titulo="Tela minha conta">
+      <telaConta></telaConta>
     </Main>
     <Footer></Footer>
   </Super>
