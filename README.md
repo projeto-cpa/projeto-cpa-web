@@ -4,16 +4,36 @@ Projeto CPA Biopark
 
 ## Dependencias
 
-- Vue v3.0.0: [visitar documentação](https://vuejs.org/guide/introduction.html)
-- Bootstrap v5.3.0: [visitar documentação](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-- FontAwesome v4.7.0: [Visitar documentação](https://fontawesome.com/v4/icons/)
-- NuxtJS v2.15.8: [Visitar documentação](https://nuxtjs.org/docs/get-started/installation)
+- Vue v3.0.0: componentes dinâmicos em HTML [documentação](https://vuejs.org/guide/introduction.html)
+- Bootstrap v5.3.0: classes de estilos HTML [documentação](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- FontAwesome v4.7.0: classes de estilos HTML [documentação](https://fontawesome.com/v4/icons/)
+- NuxtJS v2.15.8: Servidor [documentação](https://nuxtjs.org/docs/get-started/installation)
 
 ## Ferramentas de testes
 
 Ainda não definido.
 
-## Execução
+## Requisitos do sistema
+
+- Node: versão 18+ LTS
+- NPM: versão mais atual
+- Github Desktop: versão mais atual (opcional)
+- Git: versão mais atual
+- VsCode: versão mais atual
+
+## Extensões recomendadas
+
+- Volar
+- CSS Peak
+- Auto Rename Tag
+
+## Executando o projeto
+
+- Clone o projeto utilizando o Github Desktop, ou por meio de comandos no Git
+- Instale todas as dependências `npm install`
+- Execute o projeto utilizando o comando `npm run dev`
+
+## Lista de comandos
 
 ```bash
 # Instala as dependencias
@@ -30,59 +50,33 @@ $ npm run start
 $ npm run generate
 ```
 
-## Conteudo original do read me abaixo
+## Enviando meus códigos
 
-Segue conteudo original do readme
+Faça seus commits utilizando a "Branch" que indica o seu respectivo nome
 
----
-
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
-
-## Special Directories
-
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
-
-### `assets`
-
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+## Estrutura de pasta
 
 ### `components`
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+A pasta `components` contêm todos os arquivos Vue.js que fazem parte de alguma tela. Ela está alocada fora da pasta das  telas por motivos de organizaçao de código.
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
+Para mais informações veja a [documentação orignal](https://nuxtjs.org/docs/2.x/directory-structure/components).
 
-### `layouts`
+### `components/view`
 
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
+A pasta é responsável pela tela em si, que é importada pela rota que se encontra na pasta `pages`.
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
+**No futuro essa pasta será realocada na raiz do projeto, se tornando assim `views`**
+*No entanto, não se sinta desencorajado em mandar commits nessa pasta!*
 
 ### `pages`
 
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
+A pasta pages está destinada a arquivos Vue.js que representem uma rota real. Todos os arquivos dentro são convertidos em rotas, e é de suma importância a declaração de um `name` para a rota no padrão snake-case (exemplo: `listagem-cargos`). É possível adicionar uma rota dinâmica com o uso de um arquivo Vue.js nomeado `_slug.vue`, para mais detalhes veja a documentação oficial.
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
+Para mais informações veja a [documentação orignal](https://nuxtjs.org/docs/2.x/get-started/routing).
 
 ### `static`
 
-This directory contains your static files. Each file inside this directory is mapped to `/`.
+A pasta `static` contêm  os arquivos estáticos como imagens, estilos, fontes e outros arquivos.
 
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+Para mais informações veja a [documentação orignal](https://nuxtjs.org/docs/2.x/directory-structure/static).
