@@ -1,5 +1,5 @@
 
-async function apiCadastroCargos(data) {
+async function apiSessaoAcesso(data) {
     var cabecalho = new Headers();
 
     var opcoes = {
@@ -12,7 +12,7 @@ async function apiCadastroCargos(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('/cadastro/acesso.json', opcoes).then(function (response) {
+        fetch('/sessao/acesso.json', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -28,4 +28,4 @@ async function apiCadastroCargos(data) {
 
 }
 
-export default apiCadastroCargos;
+export default apiSessaoAcesso;
