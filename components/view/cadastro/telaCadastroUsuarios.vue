@@ -15,7 +15,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Nome do usuário',
-                    nome: 'nome',
+                    nome: 'nome_usuario',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -73,12 +73,22 @@ export default {
                             valor: 0
                         },
                         {
-                            nome: 'Professor',
+                            nome: 'Coordenador',
                             id: 'a' + uuidv4(),
                             valor: 1
                         },
                         {
                             nome: 'Diretor',
+                            id: 'a' + uuidv4(),
+                            valor: 2
+                        },
+                        {
+                            nome: 'Membro da CPA',
+                            id: 'a' + uuidv4(),
+                            valor: 2
+                        },
+                        {
+                            nome: 'Professor',
                             id: 'a' + uuidv4(),
                             valor: 2
                         }
