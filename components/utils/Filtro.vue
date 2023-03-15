@@ -1,7 +1,13 @@
 <script>
 export default {
+    props:['colunas'],
     data: function () {
-        return '';
+        return {
+
+        };
+    },
+    mounted: function () {
+
     }
 };
 </script>

@@ -5,8 +5,6 @@ import Swal from 'sweetalert2';
 
 export default {
     loading: {
-        color: 'red',
-        height: '10px',
         continuous: true
     },
     data: function () {
@@ -82,11 +80,15 @@ export default {
             }
             //console.log(output);
             this.enviando = true;
-            this.$nuxt.$loading.start();
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
             var resposta = await apiCadastroCargos(data);
             setTimeout(function () {
-                this.$nuxt.$loading.finish()
-            }, 750);;
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                })
+            }, 750);
             setTimeout(function () {
                 that.enviando = false;
                 if (resposta.sucesso) {
@@ -130,8 +132,8 @@ export default {
                                 <div class="form-floating">
                                     <template v-if="campo.tipo !== 'textarea'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                            :class="inputClass(campo.valido)">
+                                            :type="campo.tipo" class="form-control" :id="campo.id"
+                                            @keypress="campo.validar()" :class="inputClass(campo.valido)">
                                     </template>
                                     <template v-else>
                                         <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
@@ -176,5 +178,4 @@ textarea,
 input {
     background-position: calc(100% - 40px) 20px !important;
 }
-
 </style>

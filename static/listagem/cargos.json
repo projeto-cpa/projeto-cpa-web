@@ -1,0 +1,106 @@
+{
+    "sucesso": true,
+    "paginas": 2,
+    "resultados": [
+        {
+            "id": 0,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 1,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 2,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 3,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 4,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 5,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 6,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 7,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 8,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 9,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 10,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 11,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 12,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 13,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 14,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 15,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 16,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 17,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 18,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        },
+        {
+            "id": 19,
+            "nome": "Nome do cargo",
+            "descricao": "Descrição do cargo"
+        }
+    ]
+}
