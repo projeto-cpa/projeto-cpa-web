@@ -54,7 +54,7 @@ export default {
                                 <div class="item header text-center"><b>Id.</b></div>
                             </div>
                             <div class="col-3 m-auto">
-                                <div class="item header"><b>Ativar/Desativar</b></div>
+                                <div class="item header text-center"><b>Ativar/Desativar</b></div>
                             </div>
                             <div class="col-3 m-auto">
                                 <div class="item header"><b>Nome do cargo</b></div>
