@@ -95,7 +95,7 @@ export default {
                     ],
                     ajuda: 'Selecione uma das opções',
                     classe: {
-                        coluna: 'col-12 mb-4'
+                        coluna: 'col-12 mb4'
                     },
                     validacao: {
                         valido: 'Campo validado com sucesso',
@@ -111,21 +111,21 @@ export default {
                 },
                 {
                     etiqueta: 'Email do usuário',
-                    nome: 'email',
+                    nome: 'senha_usuario',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
-                    tipo: 'email',
-                    ajuda: 'Deve ser email valido',
+                    tipo: 'text',
+                    ajuda: 'Deve ser um email válido',
                     classe: {
-                        coluna: 'col-12 '
+                        coluna: 'col-12'
                     },
                     validacao: {
                         valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
+                        invalido: 'Campo inválido, verifique novamente'
                     },
-                    validar: function () {
-                        if (this.valor.length > 5) {
+                    validar: function() {
+                        if (this.valor.includes("@") && this.valor.includes(".com")){
                             this.valido = true;
                         } else {
                             this.valido = false;
@@ -215,6 +215,13 @@ export default {
                                             </option>
                                         </select>
                                     </template>
+
+                                    <template v-else-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+                                        <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            :type="campo.tipo" class="form-control" :id="campo.id" @keyup="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                    </template>
+
                                     <template v-else>
                                         <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             class="form-control" :id="campo.id" @keypress="campo.validar()"
