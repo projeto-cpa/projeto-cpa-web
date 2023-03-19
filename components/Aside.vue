@@ -20,25 +20,6 @@ export default {
                     ativo: false
                 },
                 {
-                    caminho: '/usuarios',
-                    texto: 'Usuários',
-                    icone: 'fa fa-user',
-                    id: 'a' + uuidv4().replace('-', ''),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/usuarios',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/usuarios',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
-                {
                     caminho: '/cargos',
                     texto: 'Cargos',
                     icone: 'fa fa-users',
