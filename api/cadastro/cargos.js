@@ -1,18 +1,21 @@
+import formToJSON from "../../helpers/formToJSON.js";
 
-async function apiCadastroCargos(data) {
-    var cabecalho = new Headers();
+async function Requisicao(data) {
+    console.log('data', data);
+    var json = formToJSON(data);
+    console.log('json', json);
 
     var opcoes = {
-        /*body:data,
-        method: 'POST',*/
-        method: 'GET',
-        headers: cabecalho,
-        mode: 'no-cors',
-        cache: 'default'
+        body: json,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        mode: "cors"
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('/cadastro/cargos.json', opcoes).then(function (response) {
+        fetch('http://localhost:8080/cadastro/cargos', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -23,9 +26,10 @@ async function apiCadastroCargos(data) {
         });
     });
 
-    //console.log('resposta aguardada', resposta);
     return resposta;
 
 }
 
-export default apiCadastroCargos;
+export {
+    Requisicao
+};

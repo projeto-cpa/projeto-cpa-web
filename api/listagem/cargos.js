@@ -1,17 +1,15 @@
-async function Requisicao(data) {
-    var cabecalho = new Headers();
+async function Requisicao() {
 
     var opcoes = {
-        /*body:data,
-        method: 'POST',*/
         method: 'GET',
-        headers: cabecalho,
-        mode: 'no-cors',
-        cache: 'default'
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        mode: "cors"
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('/listagem/cargos.json', opcoes).then(function (response) {
+        fetch('http://localhost:8080/listagem/cargos', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -22,7 +20,6 @@ async function Requisicao(data) {
         });
     });
 
-    //console.log('resposta aguardada', resposta);
     return resposta;
 
 }
