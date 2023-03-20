@@ -40,7 +40,7 @@ export default {
                 },
                 {
                     caminho: '/perguntas',
-                    texto: 'Cadastrar',
+                    texto: 'Perguntas',
                     icone: 'fa fa-users',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
@@ -57,6 +57,26 @@ export default {
                         }
                     ]
                 },
+                {
+                    caminho: '/respostas',
+                    texto: 'Respostas',
+                    icone: 'fa fa-users',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/respostas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/respostas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
+
             ]
         };
     },
