@@ -56,6 +56,25 @@ export default {
                             icone: 'fa fa-list',
                         }
                     ]
+                },
+                {
+                    caminho: '/Cursos',
+                    texto: 'Cursos',
+                    icone: 'fa fa-graduation-cap',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/cursos',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/cursos',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
                 }
             ]
         };

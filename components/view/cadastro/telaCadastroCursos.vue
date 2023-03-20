@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import apiCadastroCargos from '../../../api/cadastro/cargos.js'
+import apiCadastroCursos from '../../../api/cadastro/cursos.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -156,7 +156,7 @@ export default {
             //console.log(output);
             this.enviando = true;
             this.$nuxt.$loading.start();
-            var resposta = await apiCadastroCargos(data);
+            var resposta = await apiCadastroCursos(data);
             setTimeout(function () {
                 this.$nuxt.$loading.finish()
             }, 750);;
