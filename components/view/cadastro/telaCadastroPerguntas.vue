@@ -13,7 +13,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Pergunta',
-                    nome: 'nome',
+                    nome: 'descrição',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),

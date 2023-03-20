@@ -88,7 +88,7 @@ export default {
                                 <div class="item header text-center"><b>Ativar/Desativar</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>nome</b></div>
+                                                <div class="item header text-center"><b>Perguntas</b></div>
                             </div>
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Criado em</b></div>
