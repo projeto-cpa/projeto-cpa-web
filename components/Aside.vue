@@ -37,7 +37,26 @@ export default {
                             icone: 'fa fa-list',
                         }
                     ]
-                }
+                },
+                {
+                    caminho: '/perguntas',
+                    texto: 'Cadastrar',
+                    icone: 'fa fa-users',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/perguntas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/perguntas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
             ]
         };
     },
