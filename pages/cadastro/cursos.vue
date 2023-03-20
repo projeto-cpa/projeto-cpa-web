@@ -5,7 +5,7 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import telaCadastroCargos from '../../components/view/cadastro/telaCadastroCursos.vue';
+import telaCadastroCursos from '../../components/view/cadastro/telaCadastroCursos.vue';
 
 export default {
   name: 'cadastro-cursos',

@@ -14,8 +14,8 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Nome do usuário',
-                    nome: 'nome_usuario',
+                    etiqueta: 'Nome do curso',
+                    nome: 'nome_curso',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -37,65 +37,42 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Senha do usuário',
-                    nome: 'senha',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'password',
-                    ajuda: 'Maior que 5 caracteres',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor.length > 5) {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
-                },
-                {
-                    etiqueta: 'Tipo de usuário',
-                    nome: 'tipo-usuario',
+                    etiqueta: 'Matérias do curso',
+                    nome: 'tipo-materia',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
                     tipo: 'select',
                     valores: [
                         {
-                            nome: 'Aluno',
+                            nome: 'Modelagem de Sites Básicos',
                             id: 'a' + uuidv4(),
                             valor: 0
                         },
                         {
-                            nome: 'Coordenador',
+                            nome: 'Orientação a objetos',
                             id: 'a' + uuidv4(),
                             valor: 1
                         },
                         {
-                            nome: 'Diretor',
+                            nome: 'Abstração e Modelagem de Dados',
                             id: 'a' + uuidv4(),
                             valor: 2
                         },
                         {
-                            nome: 'Membro da CPA',
+                            nome: 'Desenvolvimento de Sites Dinâmicos',
                             id: 'a' + uuidv4(),
                             valor: 2
                         },
                         {
-                            nome: 'Professor',
+                            nome: 'Desenvolvimento de Interface Gráfica',
                             id: 'a' + uuidv4(),
                             valor: 2
                         }
                     ],
                     ajuda: 'Selecione uma das opções',
                     classe: {
-                        coluna: 'col-12 mb4'
+                        coluna: 'col-12 mb-4'
                     },
                     validacao: {
                         valido: 'Campo validado com sucesso',
@@ -109,29 +86,7 @@ export default {
                         }
                     }
                 },
-                {
-                    etiqueta: 'Email do usuário',
-                    nome: 'senha_usuario',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'text',
-                    ajuda: 'Deve ser um email válido',
-                    classe: {
-                        coluna: 'col-12'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente'
-                    },
-                    validar: function() {
-                        if (this.valor.includes("@") && this.valor.includes(".com")){
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
-                }
+
             ]
         };
     },
