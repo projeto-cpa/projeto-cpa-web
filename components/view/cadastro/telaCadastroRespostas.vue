@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/respostas.js'
+import { Requisicao } from '../../../api/cadastro/perguntas.js'
 import Swal from 'sweetalert2';
 
 
@@ -22,17 +22,13 @@ export default {
                     tipo: 'select',
                     valores: [
                         {
-                            nome: 'oiiiiiii',
-                            id: 'a' + uuidv4(),
-                            valor: "true"
-                        },
-                        {
-                            nome: 'Pergunta dois?',
+                            nome: this.resposta,
                             id: 'a' + uuidv4(),
                             valor: "true"
                         },
                     ],
                     ajuda: 'Selecione uma das opções',
+
                     classe: {
                         coluna: 'col-12 mb-4'
                     },
@@ -75,6 +71,25 @@ export default {
         };
     },
     methods: {
+        receberDados: async function () {
+            var that = this;
+            this.recebendo = true;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+
+            var resposta = await Requisicao(data);
+            this.resultados = resposta;
+
+            setTimeout(function () {
+                that.recebendo = false;
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                })
+            }, 750);
+        },
+
         inputClass: function (valido) {
             if (valido === true) {
                 return 'is-valid';
@@ -143,7 +158,10 @@ export default {
         tooltips.forEach(function (item) {
             new bootstrap.Tooltip(item);
         });
-    }
+    },
+    mounted: function () {
+        this.receberDados()
+    },
 };
 </script>
 
