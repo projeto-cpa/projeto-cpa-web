@@ -37,7 +37,26 @@ export default {
                             icone: 'fa fa-list',
                         }
                     ]
-                }
+                },
+                {
+                    caminho: '/disciplinas',
+                    texto: 'Disciplinas',
+                    icone: 'fa fa-book',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/disciplinas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/disciplinas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
             ]
         };
     },
