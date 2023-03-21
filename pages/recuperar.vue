@@ -1,16 +1,16 @@
 <script>
-import telaAcesso from '../components/view/telaAcesso.vue';
+import telaRecuperarSenha from '../components/view/telaRecuperarSenha.vue';
 
 export default {
-    name: 'acesso',
+    name: 'recuperar',
     components: {
-        telaAcesso: telaAcesso
+        telaRecuperarSenha: telaRecuperarSenha
     }
 }
 </script>
 
 <template>
-    <telaAcesso></telaAcesso>
+    <telaRecuperarSenha></telaRecuperarSenha>
 </template>
 
 <style>

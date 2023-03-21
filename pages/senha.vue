@@ -1,16 +1,16 @@
 <script>
-import telaAcesso from '../components/view/telaAcesso.vue';
+import telaSenha from '../components/view/telaSenha.vue';
 
 export default {
-    name: 'acesso',
+    name: 'senha',
     components: {
-        telaAcesso: telaAcesso
+        telaSenha: telaSenha
     }
 }
 </script>
 
 <template>
-    <telaAcesso></telaAcesso>
+    <telaSenha></telaSenha>
 </template>
 
 <style>
