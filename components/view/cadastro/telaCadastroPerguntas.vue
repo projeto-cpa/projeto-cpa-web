@@ -12,7 +12,7 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Pergunta',
+                    etiqueta: 'Cadastro de Pergunta',
                     nome: 'descrição',
                     valor: '',
                     valido: null,

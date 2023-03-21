@@ -28,7 +28,7 @@ const Filtros = {
     colunas: [
         { nome: 'id', etiqueta: 'ID', tipo: 'number' },
         { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
-        { nome: 'descricao', etiqueta: 'Descrição', tipo: 'string' }
+    
     ]
 };
 

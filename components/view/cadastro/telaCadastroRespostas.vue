@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Requisicao } from '../../../api/cadastro/respostas.js'
 import Swal from 'sweetalert2';
 
+
 export default {
     loading: {
         continuous: true
@@ -21,7 +22,7 @@ export default {
                     tipo: 'select',
                     valores: [
                         {
-                            nome: 'Pergunta um?',
+                            nome: 'oiiiiiii',
                             id: 'a' + uuidv4(),
                             valor: "true"
                         },
@@ -123,7 +124,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/resposta' });
+                        that.$router.push({ path: '/resposta' });
                     });
                 } else {
                     Swal.fire({
