@@ -37,37 +37,42 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Matérias do curso',
-                    nome: 'tipo-materia',
+                    etiqueta: 'Disciplinas do curso',
+                    nome: 'tipo_materia',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
-                    tipo: 'select',
+                    tipo: 'multi-select',
                     valores: [
                         {
                             nome: 'Modelagem de Sites Básicos',
                             id: 'a' + uuidv4(),
-                            valor: 0
+                            valor: 0,
+                            selecionado: false
                         },
                         {
                             nome: 'Orientação a objetos',
                             id: 'a' + uuidv4(),
-                            valor: 1
+                            valor: 1,
+                            selecionado: false
                         },
                         {
                             nome: 'Abstração e Modelagem de Dados',
                             id: 'a' + uuidv4(),
-                            valor: 2
+                            valor: 2,
+                            selecionado: false
                         },
                         {
                             nome: 'Desenvolvimento de Sites Dinâmicos',
                             id: 'a' + uuidv4(),
-                            valor: 2
+                            valor: 3,
+                            selecionado: false
                         },
                         {
                             nome: 'Desenvolvimento de Interface Gráfica',
                             id: 'a' + uuidv4(),
-                            valor: 2
+                            valor: 4,
+                            selecionado: false
                         }
                     ],
                     ajuda: 'Selecione uma das opções',
@@ -91,6 +96,30 @@ export default {
         };
     },
     methods: {
+        buscarIndexPeloNome: function (nome) {
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.formulario.forEach(function (item, index) {
+                //console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
+        buscarIndexPeloID: function (valores, id) {
+            var i = 0;
+            valores.forEach(function (item, index) {
+                //console.log(id)
+                if (item.id === id) {
+                    i = index;
+                }
+            });
+            return i;
+        },
         inputClass: function (valido) {
             if (valido === true) {
                 return 'is-valid';
@@ -99,6 +128,17 @@ export default {
             } else {
                 return 'is-invalid';
             }
+        },
+
+        mudarEstado($event, nome, id) {
+            $event.preventDefault();
+            var indexnone = this.buscarIndexPeloNome('tipo_materia');
+            var objeto = this.formulario[indexnone];
+            console.log(objeto)
+            var indexID = this.buscarIndexPeloID(objeto.valores, id);
+            var valor = objeto.valores[indexID];
+            console.log(valor);
+            this.formulario[indexnone].valores[indexID].selecionado = true ;
         },
         enviarFormulario: async function () {
             var that = this;
@@ -156,31 +196,30 @@ export default {
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
-                                    <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+                                    <template
+                                        v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select' && campo.tipo !== 'multi-select'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             :type="campo.tipo" class="form-control" :id="campo.id" @keyup="campo.validar()"
                                             :class="inputClass(campo.valido)">
                                     </template>
+                                    <template v-else-if="campo.tipo === 'multi-select'">
+                                        <select :size="campo.valores.length" :placeholder="campo.etiqueta"
+                                            :name="campo.nome" class="form-select" multiple
+                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
+                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor" @click.prevent="mudarEstado($event,campo.nome,valor.id)" :selected="valor.selecionado
+                                            ">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
+                                    </template>
                                     <template v-else-if="campo.tipo === 'select'">
                                         <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            class="form-select" :id="campo.id" @change="campo.validar()"
                                             :class="inputClass(campo.valido)">
                                             <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor">
                                                 {{ valor.nome }}
                                             </option>
                                         </select>
-                                    </template>
-
-                                    <template v-else-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
-                                        <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            :type="campo.tipo" class="form-control" :id="campo.id" @keyup="campo.validar()"
-                                            :class="inputClass(campo.valido)">
-                                    </template>
-
-                                    <template v-else>
-                                        <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                            :class="inputClass(campo.valido)"></textarea>
                                     </template>
                                     <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
                                     <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
@@ -221,4 +260,8 @@ input {
     background-position: calc(100% - 40px) 20px !important;
 }
 
+.form-select {
+    height: auto !important;
+    overflow: hidden !important;
+}
 </style>
