@@ -1,14 +1,17 @@
+import formToJSON from "../../helpers/formToJSON.js";   
 
 async function apiCadastroCursos(data) {
-    var cabecalho = new Headers();
+    console.log('data', data);
+    var json = formToJSON(data);
+    console.log('json', json);
 
     var opcoes = {
-        /*body:data,
-        method: 'POST',*/
-        method: 'GET',
-        headers: cabecalho,
-        mode: 'no-cors',
-        cache: 'default'
+        body: json,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        mode: "cors"
     };
 
     var resposta = await new Promise(function (resolver) {

@@ -110,7 +110,7 @@ export default {
             // retorna a posicao encontrada
             return i;
         },
-        buscarIndexPeloID: function (valores, id) {
+        buscarIndexPeloIDEmValores: function (valores, id) {
             var i = 0;
             valores.forEach(function (item, index) {
                 //console.log(id)
@@ -134,11 +134,12 @@ export default {
             $event.preventDefault();
             var indexnone = this.buscarIndexPeloNome('tipo_materia');
             var objeto = this.formulario[indexnone];
-            console.log(objeto)
-            var indexID = this.buscarIndexPeloID(objeto.valores, id);
+            //console.log(objeto)
+            var indexID = this.buscarIndexPeloIDEmValores(objeto.valores, id);
             var valor = objeto.valores[indexID];
-            console.log(valor);
-            this.formulario[indexnone].valores[indexID].selecionado = true ;
+            //console.log(valor);
+            var selecionado = this.formulario[indexnone].valores[indexID].selecionado ? false : true;
+            this.formulario[indexnone].valores[indexID].selecionado = selecionado;
         },
         enviarFormulario: async function () {
             var that = this;
@@ -154,7 +155,7 @@ export default {
             var resposta = await apiCadastroCursos(data);
             setTimeout(function () {
                 this.$nuxt.$loading.finish()
-            }, 750);;
+            }, 750);
             setTimeout(function () {
                 that.enviando = false;
                 if (resposta.sucesso) {
@@ -206,7 +207,7 @@ export default {
                                         <select :size="campo.valores.length" :placeholder="campo.etiqueta"
                                             :name="campo.nome" class="form-select" multiple
                                             :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
-                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor" @click.prevent="mudarEstado($event,campo.nome,valor.id)" :selected="valor.selecionado
+                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor" @mousedown.prevent="mudarEstado($event,campo.nome,valor.id)" :selected="valor.selecionado
                                             ">
                                                 {{ valor.nome }}
                                             </option>
