@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/perguntas.js'
+import { Requisicao, Perguntas } from '../../../api/cadastro/perguntas.js'
 import Swal from 'sweetalert2';
 
 
@@ -15,7 +15,7 @@ export default {
 
                 {
                     etiqueta: 'Perguntas',
-                    nome: 'ativo',
+                    nome: 'id_pergunta',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -46,7 +46,7 @@ export default {
                 },
                 {
                     etiqueta: 'Resposta',
-                    nome: 'descrição',
+                    nome: 'resposta',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -66,30 +66,47 @@ export default {
                             this.valido = false;
                         }
                     }
-                },
+                }
             ]
         };
     },
     methods: {
+
+        //e aqui esta fazendo o que?
+        buscarIndexPeloNome: function (nome) {
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.formulario.forEach(function (item, index) {
+                console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
         receberDados: async function () {
             var that = this;
             this.recebendo = true;
 
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
-            })
+            });
 
-            var resposta = await Requisicao(data);
-            this.resultados = resposta;
+            var resposta = await Perguntas();
+            this.formulario[this.buscarIndexPeloNome('perguntas')].valores = resposta;
 
             setTimeout(function () {
-                that.recebendo = false;
                 that.$nextTick(() => {
                     that.$nuxt.$loading.finish()
-                })
+                });
             }, 750);
-        },
 
+            console.log('hmmm', resposta)
+            this.resultados = resposta;
+        },
         inputClass: function (valido) {
             if (valido === true) {
                 return 'is-valid';
@@ -153,15 +170,13 @@ export default {
         }
     },
     mounted: async function () {
+        this.receberDados();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
             new bootstrap.Tooltip(item);
         });
-    },
-    mounted: function () {
-        this.receberDados()
-    },
+    }
 };
 </script>
 
@@ -184,7 +199,7 @@ export default {
                                             class="form-control" :id="campo.id" @change="campo.validar()"
                                             :class="inputClass(campo.valido)">
                                             <option value="" disabled selected>Selecione uma Pergunta</option>
-                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                                                <option v-for="valor in campo.valores" :v-model="valor.id" :value="valor.id" :key="valor.id">
                                                 {{ valor.nome }}
                                             </option>
                                         </select>

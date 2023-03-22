@@ -12,8 +12,8 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Cadastro de Pergunta',
-                    nome: 'nome',
+                    etiqueta: 'Pergunta',
+                    nome: 'pergunta',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
