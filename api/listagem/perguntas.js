@@ -27,6 +27,7 @@ async function Requisicao() {
 const Filtros = {
     colunas: [
         { nome: 'id', etiqueta: 'ID', tipo: 'number' },
+        {nome: 'tipo', etiqueta: 'Tipo_Pergunta', tipo: 'String'},
         { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
     ]
 };

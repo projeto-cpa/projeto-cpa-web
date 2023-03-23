@@ -13,7 +13,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Pergunta',
-                    nome: 'pergunta',
+                    nome: 'nome',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -28,6 +28,41 @@ export default {
                     },
                     validar: function () {
                         if (this.valor.length > 15) {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
+                },
+                {
+                    etiqueta: 'Tipo de Pergunta',
+                    nome: 'tipo',
+                    valor: '',
+                    valido: null,
+                    id: 'a' + uuidv4(),
+                    tipo: 'select',
+                    valores: [
+                        {
+                            nome: 'Descritiva',
+                            id: 'a' + uuidv4(),
+                            valor: 'Descritiva'
+                        },
+                        {
+                            nome: 'Objetiva',
+                            id: 'a' + uuidv4(),
+                            valor: 'Objetiva'
+                        },
+                    ],
+                    ajuda: 'Selecione uma das Opções.',
+                    classe: {
+                        coluna: 'col-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor.length > 1) {
                             this.valido = true;
                         } else {
                             this.valido = false;

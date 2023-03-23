@@ -87,64 +87,74 @@ export default {
                             <div class="col activations m-auto">
                                 <div class="item header text-center"><b>Ativar/Desativar</b></div>
                             </div>
-                            <div class="col m-auto">
-                                                <div class="item header text-center"><b>Perguntas</b></div>
-                            </div>
-                            <div class="col date m-auto">
-                                <div class="item header text-center"><b>Criado em</b></div>
-                            </div>
-                            <div class="col date m-auto">
-                                <div class="item header text-center"><b>Alterado em</b></div>
-                            </div>
-                            <div class="col options m-auto text-center">
-                                <div class="item header text-center"><b>Opções</b></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <template v-if="recebendo">
-                    <!-- Aqui fica a simulação do carregamento -->
-                    <div v-for="index in 5" :key="index" class="card" aria-hidden="true">
-                        <div class="card-body">
-                            <div class="row m-0 placeholder-glow">
-                                <div class="col id m-auto">
-                                    <div class="item placeholder">Id</div>
-                                </div>
-                                <div class="col activations m-auto">
-                                    <div class="item">
-                                        <a href="#" class="btn btn-sm btn-secondary placeholder disabled"></a>
+                                         <div class="col activations m-auto">
+                                                <div class="item header text-center"><b>Tipo de Pergunta</b></div>
+                                            </div>
+                                        <div class="col m-auto">
+                                                            <div class="item header text-center"><b>Perguntas</b></div>
+                                        </div>
+                                        <div class="col date m-auto">
+                                            <div class="item header text-center"><b>Criado em</b></div>
+                                        </div>
+                                        <div class="col date m-auto">
+                                            <div class="item header text-center"><b>Alterado em</b></div>
+                                        </div>
+                                        <div class="col options m-auto text-center">
+                                            <div class="item header text-center"><b>Opções</b></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col m-auto">
-                                    <div class="item placeholder">Nome</div>
-                                </div>
+                            </div>
+                            <template v-if="recebendo">
+                              <!-- Aqui fica a simulação do carregamento -->
+                            <div v-for="index in 5" :key="index" class="card" aria-hidden="true">
+                                <div class="card-body">
+                                    <div class="row m-0 placeholder-glow">
+                                        <div class="col id m-auto">
+                                            <div class="item placeholder">Id</div>
+                                        </div>
+                                        <div class="col activations m-auto">
+                                            <div class="item">
+                                                <a href="#" class="btn btn-sm btn-secondary placeholder disabled"></a>
+                                            </div>
+                                        </div>
+                                         <div class="col m-auto">
+                                            <div class="item placeholder">Descrição</div>
+                                        </div>
+                                        <div class="col m-auto">
+                                            <div class="item placeholder">Nome</div>
+                                        </div>
                             
-                                <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Criado em</b></div>
-                                </div>
-                                <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Alterado em</b></div>
-                                </div>
-                                <div class="col options m-auto">
-                                    <div class="item placeholder"><b>Opções</b></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-                <template v-else>
-                    <!-- Aqui fica o resultado da requisição -->
-                    <div v-for="(item, index) in resultados" :key="index" class="card" aria-hidden="true">
-                        <div class="card-body">
-                            <div class="row m-0">
-                                <div class="col id m-auto">
-                                    <div class="item text-center">{{ item.id }}</div>
-                                </div>
-                                <div class="col activations m-auto">
-                                    <div class="item text-center">
-                                        <a href="#" class="btn d-block rounded-5 btn-sm btn-primary">Ativar</a>
+                                        <div class="col date m-auto">
+                                            <div class="item placeholder"><b>Criado em</b></div>
+                                        </div>
+                                        <div class="col date m-auto">
+                                            <div class="item placeholder"><b>Alterado em</b></div>
+                                        </div>
+                                        <div class="col options m-auto">
+                                            <div class="item placeholder"><b>Opções</b></div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <!-- Aqui fica o resultado da requisição -->
+                            <div v-for="(item, index) in resultados" :key="index" class="card" aria-hidden="true">
+                                <div class="card-body">
+                                    <div class="row m-0">
+                                        <div class="col id m-auto">
+                                            <div class="item text-center">{{ item.id }}</div>
+                                        </div>
+                                        <div class="col activations m-auto">
+                                            <div class="item text-center">
+                                                <a href="#" class="btn d-block rounded-5 btn-sm btn-primary">Ativar</a>
+                                            </div>
+                                        </div>
+                                        <div class="col m-auto">
+                                            <div class="item text-center">{{ item.tipo }}</div>
+                                        </div>
+
                                 <div class="col m-auto">
                                     <div class="item text-center">{{ item.nome }}</div>
                                 </div>
