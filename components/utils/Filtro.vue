@@ -1,7 +1,7 @@
 <script>
 export default {
     data: function () {
-        return {};
+        return '';
     }
 };
 </script>
@@ -19,12 +19,8 @@ export default {
                 <div class="col-5 mb-4">
                     <div class="form-floating">
                         <select class="form-control" placeholder="Pesquisar em">
-                            <option value="geral" disabled selected>Geral</option>
-                            <option value="aluno">Alunos</option>
-                            <option value="coordenador">Coordenadores</option>
-                            <option value="diretor">Diretores</option>
-                            <option value="membroCPA">Membros da CPA</option>
-                            <option value="professor">Professores</option>
+                            <option disabled selected>Campo padrão</option>
+                            <option>Campo</option>
                         </select>
                         <label for="">Pesquisar em</label>
                     </div>
@@ -68,10 +64,8 @@ export default {
 </template>
 
 <style scoped>
-
 .card-filter{
     padding-left:4px;
     padding-right:4px;
 }
-
 </style>
