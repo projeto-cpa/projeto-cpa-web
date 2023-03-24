@@ -199,8 +199,8 @@ export default {
                                 <a href="/conta" class="dropdown-header d-flex align-items-center" data-v-1a9bb128=""><img
                                         src="/_nuxt/static/user.png" class="dropdown-user-img avatar" data-v-1a9bb128="">
                                     <div class="dropdown-user-details" data-v-1a9bb128="">
-                                        <div class="dropdown-user-details-name" data-v-1a9bb128="">Lucas Neitzke</div>
-                                        <div class="dropdown-user-details-email small" data-v-1a9bb128="">admin@admin</div>
+                                                            <div class="dropdown-user-details-name" data-v-1a9bb128="">Matheus Schuch</div>
+                                                            <div class="dropdown-user-details-email small" data-v-1a9bb128="">matheus.schuch@admin</div>
                                     </div>
                                 </a>
                             </div>

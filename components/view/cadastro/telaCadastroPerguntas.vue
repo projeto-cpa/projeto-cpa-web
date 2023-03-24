@@ -158,7 +158,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
+                        that.$router.push({ path: '/listagem/perguntas' });
                     });
                 } else {
                     Swal.fire({

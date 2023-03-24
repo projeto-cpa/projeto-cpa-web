@@ -156,7 +156,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/resposta' });
+                        that.$router.push({ path: '/cadastro/resposta' });
                     });
                 } else {
                     Swal.fire({
