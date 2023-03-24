@@ -17,7 +17,7 @@
                         <input type="password" class="form-control" id="exampleInputPassword1">
                     </div>
                     <div class="div-esqueci-senha">
-                        <button type="submit" class="btn btn-primary">Entrar</button>
+                        <a href="/" class="btn btn-primary">Entrar</a>
                         <a class="esqueci-senha" href="/recuperar"> Esqueceu a senha ?</a>
                     </div>
                 </form>

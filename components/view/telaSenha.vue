@@ -28,10 +28,8 @@
                     <input type="text" class="form-control form-control-lg" id="floatingInput"
                         placeholder="Confirme a senha" required>
                     <label for="floatingInput" style="font-size: large;">Confirmar senha</label>
-                    <button type="button" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
-                </div>
-
-                
+                    <a href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</a>
+                </div>               
 
             </div>
         </div>

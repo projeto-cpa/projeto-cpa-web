@@ -20,25 +20,6 @@ export default {
                     ativo: false
                 },
                 {
-                    caminho: '/usuarios',
-                    texto: 'Usuários',
-                    icone: 'fa fa-user',
-                    id: 'a' + uuidv4().replace('-', ''),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/usuarios',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/usuarios',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
-                {
                     caminho: '/cargos',
                     texto: 'Cargos',
                     icone: 'fa fa-users',
@@ -56,7 +37,45 @@ export default {
                             icone: 'fa fa-list',
                         }
                     ]
-                }
+                },
+                {
+                    caminho: '/disciplinas',
+                    texto: 'Disciplinas',
+                    icone: 'fa fa-book',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/disciplinas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/disciplinas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
+                {
+                    caminho: '/turmas',
+                    texto: 'Turmas',
+                    icone: 'fa fa-address-book-o',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/turmas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/turmas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
             ]
         };
     },

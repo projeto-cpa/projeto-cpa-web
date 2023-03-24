@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/cargos.js'
+import { Requisicao } from '../../../api/cadastro/disciplinas.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -12,7 +12,7 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Nome do cargo',
+                    etiqueta: 'Nome da disciplina',
                     nome: 'nome',
                     valor: '',
                     valido: null,
@@ -35,7 +35,7 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Descrição do cargo',
+                    etiqueta: 'Descrição da disciplina',
                     nome: 'descricao',
                     valor: '',
                     valido: null,
@@ -145,7 +145,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
+                        that.$router.push({ path: '/listagem/disciplinas' });
                     });
                 } else {
                     Swal.fire({

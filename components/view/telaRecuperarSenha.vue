@@ -23,7 +23,7 @@
                     <input type="email" class="form-control form-control-lg" id="floatingInput" placeholder="E-mail"
                         required>
                     <label for="floatingInput" style="font-size: large;">E-mail</label>
-                    <button type="button" class="col-md-3 btn btn-primary btn-email">Enviar</button>
+                    <a href="/senha" class="col-md-3 btn btn-primary btn-email">Enviar</a>
                 </div>
 
             </div>

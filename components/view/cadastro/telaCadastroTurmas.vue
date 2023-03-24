@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/cargos.js'
+import { Requisicao } from '../../../api/cadastro/turmas.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -12,7 +12,7 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Nome do cargo',
+                    etiqueta: 'Nome da turma',
                     nome: 'nome',
                     valor: '',
                     valido: null,
@@ -35,7 +35,7 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Descrição do cargo',
+                    etiqueta: 'Descrição da turma',
                     nome: 'descricao',
                     valor: '',
                     valido: null,
@@ -56,6 +56,109 @@ export default {
                             this.valido = false;
                         }
                     }
+                },
+                {
+                    etiqueta: 'Periodo configurado para aula',
+                    nome: 'periodo',
+                    valor: '',
+                    valido: null,
+                    id: 'a' + uuidv4(),
+                    tipo: 'select',
+                    valores: [
+                        {
+                            nome: 'Matutino',
+                            id: 'a' + uuidv4(),
+                            valor: "m"
+                        },
+                        {
+                            nome: 'Vespertino',
+                            id: 'a' + uuidv4(),
+                            valor: "v"
+                        },
+                        {
+                            nome: 'Noturno',
+                            id: 'a' + uuidv4(),
+                            valor: "n"
+                        }
+                    ],
+                    ajuda: 'Selecione uma das opções',
+                    classe: {
+                        coluna: 'col-12 col-md-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor !== '') {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
+
+                },
+                {
+                    etiqueta: 'Curso relacionado a turma',
+                    nome: 'curso',
+                    valor: '',
+                    valido: null,
+                    id: 'a' + uuidv4(),
+                    tipo: 'select',
+                    valores: [
+                        {
+                            nome: 'Análise e Desenvolvimento De Sistemas',
+                            id: 'a' + uuidv4(),
+                            valor: "ads"
+                        },
+                        {
+                            nome: 'Administração',
+                            id: 'a' + uuidv4(),
+                            valor: "adm"
+                        },
+                        {
+                            nome: 'Farmácia',
+                            id: 'a' + uuidv4(),
+                            valor: "far"
+                        },
+                        {
+                            nome: 'Engenharia de Software',
+                            id: 'a' + uuidv4(),
+                            valor: "eds"
+                        },
+                        {
+                            nome: 'Ciência de Dados',
+                            id: 'a' + uuidv4(),
+                            valor: "cdd"
+                        },
+                        {
+                            nome: 'Engenharia de Bioprocessos e Biotecnologia',
+                            id: 'a' + uuidv4(),
+                            valor: "edbb"
+                        },
+                        {
+                            nome: 'Ciência e Tecnologia',
+                            id: 'a' + uuidv4(),
+                            valor: "ct"
+                        }
+
+                    ],
+                    ajuda: 'Selecione uma das opções',
+                    classe: {
+                        coluna: 'col-12 col-md-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor !== '') {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
+
                 },
                 {
                     etiqueta: 'Estado de ativação',
@@ -92,6 +195,7 @@ export default {
                         }
                     }
                 }
+                
             ]
         };
     },
@@ -145,7 +249,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
+                        that.$router.push({ path: '/listagem/turmas' });
                     });
                 } else {
                     Swal.fire({
@@ -183,8 +287,9 @@ export default {
                                             @keypress="campo.validar()" :class="inputClass(campo.valido)">
                                     </template>
                                     <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor" class="form-control"
-                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
                                             <option value="" disabled selected>Selecione uma opção</option>
                                             <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
                                                 {{ valor.nome }}
