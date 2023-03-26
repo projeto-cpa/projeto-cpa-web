@@ -5,17 +5,17 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import telaListagemUsuarios from '../../components/view/listagem/telaListagemUsuarios.vue';
+import telaCadastroRespostas from '../../components/view/cadastro/telaCadastroRespostas.vue';
 
 export default {
-  name: 'listagem-usuarios',
+  name: 'cadastro-respostas',
   components: {
     'Aside': Aside,
     'Main': Main,
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'telaListagemUsuarios': telaListagemUsuarios
+    'telaCadastroRespostas': telaCadastroRespostas
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Tela de listagem de usuários">
-      <telaListagemUsuarios></telaListagemUsuarios>
+    <Main titulo="Tela de cadastro de Perguntas">
+      <telaCadastroRespostas></telaCadastroRespostas>
     </Main>
     <Footer></Footer>
   </Super>

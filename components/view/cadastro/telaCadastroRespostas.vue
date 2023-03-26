@@ -1,7 +1,8 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/cargos.js'
+import { Requisicao, Perguntas } from '../../../api/cadastro/perguntas.js'
 import Swal from 'sweetalert2';
+
 
 export default {
     loading: {
@@ -11,72 +12,23 @@ export default {
         return {
             enviando: false,
             formulario: [
+
                 {
-                    etiqueta: 'Nome do cargo',
-                    nome: 'nome',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'text',
-                    ajuda: 'Até 150 caracteres',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor.length > 5) {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
-                },
-                {
-                    etiqueta: 'Descrição do cargo',
-                    nome: 'descricao',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'textarea',
-                    ajuda: 'Até 150 caracteres',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor.length > 5) {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
-                },
-                {
-                    etiqueta: 'Estado de ativação',
-                    nome: 'ativo',
+                    etiqueta: 'Perguntas',
+                    nome: 'id_pergunta',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
                     tipo: 'select',
                     valores: [
                         {
-                            nome: 'Ativado',
+                            nome: this.resposta,
                             id: 'a' + uuidv4(),
                             valor: "true"
                         },
-                        {
-                            nome: 'Desativado',
-                            id: 'a' + uuidv4(),
-                            valor: "false"
-                        },
                     ],
                     ajuda: 'Selecione uma das opções',
+
                     classe: {
                         coluna: 'col-12 mb-4'
                     },
@@ -91,11 +43,70 @@ export default {
                             this.valido = false;
                         }
                     }
+                },
+                {
+                    etiqueta: 'Resposta',
+                    nome: 'resposta',
+                    valor: '',
+                    valido: null,
+                    id: 'a' + uuidv4(),
+                    tipo: 'text',
+                    ajuda: 'Até 150 caracteres',
+                    classe: {
+                        coluna: 'col-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor.length > 15) {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
                 }
             ]
         };
     },
     methods: {
+
+        //e aqui esta fazendo o que?
+        buscarIndexPeloNome: function (nome) {
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.formulario.forEach(function (item, index) {
+                console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
+        receberDados: async function () {
+            var that = this;
+            this.recebendo = true;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            });
+
+            var resposta = await Perguntas();
+            this.formulario[this.buscarIndexPeloNome('perguntas')].valores = resposta;
+
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                });
+            }, 750);
+
+            console.log('hmmm', resposta)
+            this.resultados = resposta;
+        },
         inputClass: function (valido) {
             if (valido === true) {
                 return 'is-valid';
@@ -145,7 +156,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
+                        that.$router.push({ path: '/cadastro/resposta' });
                     });
                 } else {
                     Swal.fire({
@@ -159,6 +170,7 @@ export default {
         }
     },
     mounted: async function () {
+        this.receberDados();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
@@ -177,16 +189,17 @@ export default {
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
-                                    <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+                                    <template v-if="campo.tipo !== 'select' && campo.tipo !== 'select'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             :type="campo.tipo" class="form-control" :id="campo.id"
                                             @keypress="campo.validar()" :class="inputClass(campo.valido)">
                                     </template>
                                     <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor" class="form-control"
-                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
-                                            <option value="" disabled selected>Selecione uma opção</option>
-                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                            <option value="" disabled selected>Selecione uma Pergunta</option>
+                                                                <option v-for="valor in campo.valores" :v-model="valor.id" :value="valor.id" :key="valor.id">
                                                 {{ valor.nome }}
                                             </option>
                                         </select>

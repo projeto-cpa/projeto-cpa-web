@@ -15,7 +15,7 @@ async function Requisicao(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/cadastro/cargos', opcoes).then(function (response) {
+        fetch('http://localhost:8080/listagem/respostas', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -32,4 +32,4 @@ async function Requisicao(data) {
 
 export {
     Requisicao
-}
+};

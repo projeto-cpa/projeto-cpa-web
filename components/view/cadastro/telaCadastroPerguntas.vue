@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/cargos.js'
+import { Requisicao } from '../../../api/cadastro/perguntas.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -12,7 +12,7 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Nome do cargo',
+                    etiqueta: 'Pergunta',
                     nome: 'nome',
                     valor: '',
                     valido: null,
@@ -27,7 +27,7 @@ export default {
                         invalido: 'Campo inválido, verifique novamente',
                     },
                     validar: function () {
-                        if (this.valor.length > 5) {
+                        if (this.valor.length > 15) {
                             this.valido = true;
                         } else {
                             this.valido = false;
@@ -35,13 +35,25 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Descrição do cargo',
-                    nome: 'descricao',
+                    etiqueta: 'Tipo de Pergunta',
+                    nome: 'tipo',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
-                    tipo: 'textarea',
-                    ajuda: 'Até 150 caracteres',
+                    tipo: 'select',
+                    valores: [
+                        {
+                            nome: 'Descritiva',
+                            id: 'a' + uuidv4(),
+                            valor: 'Descritiva'
+                        },
+                        {
+                            nome: 'Objetiva',
+                            id: 'a' + uuidv4(),
+                            valor: 'Objetiva'
+                        },
+                    ],
+                    ajuda: 'Selecione uma das Opções.',
                     classe: {
                         coluna: 'col-12 mb-4'
                     },
@@ -50,13 +62,14 @@ export default {
                         invalido: 'Campo inválido, verifique novamente',
                     },
                     validar: function () {
-                        if (this.valor.length > 5) {
+                        if (this.valor.length > 1) {
                             this.valido = true;
                         } else {
                             this.valido = false;
                         }
                     }
                 },
+
                 {
                     etiqueta: 'Estado de ativação',
                     nome: 'ativo',
@@ -145,7 +158,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
+                        that.$router.push({ path: '/listagem/perguntas' });
                     });
                 } else {
                     Swal.fire({
@@ -183,8 +196,9 @@ export default {
                                             @keypress="campo.validar()" :class="inputClass(campo.valido)">
                                     </template>
                                     <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor" class="form-control"
-                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
                                             <option value="" disabled selected>Selecione uma opção</option>
                                             <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
                                                 {{ valor.nome }}

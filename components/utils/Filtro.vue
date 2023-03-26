@@ -1,13 +1,19 @@
 <script>
 export default {
+    props:['filtros'],
     data: function () {
-        return '';
+        return {
+
+        };
+    },
+    mounted: function () {
+
     }
 };
 </script>
 
 <template>
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-body card-filter">
             <div class="row m-0">
                 <div class="col-5 mb-4">
@@ -20,7 +26,7 @@ export default {
                     <div class="form-floating">
                         <select class="form-control" placeholder="Pesquisar em">
                             <option disabled selected>Campo padrão</option>
-                            <option>Campo</option>
+                            <option v-for="(coluna, index) in filtros.colunas" :key="index" :v-model="coluna.nome">{{ coluna.etiqueta }}</option>
                         </select>
                         <label for="">Pesquisar em</label>
                     </div>
