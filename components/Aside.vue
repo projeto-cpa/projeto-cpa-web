@@ -37,50 +37,7 @@ export default {
                             icone: 'fa fa-list',
                         }
                     ]
-                },
-                {
-                    caminho: '/disciplinas',
-                    texto: 'Disciplinas',
-                    icone: 'fa fa-book',
-                    caminho: '/perguntas',
-                    texto: 'Perguntas',
-                    icone: 'fa fa-users',
-                    id: 'a' + uuidv4().replace('-', ''),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/disciplinas',
-                            caminho: '/cadastro/perguntas',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/disciplinas',
-                            caminho: '/listagem/perguntas',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
-                {
-                    caminho: '/respostas',
-                    texto: 'Respostas',
-                    icone: 'fa fa-users',
-                    id: 'a' + uuidv4().replace('-', ''),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/respostas',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/respostas',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
+                }
             ]
         };
     },
