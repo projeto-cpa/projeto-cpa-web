@@ -49,8 +49,8 @@ export default {
                                 <h6 class="dropdown-header d-flex align-items-center">
                                     <img class="dropdown-user-img avatar" src="../static/user.png">
                                     <div class="dropdown-user-details">
-                                                <div class="dropdown-user-details-name">Matheus Schuch</div>
-                                                <div class="dropdown-user-details-email small">matheus.schuch@admin</div>
+                                                <div class="dropdown-user-details-name">Administrador</div>
+                                                <div class="dropdown-user-details-email small">admin@admin</div>
                                             </div>
                                         </h6>
                                         <div class="dropdown-divider"></div>
