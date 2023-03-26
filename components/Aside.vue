@@ -37,45 +37,7 @@ export default {
                             icone: 'fa fa-list',
                         }
                     ]
-                },
-                {
-                    caminho: '/disciplinas',
-                    texto: 'Disciplinas',
-                    icone: 'fa fa-book',
-                    id: 'a' + uuidv4().replace('-', ''),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/disciplinas',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/disciplinas',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
-                {
-                    caminho: '/turmas',
-                    texto: 'Turmas',
-                    icone: 'fa fa-address-book-o',
-                    id: 'a' + uuidv4().replace('-', ''),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/turmas',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/turmas',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
+                }
             ]
         };
     },
@@ -198,8 +160,8 @@ export default {
                                 <a href="/conta" class="dropdown-header d-flex align-items-center" data-v-1a9bb128=""><img
                                         src="/_nuxt/static/user.png" class="dropdown-user-img avatar" data-v-1a9bb128="">
                                     <div class="dropdown-user-details" data-v-1a9bb128="">
-                                        <div class="dropdown-user-details-name" data-v-1a9bb128="">Lucas Neitzke</div>
-                                        <div class="dropdown-user-details-email small" data-v-1a9bb128="">admin@admin</div>
+                                                            <div class="dropdown-user-details-name" data-v-1a9bb128="">Matheus Schuch</div>
+                                                            <div class="dropdown-user-details-email small" data-v-1a9bb128="">matheus.schuch@admin</div>
                                     </div>
                                 </a>
                             </div>
