@@ -1,8 +1,7 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
-
+import { Filtros, Requisicao } from '../../../api/listagem/cursos.js';
 export default {
     loading: {
         continuous: true
@@ -37,7 +36,6 @@ export default {
             var hora = data.getHours();
             var minuto = data.getMinutes();
             var segundo = data.getSeconds();
-
             if (dia.toString().length == 1) {
                 dia = '0' + dia;
             }
@@ -53,21 +51,17 @@ export default {
             if (segundo.toString().length == 1) {
                 segundo = '0' + segundo;
             }
-
             var dataFormatada = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto + ':' + segundo;
             return dataFormatada;
         },
         receberDados: async function () {
             var that = this;
             this.recebendo = true;
-
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
             })
-
             var resposta = await Requisicao();
             this.resultados = resposta;
-
             setTimeout(function () {
                 that.recebendo = false;
                 that.$nextTick(() => {
@@ -200,21 +194,16 @@ export default {
     height: 100%;
     border-radius: 25px !important;
 }
-
 .col.options {
     max-width: 200px;
 }
-
 .col.id {
     max-width: 50px;
 }
-
 .col.activations{
     max-width: 150px;
 }
-
 .col.date{
     max-width: 200px;
 }
-
 </style>

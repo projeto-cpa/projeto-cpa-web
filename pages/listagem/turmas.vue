@@ -5,17 +5,17 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import telaListagemRespostas from '../../components/view/listagem/telaListagemRespostas.vue';
+import telaListagemTurmas from '../../components/view/listagem/telaListagemTurmas.vue';
 
 export default {
-  name: 'listagem-perguntas',
+  name: 'listagem-turmas',
   components: {
     'Aside': Aside,
     'Main': Main,
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'telaListagemRespostas': telaListagemRespostas
+    'telaListagemTurmas': telaListagemTurmas
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Tela de listagem de respostas">
-      <telaListagemRespostas></telaListagemRespostas>
+    <Main titulo="Tela de listagem de turmas">  
+      <telaListagemTurmas></telaListagemTurmas>
     </Main>
     <Footer></Footer>
   </Super>

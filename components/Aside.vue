@@ -22,7 +22,7 @@ export default {
                 {
                     caminho: '/cargos',
                     texto: 'Cargos',
-                    icone: 'fa fa-users',
+                    icone: 'fa fa-bars',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -39,9 +39,66 @@ export default {
                     ]
                 },
                 {
+                    caminho: '/disciplinas',
+                    texto: 'Disciplinas',
+                    icone: 'fa fa-bars',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/disciplinas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/disciplinas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
+                {
+                    caminho: '/turmas',
+                    texto: 'Turmas',
+                    icone: 'fa fa-bars',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/turmas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/turmas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
+                {
+                    caminho: '/cursos',
+                    texto: 'Cursos',
+                    icone: 'fa fa-bars',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/cursos',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/cursos',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
+                {
                     caminho: '/perguntas',
                     texto: 'Perguntas',
-                    icone: 'fa fa-users',
+                    icone: 'fa fa-bars',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -60,7 +117,7 @@ export default {
                 {
                     caminho: '/respostas',
                     texto: 'Respostas',
-                    icone: 'fa fa-users',
+                    icone: 'fa fa-bars',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -76,7 +133,44 @@ export default {
                         }
                     ]
                 },
-
+                {
+                    caminho: '/usuarios',
+                    texto: 'Usuários',
+                    icone: 'fa fa-bars',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/usuarios',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/usuarios',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
+                {
+                    caminho: '/eixos',
+                    texto: 'Eixos',
+                    icone: 'fa fa-bars',
+                    id: 'a' + uuidv4().replace('-', ''),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/eixos',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/eixos',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
             ]
         };
     },
@@ -171,9 +265,8 @@ export default {
     <aside class="col p-0">
         <div class="list-group rounded-0">
             <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
-                class="principal list-group-item list-group-item-action btn rounded-0">
-                <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id"
-                    @click="aoClicarPrincipal(link)">
+                class="principal list-group-item list-group-item-action btn rounded-0" @click="aoClicarPrincipal(link)">
+                <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
                     <span v-if="link.items" class="link-arrow">
@@ -199,8 +292,9 @@ export default {
                                 <a href="/conta" class="dropdown-header d-flex align-items-center" data-v-1a9bb128=""><img
                                         src="/_nuxt/static/user.png" class="dropdown-user-img avatar" data-v-1a9bb128="">
                                     <div class="dropdown-user-details" data-v-1a9bb128="">
-                                                            <div class="dropdown-user-details-name" data-v-1a9bb128="">Matheus Schuch</div>
-                                                            <div class="dropdown-user-details-email small" data-v-1a9bb128="">matheus.schuch@admin</div>
+                                        <div class="dropdown-user-details-name" data-v-1a9bb128="">Administrador</div>
+                                        <div class="dropdown-user-details-email small" data-v-1a9bb128="">
+                                            admin@admin</div>
                                     </div>
                                 </a>
                             </div>
@@ -281,6 +375,6 @@ footer .card {
 .list-group-item:active .link-header *,
 .list-group-item:active .list-group-item:active * {
     color: #0d6efd !important;
-    border-color:#0d6efd !important;
+    border-color: #0d6efd !important;
 }
 </style>
