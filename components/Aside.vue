@@ -39,6 +39,9 @@ export default {
                     ]
                 },
                 {
+                    caminho: '/disciplinas',
+                    texto: 'Disciplinas',
+                    icone: 'fa fa-book',
                     caminho: '/perguntas',
                     texto: 'Perguntas',
                     icone: 'fa fa-users',
@@ -46,11 +49,13 @@ export default {
                     ativo: false,
                     items: [
                         {
+                            caminho: '/cadastro/disciplinas',
                             caminho: '/cadastro/perguntas',
                             texto: 'Cadastrar',
                             icone: 'fa fa-plus',
                         },
                         {
+                            caminho: '/listagem/disciplinas',
                             caminho: '/listagem/perguntas',
                             texto: 'Listagem',
                             icone: 'fa fa-list',
@@ -76,7 +81,6 @@ export default {
                         }
                     ]
                 },
-
             ]
         };
     },
