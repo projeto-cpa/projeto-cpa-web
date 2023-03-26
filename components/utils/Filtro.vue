@@ -70,10 +70,8 @@ export default {
 </template>
 
 <style scoped>
-
 .card-filter{
     padding-left:4px;
     padding-right:4px;
 }
-
 </style>

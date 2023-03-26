@@ -24,7 +24,7 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Tela de cadastro de Perguntas">
+    <Main titulo="Tela de cadastro de respostas">
       <telaCadastroRespostas></telaCadastroRespostas>
     </Main>
     <Footer></Footer>

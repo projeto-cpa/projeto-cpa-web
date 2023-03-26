@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import {Requisicao as apiCadastroCargos} from '../../../api/cadastro/cargos.js'
+import apiCadastroCursos from '../../../api/cadastro/cursos.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -14,8 +14,8 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Nome do usuário',
-                    nome: 'nome_usuario',
+                    etiqueta: 'Nome do curso',
+                    nome: 'nome_curso',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -37,60 +37,42 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Senha do usuário',
-                    nome: 'senha',
+                    etiqueta: 'Disciplinas do curso',
+                    nome: 'tipo_materia',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
-                    tipo: 'password',
-                    ajuda: 'Maior que 5 caracteres',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor.length > 5) {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
-                },
-                {
-                    etiqueta: 'Tipo de usuário',
-                    nome: 'tipo-usuario',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'select',
+                    tipo: 'multi-select',
                     valores: [
                         {
-                            nome: 'Aluno',
+                            nome: 'Modelagem de Sites Básicos',
                             id: 'a' + uuidv4(),
-                            valor: 0
+                            valor: 0,
+                            selecionado: false
                         },
                         {
-                            nome: 'Coordenador',
+                            nome: 'Orientação a objetos',
                             id: 'a' + uuidv4(),
-                            valor: 1
+                            valor: 1,
+                            selecionado: false
                         },
                         {
-                            nome: 'Diretor',
+                            nome: 'Abstração e Modelagem de Dados',
                             id: 'a' + uuidv4(),
-                            valor: 2
+                            valor: 2,
+                            selecionado: false
                         },
                         {
-                            nome: 'Membro da CPA',
+                            nome: 'Desenvolvimento de Sites Dinâmicos',
                             id: 'a' + uuidv4(),
-                            valor: 2
+                            valor: 3,
+                            selecionado: false
                         },
                         {
-                            nome: 'Professor',
+                            nome: 'Desenvolvimento de Interface Gráfica',
                             id: 'a' + uuidv4(),
-                            valor: 2
+                            valor: 4,
+                            selecionado: false
                         }
                     ],
                     ajuda: 'Selecione uma das opções',
@@ -109,33 +91,35 @@ export default {
                         }
                     }
                 },
-                {
-                    etiqueta: 'Email do usuário',
-                    nome: 'email',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'email',
-                    ajuda: 'Deve ser email valido',
-                    classe: {
-                        coluna: 'col-12 '
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor.length > 5) {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
-                }
+
             ]
         };
     },
     methods: {
+        buscarIndexPeloNome: function (nome) {
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.formulario.forEach(function (item, index) {
+                //console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
+        buscarIndexPeloIDEmValores: function (valores, id) {
+            var i = 0;
+            valores.forEach(function (item, index) {
+                //console.log(id)
+                if (item.id === id) {
+                    i = index;
+                }
+            });
+            return i;
+        },
         inputClass: function (valido) {
             if (valido === true) {
                 return 'is-valid';
@@ -144,6 +128,18 @@ export default {
             } else {
                 return 'is-invalid';
             }
+        },
+
+        mudarEstado($event, nome, id) {
+            $event.preventDefault();
+            var indexnone = this.buscarIndexPeloNome('tipo_materia');
+            var objeto = this.formulario[indexnone];
+            //console.log(objeto)
+            var indexID = this.buscarIndexPeloIDEmValores(objeto.valores, id);
+            var valor = objeto.valores[indexID];
+            //console.log(valor);
+            var selecionado = this.formulario[indexnone].valores[indexID].selecionado ? false : true;
+            this.formulario[indexnone].valores[indexID].selecionado = selecionado;
         },
         enviarFormulario: async function () {
             var that = this;
@@ -156,10 +152,10 @@ export default {
             //console.log(output);
             this.enviando = true;
             this.$nuxt.$loading.start();
-            var resposta = await apiCadastroCargos(data);
+            var resposta = await apiCadastroCursos(data);
             setTimeout(function () {
                 this.$nuxt.$loading.finish()
-            }, 750);;
+            }, 750);
             setTimeout(function () {
                 that.enviando = false;
                 if (resposta.sucesso) {
@@ -201,24 +197,30 @@ export default {
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
-                                    <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+                                    <template
+                                        v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select' && campo.tipo !== 'multi-select'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             :type="campo.tipo" class="form-control" :id="campo.id" @keyup="campo.validar()"
                                             :class="inputClass(campo.valido)">
                                     </template>
+                                    <template v-else-if="campo.tipo === 'multi-select'">
+                                        <select :size="campo.valores.length" :placeholder="campo.etiqueta"
+                                            :name="campo.nome" class="form-select" multiple
+                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
+                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor" @mousedown.prevent="mudarEstado($event,campo.nome,valor.id)" :selected="valor.selecionado
+                                            ">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
+                                    </template>
                                     <template v-else-if="campo.tipo === 'select'">
                                         <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            class="form-select" :id="campo.id" @change="campo.validar()"
                                             :class="inputClass(campo.valido)">
                                             <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor">
                                                 {{ valor.nome }}
                                             </option>
                                         </select>
-                                    </template>
-                                    <template v-else>
-                                        <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                            :class="inputClass(campo.valido)"></textarea>
                                     </template>
                                     <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
                                     <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
@@ -259,4 +261,8 @@ input {
     background-position: calc(100% - 40px) 20px !important;
 }
 
+.form-select {
+    height: auto !important;
+    overflow: hidden !important;
+}
 </style>
