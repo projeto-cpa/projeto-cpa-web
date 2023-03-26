@@ -1,12 +1,10 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import apiCadastroCargos from '../../../api/cadastro/cargos.js'
+import { Requisicao } from '../../../api/cadastro/cargos.js'
 import Swal from 'sweetalert2';
 
 export default {
     loading: {
-        color: 'red',
-        height: '10px',
         continuous: true
     },
     data: function () {
@@ -45,7 +43,7 @@ export default {
                     tipo: 'textarea',
                     ajuda: 'Até 150 caracteres',
                     classe: {
-                        coluna: 'col-12'
+                        coluna: 'col-12 mb-4'
                     },
                     validacao: {
                         valido: 'Campo validado com sucesso',
@@ -53,6 +51,41 @@ export default {
                     },
                     validar: function () {
                         if (this.valor.length > 5) {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
+                },
+                {
+                    etiqueta: 'Estado de ativação',
+                    nome: 'ativo',
+                    valor: '',
+                    valido: null,
+                    id: 'a' + uuidv4(),
+                    tipo: 'select',
+                    valores: [
+                        {
+                            nome: 'Ativado',
+                            id: 'a' + uuidv4(),
+                            valor: "true"
+                        },
+                        {
+                            nome: 'Desativado',
+                            id: 'a' + uuidv4(),
+                            valor: "false"
+                        },
+                    ],
+                    ajuda: 'Selecione uma das opções',
+                    classe: {
+                        coluna: 'col-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor !== '') {
                             this.valido = true;
                         } else {
                             this.valido = false;
@@ -72,21 +105,37 @@ export default {
                 return 'is-invalid';
             }
         },
+        validarFormulario: function () {
+            var valido = true;
+            this.formulario.forEach(function (campo) {
+                campo.validar();
+                if (campo.valido === false) {
+                    valido = false;
+                }
+            });
+            return valido;
+        },
         enviarFormulario: async function () {
-            var that = this;
-            var data = new FormData(this.$refs.formularioCadastro);
-            //console.log(data);
-            var output = '';
-            for (const [key, value] of data) {
-                output += `${key}: ${value}\n`;
+            if (!this.validarFormulario()) {
+                return;
             }
-            //console.log(output);
-            this.enviando = true;
-            this.$nuxt.$loading.start();
-            var resposta = await apiCadastroCargos(data);
+            var that = this;
+
+            var data = new FormData(this.$refs.formularioCadastro);
+            that.enviando = true;
+
+            that.$nextTick(() => {
+                that.$nuxt.$loading.start()
+            })
+
+            var resposta = await Requisicao(data);
+
             setTimeout(function () {
-                this.$nuxt.$loading.finish()
-            }, 750);;
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                });
+            }, 750);
+
             setTimeout(function () {
                 that.enviando = false;
                 if (resposta.sucesso) {
@@ -128,10 +177,19 @@ export default {
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
-                                    <template v-if="campo.tipo !== 'textarea'">
+                                    <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                            :class="inputClass(campo.valido)">
+                                            :type="campo.tipo" class="form-control" :id="campo.id"
+                                            @keypress="campo.validar()" :class="inputClass(campo.valido)">
+                                    </template>
+                                    <template v-else-if="campo.tipo === 'select'">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor" class="form-control"
+                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
+                                            <option value="" disabled selected>Selecione uma opção</option>
+                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
                                     </template>
                                     <template v-else>
                                         <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
@@ -176,5 +234,4 @@ textarea,
 input {
     background-position: calc(100% - 40px) 20px !important;
 }
-
 </style>

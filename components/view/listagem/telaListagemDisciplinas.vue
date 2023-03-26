@@ -1,7 +1,7 @@
 <script>
-import Filtro from '../../../components/utils/Filtro.vue';
-import Paginacao from '../../../components/utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
+import Filtro from '../../utils/Filtro.vue';
+import Paginacao from '../../utils/Paginacao.vue'
+import { Filtros, Requisicao } from '../../../api/listagem/disciplinas.js';
 
 export default {
     loading: {
@@ -102,10 +102,10 @@ export default {
                                 <div class="item header text-center"><b>Ativar/Desativar</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Nome do cargo</b></div>
+                                <div class="item header text-center"><b>Nome da disciplina</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Descrição do cargo</b></div>
+                                <div class="item header text-center"><b>Descrição da disciplina</b></div>
                             </div>
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Criado em</b></div>

@@ -1,7 +1,7 @@
 <script>
-import Filtro from '../../../components/utils/Filtro.vue';
-import Paginacao from '../../../components/utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
+import Filtro from '../../utils/Filtro.vue';
+import Paginacao from '../../utils/Paginacao.vue'
+import { Filtros, Requisicao } from '../../../api/listagem/respostas.js';
 
 export default {
     loading: {
@@ -15,20 +15,6 @@ export default {
         };
     },
     methods: {
-        textoBotaoAtivar: function (ativo) {
-            if (ativo) {
-                return 'Desativar';
-            } else {
-                return 'Ativar';
-            }
-        },
-        classeBotaoAtivar: function (ativo) {
-            if (ativo) {
-                return 'btn-secondary';
-            } else {
-                return 'btn-primary';
-            }
-        },
         formatarData: function (data) {
             var data = new Date(data);
             var dia = data.getDate();
@@ -102,10 +88,7 @@ export default {
                                 <div class="item header text-center"><b>Ativar/Desativar</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Nome do cargo</b></div>
-                            </div>
-                            <div class="col m-auto">
-                                <div class="item header text-center"><b>Descrição do cargo</b></div>
+                                <div class="item header text-center"><b>Respostas Enviadas</b></div>
                             </div>
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Criado em</b></div>
@@ -135,9 +118,7 @@ export default {
                                 <div class="col m-auto">
                                     <div class="item placeholder">Nome</div>
                                 </div>
-                                <div class="col m-auto">
-                                    <div class="item placeholder">Descrição</div>
-                                </div>
+
                                 <div class="col date m-auto">
                                     <div class="item placeholder"><b>Criado em</b></div>
                                 </div>
@@ -161,14 +142,11 @@ export default {
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)" class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
+                                        <a href="#" class="btn d-block rounded-5 btn-sm btn-primary">Ativar</a>
                                     </div>
                                 </div>
                                 <div class="col m-auto">
                                     <div class="item text-center">{{ item.nome }}</div>
-                                </div>
-                                <div class="col m-auto">
-                                    <div class="item text-center">{{ item.descricao }}</div>
                                 </div>
                                 <div class="col date m-auto">
                                     <div class="item text-center">{{ formatarData(item.criadoEm) }}</div>
@@ -209,12 +187,11 @@ export default {
     max-width: 50px;
 }
 
-.col.activations{
+.col.activations {
     max-width: 150px;
 }
 
-.col.date{
+.col.date {
     max-width: 200px;
 }
-
 </style>

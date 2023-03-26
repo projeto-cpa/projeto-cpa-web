@@ -19,6 +19,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+   '~/plugins/preview.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -48,5 +49,8 @@ export default {
   // server
   server: {
     port: 3005 // default: 3000
-  }
+  },
+
+  // dev
+  target: 'static' 
 };

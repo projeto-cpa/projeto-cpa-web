@@ -49,13 +49,13 @@ export default {
                                 <h6 class="dropdown-header d-flex align-items-center">
                                     <img class="dropdown-user-img avatar" src="../static/user.png">
                                     <div class="dropdown-user-details">
-                                        <div class="dropdown-user-details-name">Lucas Neitzke</div>
-                                        <div class="dropdown-user-details-email small">admin@admin</div>
-                                    </div>
-                                </h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/conta">
-                                    <i class="fa fa-user"></i> Minha conta </a>
+                                                <div class="dropdown-user-details-name">Administrador</div>
+                                                <div class="dropdown-user-details-email small">admin@admin</div>
+                                            </div>
+                                        </h6>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/conta">
+                                            <i class="fa fa-user"></i> Minha conta </a>
                                 <a class="dropdown-item" href="/acesso">
                                     <i class="fa fa-sign-out"></i> Sair </a>
                             </div>

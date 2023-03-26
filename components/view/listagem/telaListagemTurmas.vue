@@ -1,7 +1,7 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
+import { Filtros, Requisicao } from '../../../api/listagem/turmas.js';
 
 export default {
     loading: {
