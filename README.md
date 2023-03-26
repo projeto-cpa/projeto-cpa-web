@@ -2,6 +2,9 @@
 
 Projeto CPA Biopark
 
+## Padrão de código
+Visitar a [documetação](./PADRAO.md) de padrão de código 
+
 ## Dependencias
 
 - Vue v3.0.0: componentes dinâmicos em HTML [documentação](https://vuejs.org/guide/introduction.html)
