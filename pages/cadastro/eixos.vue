@@ -5,17 +5,17 @@ import Aside from '../../components/Aside.vue';
 import Footer from '../../components/Footer.vue';
 import Super from '../../components/Super.vue';
 
-import telaListagemRespostas from '../../components/view/listagem/telaListagemRespostas.vue';
+import telaCadastroEixos from '../../components/view/cadastro/telaCadastroEixos.vue';
 
 export default {
-  name: 'listagem-perguntas',
+  name: 'cadastro-eixos',
   components: {
     'Aside': Aside,
     'Main': Main,
     'Footer': Footer,
     'Header': Header,
     'Super': Super,
-    'telaListagemRespostas': telaListagemRespostas
+    'telaCadastroEixos': telaCadastroEixos
   }
 }
 </script>
@@ -24,8 +24,8 @@ export default {
   <Super>
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Tela de listagem de respostas">
-      <telaListagemRespostas></telaListagemRespostas>
+    <Main titulo="Tela de cadastro de cargos">  
+      <telaCadastroEixos></telaCadastroEixos>
     </Main>
     <Footer></Footer>
   </Super>
