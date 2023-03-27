@@ -98,7 +98,7 @@ export default {
                 {
                     caminho: '/perguntas',
                     texto: 'Perguntas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-question-circle',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -117,7 +117,7 @@ export default {
                 {
                     caminho: '/respostas',
                     texto: 'Respostas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-pencil',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
