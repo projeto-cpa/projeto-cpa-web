@@ -176,7 +176,6 @@ export default {
     },
     methods: {
         aoClicarPrincipal: function (link) {
-            console.log('clicou')
             if (!link.items) {
                 this.$router.push({ path: link.caminho });
             }
@@ -196,8 +195,11 @@ export default {
             this.$router.push({ path: item.caminho });
         },
         classeAtiva: function (link) {
+            //console.log(link);
             if (link.ativo) {
                 return 'active';
+            } else {
+                return ''
             }
         },
         classeMostrar: function (link) {
@@ -247,6 +249,7 @@ export default {
             }
         },
         classeTemItem: function (link) {
+            //console.log(link);
             if (link.items) {
                 return 'has-items';
             } else {
@@ -256,16 +259,16 @@ export default {
     },
     mounted: function () {
         this.recuperarEstado();
-        require('bootstrap');
+        
     }
 }
 </script>
 
 <template>
     <aside class="col p-0">
-        <div class="list-group rounded-0">
+        <div class="main list-group rounded-0 ">
             <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
-                class="principal list-group-item list-group-item-action btn rounded-0" @click="aoClicarPrincipal(link)">
+                class="principal list-group-item list-group-item-action btn rounded-0" @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
@@ -275,7 +278,7 @@ export default {
                 </div>
                 <div :class="classeMostrar(link)" class="list-group collapse ms-2"
                     v-if="link.items && link.items.length > 0" :id="link.id">
-                    <a :class="classeItemAtivo(item)" @click="aoClicarItem(item)" v-for="(item, index2) in link.items"
+                    <a :class="classeItemAtivo(item)" @click.prevent="aoClicarItem(item)" v-for="(item, index2) in link.items"
                         :key="index2" class="list-group-item list-group-item-action btn mb-2 rounded-4">
                         <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
                         <span :class="corItemTexto(item)" class="list-text">{{ item.texto }}</span>
@@ -325,6 +328,11 @@ aside footer {
     left: 0px;
     width: 100%;
     height: 60px;
+}
+
+aside .main.list-group{
+    height: calc(100% - 60px);
+    overflow-y: auto;
 }
 
 footer .card {

@@ -19,11 +19,11 @@ export default {
     </div>
 </template>
 
-<style>
+<!-- <style>
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-</style>
+</style> -->
 
-<style>
+<!-- <style>
 body{
     font-family: 'Roboto', sans-serif !important;
     color:#273c4f;
@@ -31,32 +31,32 @@ body{
     overflow: hidden;
 }
 
-</style>
+</style> -->
 
-<style>
+<style type="text/css">
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 2px;
+  height: 2px;
 }
 ::-webkit-scrollbar-button {
   width: 0px;
   height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #ededed;
+  background: #e1e1e1;
   border: 0px none #ffffff;
-  border-radius: 0px;
+  border-radius: 50px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #cccccc;
+  background: #ffffff;
 }
 ::-webkit-scrollbar-thumb:active {
   background: #000000;
 }
 ::-webkit-scrollbar-track {
-  background: #0d6efd;
+  background: #666666;
   border: 0px none #ffffff;
-  border-radius: 0px;
+  border-radius: 50px;
 }
 ::-webkit-scrollbar-track:hover {
   background: #666666;
