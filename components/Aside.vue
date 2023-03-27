@@ -259,7 +259,7 @@ export default {
     },
     mounted: function () {
         this.recuperarEstado();
-        
+        require('bootstrap');
     }
 }
 </script>
