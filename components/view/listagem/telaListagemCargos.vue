@@ -4,6 +4,7 @@ import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
 import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
 import { RequisicaoDelete } from '../../../api/listagem/DeletarCargos.js';
+import { RequisicaoEdite } from '../../../api/listagem/EditarCargos.js';
 
 export default {
     loading: {
@@ -100,6 +101,41 @@ export default {
                         icon: 'error',
                         title: 'Erro ao deletar',
                         text: 'Obteve erro ao deletar',
+                        confirmButtonText: 'Entendido'
+                    }).then(function () {
+                        that.$router.push({ path: '/listagem/cargos' });
+                    });
+            }
+
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                })
+            }, 750);
+        },
+        EditarDados: async function () {
+            var that = this;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+
+            var resposta = await RequisicaoEdite();
+
+            if (resposta.sucesso) {
+                Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso ao editar',
+                        text: 'Obteve sucesso ao editar',
+                        confirmButtonText: 'Entendido'
+                    }).then(function () {
+                        that.$router.push({ path: '/listagem/cargos' });
+                    });
+            } else {
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao editar',
+                        text: 'Obteve erro ao editar',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
                         that.$router.push({ path: '/listagem/cargos' });
@@ -216,7 +252,7 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1" @click="">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1" @click="EditarDados">Editar</a>
                                         <a href="#" class="btn d-block btn-sm btn-danger" @click="DeletarDados">Excluir</a>
                                     </div>
                                 </div>
