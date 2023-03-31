@@ -1,7 +1,9 @@
 <script>
+import Swal from 'sweetalert2';
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
 import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
+import { RequisicaoDelete } from '../../../api/listagem/DeletarCargos.js';
 
 export default {
     loading: {
@@ -70,6 +72,41 @@ export default {
 
             setTimeout(function () {
                 that.recebendo = false;
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                })
+            }, 750);
+        },
+        DeletarDados: async function () {
+            var that = this;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+
+            var resposta = await RequisicaoDelete();
+
+            if (resposta.sucesso) {
+                Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso ao deletar',
+                        text: 'Obteve sucesso ao deletar',
+                        confirmButtonText: 'Entendido'
+                    }).then(function () {
+                        that.$router.push({ path: '/listagem/cargos' });
+                    });
+            } else {
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao deletar',
+                        text: 'Obteve erro ao deletar',
+                        confirmButtonText: 'Entendido'
+                    }).then(function () {
+                        that.$router.push({ path: '/listagem/cargos' });
+                    });
+            }
+
+            setTimeout(function () {
                 that.$nextTick(() => {
                     that.$nuxt.$loading.finish()
                 })
@@ -161,7 +198,8 @@ export default {
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)" class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
+                                        <a href="#" :class="classeBotaoAtivar(item.ativo)"
+                                            class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
                                     </div>
                                 </div>
                                 <div class="col m-auto">
@@ -178,8 +216,8 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1">Editar</a>
-                                        <a href="#" class="btn d-block btn-sm btn-danger">Excluir</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1" @click="">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-danger" @click="DeletarDados">Excluir</a>
                                     </div>
                                 </div>
                             </div>
@@ -209,12 +247,11 @@ export default {
     max-width: 50px;
 }
 
-.col.activations{
+.col.activations {
     max-width: 150px;
 }
 
-.col.date{
+.col.date {
     max-width: 200px;
 }
-
 </style>

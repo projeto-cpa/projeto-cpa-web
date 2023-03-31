@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import apiCadastroUsuarios from '../../../api/cadastro/usuarios.js';
+import {Requisicao as apiCadastroUsuarios} from '../../../api/cadastro/usuarios.js';
 import {Requisicao as Disciplinas} from '../../../api/listagem/disciplinas.js';
 import Swal from 'sweetalert2';
 
