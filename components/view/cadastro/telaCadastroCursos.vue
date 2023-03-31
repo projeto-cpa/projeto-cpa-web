@@ -1,6 +1,8 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import apiCadastroCursos from '../../../api/cadastro/cursos.js'
+import { Requisicao, Disciplinas } from '../../../api/cadastro/cursos.js'
+import formToJSON from "../../../helpers/formToJSON.js";
+
 import Swal from 'sweetalert2';
 
 export default {
@@ -15,7 +17,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Nome do curso',
-                    nome: 'nome_curso',
+                    nome: 'nome',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -38,7 +40,7 @@ export default {
                 },
                 {
                     etiqueta: 'Disciplinas do curso',
-                    nome: 'tipo_materia',
+                    nome: 'disciplinas',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -75,6 +77,7 @@ export default {
                             selecionado: false
                         }
                     ],
+                    valor: [],
                     ajuda: 'Selecione uma das opções',
                     classe: {
                         coluna: 'col-12 mb-4'
@@ -129,33 +132,94 @@ export default {
                 return 'is-invalid';
             }
         },
+        receberDados: async function () {
+            var that = this;
+            this.recebendo = true;
 
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            });
+
+            var resposta = await Disciplinas();
+            console.log(resposta);
+
+            var disciplinas = [];
+            resposta.forEach(function (disciplina) {
+                disciplinas.push({
+                    nome: disciplina.nome,
+                    id: 'a' + uuidv4(),
+                    valor: disciplina.id,
+                    selecionado: false
+                });
+            });
+
+            this.formulario[this.buscarIndexPeloNome('disciplinas')].valores = disciplinas;
+
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                });
+            }, 750);
+
+            console.log('hmmm', resposta)
+            this.resultados = resposta;
+        },
         mudarEstado($event, nome, id) {
             $event.preventDefault();
-            var indexnone = this.buscarIndexPeloNome('tipo_materia');
+            var indexnone = this.buscarIndexPeloNome('disciplinas');
+            console.log('index', indexnone)
             var objeto = this.formulario[indexnone];
-            //console.log(objeto)
+            console.log(objeto)
             var indexID = this.buscarIndexPeloIDEmValores(objeto.valores, id);
             var valor = objeto.valores[indexID];
             //console.log(valor);
             var selecionado = this.formulario[indexnone].valores[indexID].selecionado ? false : true;
             this.formulario[indexnone].valores[indexID].selecionado = selecionado;
         },
+        recuperarDisciplinas: function () {
+            var disciplinas = [];
+            this.formulario[this.buscarIndexPeloNome('disciplinas')].valores.forEach(function (disciplina) {
+                if (disciplina.selecionado) {
+                    disciplinas.push(disciplina.valor);
+                }
+            });
+            return disciplinas;
+        },
         enviarFormulario: async function () {
             var that = this;
             var data = new FormData(this.$refs.formularioCadastro);
+
+            data.delete('disciplinas')
+            // Display the keys
+            for (const key of data.keys()) {
+                console.log(key);
+            }
+
+            var disciplinas = this.recuperarDisciplinas();
+
+            for (var i = 0; i < disciplinas.length; i++) {
+                data.append('disciplinas', disciplinas[i]);
+            }
             //console.log(data);
             var output = '';
             for (const [key, value] of data) {
                 output += `${key}: ${value}\n`;
             }
             //console.log(output);
+
+            console.log(formToJSON(data))
+
             this.enviando = true;
             this.$nuxt.$loading.start();
-            var resposta = await apiCadastroCursos(data);
+
+            //return;
+
+            var resposta = await Requisicao(data);
+
             setTimeout(function () {
                 this.$nuxt.$loading.finish()
             }, 750);
+
             setTimeout(function () {
                 that.enviando = false;
                 if (resposta.sucesso) {
@@ -179,6 +243,7 @@ export default {
         }
     },
     mounted: async function () {
+        this.receberDados();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
@@ -205,10 +270,12 @@ export default {
                                     </template>
                                     <template v-else-if="campo.tipo === 'multi-select'">
                                         <select :size="campo.valores.length" :placeholder="campo.etiqueta"
-                                            :name="campo.nome" class="form-select" multiple
-                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
-                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor" @mousedown.prevent="mudarEstado($event,campo.nome,valor.id)" :selected="valor.selecionado
-                                            ">
+                                            :name="campo.nome" class="form-select" multiple :id="campo.id"
+                                            @change="campo.validar()" :class="inputClass(campo.valido)"
+                                            :v-model="campo.valor">
+                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor"
+                                                @mousedown.prevent="mudarEstado($event, campo.nome, valor.id)" :selected="valor.selecionado
+                                                ">
                                                 {{ valor.nome }}
                                             </option>
                                         </select>

@@ -66,6 +66,7 @@ export default {
             })
 
             var resposta = await Requisicao();
+            console.log('resposta', resposta);
             this.resultados = resposta;
 
             setTimeout(function () {

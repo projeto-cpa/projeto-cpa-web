@@ -52,5 +52,8 @@ export default {
   },
 
   // dev
-  target: 'static' 
+  target: 'static',
+
+  // server generate
+  ssr: false,
 };
