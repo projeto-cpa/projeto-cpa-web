@@ -1,6 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import apiCadastroCursos from '../../../api/cadastro/cursos.js'
+import {Requisicao as Disciplinas} from '../../../api/listagem/disciplinas.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -43,38 +44,7 @@ export default {
                     valido: null,
                     id: 'a' + uuidv4(),
                     tipo: 'multi-select',
-                    valores: [
-                        {
-                            nome: 'Modelagem de Sites Básicos',
-                            id: 'a' + uuidv4(),
-                            valor: 0,
-                            selecionado: false
-                        },
-                        {
-                            nome: 'Orientação a objetos',
-                            id: 'a' + uuidv4(),
-                            valor: 1,
-                            selecionado: false
-                        },
-                        {
-                            nome: 'Abstração e Modelagem de Dados',
-                            id: 'a' + uuidv4(),
-                            valor: 2,
-                            selecionado: false
-                        },
-                        {
-                            nome: 'Desenvolvimento de Sites Dinâmicos',
-                            id: 'a' + uuidv4(),
-                            valor: 3,
-                            selecionado: false
-                        },
-                        {
-                            nome: 'Desenvolvimento de Interface Gráfica',
-                            id: 'a' + uuidv4(),
-                            valor: 4,
-                            selecionado: false
-                        }
-                    ],
+                    valores: [],
                     ajuda: 'Selecione uma das opções',
                     classe: {
                         coluna: 'col-12 mb-4'
@@ -176,6 +146,34 @@ export default {
                     });
                 }
             }, 1000);
+        },
+        receberDados: async function () {
+            var that = this;
+            this.recebendo = true;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            });
+
+            var resposta = await Disciplinas();
+            this.formulario[this.buscarIndexPeloNome('tipo_materia')].valores = this.passarSelecionado(resposta);
+            console.log(that.formulario[this.buscarIndexPeloNome('tipo_materia')].valores)
+            console.log(resposta)
+
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                });
+            }, 750);
+
+            console.log('hmmm', resposta)
+            this.resultados = resposta;
+        },
+        passarSelecionado: function (dados){
+            for (let index = 0; index < dados.length; index++) {
+                dados[index].selecionado = false;
+            }
+            return dados;
         }
     },
     mounted: async function () {
@@ -184,6 +182,7 @@ export default {
         tooltips.forEach(function (item) {
             new bootstrap.Tooltip(item);
         });
+        this.receberDados();
     }
 };
 </script>
