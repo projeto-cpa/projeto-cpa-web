@@ -2,6 +2,8 @@
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
 import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
+import alterarCargo from '../alterar/alterarCargo.vue';
+import emmiter from '../../../helpers/emmiter';
 
 export default {
     loading: {
@@ -11,12 +13,13 @@ export default {
         return {
             Filtros: Filtros,
             recebendo: false,
-            resultados: []
+            resultados: [],
+            editar: false
         };
     },
     methods: {
         textoBotaoAtivar: function (ativo) {
-            if (ativo) {
+            if (ativo) { 
                 return 'Desativar';
             } else {
                 return 'Ativar';
@@ -57,6 +60,9 @@ export default {
             var dataFormatada = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto + ':' + segundo;
             return dataFormatada;
         },
+        abrirEdicao: function () {
+            emmiter.emit('abrirEdicaoCargo',{});
+        },
         receberDados: async function () {
             var that = this;
             this.recebendo = true;
@@ -78,7 +84,8 @@ export default {
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        'Paginacao': Paginacao,
+        'alterarCargo': alterarCargo
     },
     mounted: function () {
         this.receberDados()
@@ -119,6 +126,7 @@ export default {
                         </div>
                     </div>
                 </div>
+                <alterarCargo :aberto="editar"></alterarCargo>
                 <template v-if="recebendo">
                     <!-- Aqui fica a simulação do carregamento -->
                     <div v-for="index in 5" :key="index" class="card" aria-hidden="true">
@@ -178,7 +186,7 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1" @click="abrirEdicao">Editar</a>
                                         <a href="#" class="btn d-block btn-sm btn-danger">Excluir</a>
                                     </div>
                                 </div>
