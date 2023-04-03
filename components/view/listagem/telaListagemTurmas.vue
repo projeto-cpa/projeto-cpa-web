@@ -107,6 +107,12 @@ export default {
                             <div class="col m-auto">
                                 <div class="item header text-center"><b>Descrição da turma</b></div>
                             </div>
+                            <div class="col m-auto">
+                                <div class="item header text-center"><b>Periodo da turma</b></div>
+                            </div>
+                            <div class="col m-auto">
+                                <div class="item header text-center"><b>Curso da turma</b></div>
+                            </div>
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Criado em</b></div>
                             </div>
@@ -137,6 +143,12 @@ export default {
                                 </div>
                                 <div class="col m-auto">
                                     <div class="item placeholder">Descrição</div>
+                                </div>
+                                <div class="col m-auto">
+                                    <div class="item placeholder">Periodo</div>
+                                </div>
+                                <div class="col m-auto">
+                                    <div class="item placeholder">Curso</div>
                                 </div>
                                 <div class="col date m-auto">
                                     <div class="item placeholder"><b>Criado em</b></div>
@@ -169,6 +181,12 @@ export default {
                                 </div>
                                 <div class="col m-auto">
                                     <div class="item text-center">{{ item.descricao }}</div>
+                                </div>
+                                <div class="col m-auto">
+                                    <div class="item text-center">{{ item.periodo }}</div>
+                                </div>
+                                <div class="col m-auto">
+                                    <div class="item text-center">{{ item.curso }}</div>
                                 </div>
                                 <div class="col date m-auto">
                                     <div class="item text-center">{{ formatarData(item.criadoEm) }}</div>

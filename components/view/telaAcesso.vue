@@ -1,3 +1,41 @@
+<script>
+import Swal from 'sweetalert2'
+
+export default {
+    data: function () {
+        return {
+            email: '',
+        }
+    },
+    methods: {
+        salvaLogin: function () {
+            if (this.email.length == 0 || this.email.length == null || this.email.length < 5) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Atenção!',
+                    text: 'A senha não pode ser vazia.',
+                    time: 5000
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/turmas' });
+                    console.log('Rodou');
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success!',
+                    title: 'Rodou!',
+                    text: 'Funcionou',
+                    time: 5000
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/turmas' });
+                    console.log('Rodou');
+                });
+                console.log('Não rodou');
+            }
+        }
+    }
+}
+</script >
+
 <template>
     <section class="page-login">
 
@@ -9,22 +47,25 @@
             <div class="wdt-50">
                 <form class="config-form form col-12 col-md-12 col-lg-12">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="config-label-login form-label">Email:</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="email" class="config-label-login form-label">Email:</label>
+                        <input v-if="email" id="email" type="email" class="form-control" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="config-label-login form-label">Senha:</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
+                        <label for="senha" class="config-label-login form-label">Senha:</label>
+                        <input id="senha" type="password" class="form-control">
                     </div>
                     <div class="div-esqueci-senha">
-                        <a href="/" class="btn btn-primary">Entrar</a>
-                        <a class="esqueci-senha" href="/recuperar"> Esqueceu a senha ?</a>
+                        <a href="" class="btn btn-primary" @click="salvaLogin">Entrar</a>
+                        <a href="" class="esqueci-senha"> Esqueceu a senha ?</a>
                     </div>
                 </form>
             </div>
         </div>
     </section>
 </template>
+
+<script>
+</script>
 
 <style>
 .page-login {
@@ -81,7 +122,8 @@
     align-items: center;
 }
 
-div,a {
+div,
+a {
     font-family: sans-serif;
 }
 </style>

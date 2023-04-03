@@ -1,3 +1,24 @@
+<script>
+export default {
+    data: function () {
+        return {
+            mostrando: false
+        }
+    },
+    methods: {
+        mostrarDiv: function () {
+            var that = this;
+            setTimeout(function () {
+                that.mostrando = true;
+            }, 1000);
+            setTimeout(function () {
+                that.mostrando = false;
+            }, 5000);
+        }
+    }
+}
+</script>
+
 <template>
     <section class="display-tela-recuperar">
 
@@ -15,15 +36,24 @@
                     <h2 style="font-size: 27px;">Recuperação de senha</h2>
                 </div>
 
-                <div class="col-md-10 p-email">
-                    <p style="font-size: 18px;">Olá, digite seu email para recuperar sua senha.</p>
+                <div class="col-md-10">
+                    <div v-if="mostrando" class="col-md-12" style="margin: 30px 0px 0px 0px;">
+                        <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <img src="../../static/icon-certo.png">
+                            <div> E-mail enviado com sucesso!</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-10 p-email">
+                        <p style="font-size: 18px;">Olá, digite seu email para recuperar sua senha.</p>
+                    </div>
                 </div>
 
                 <div class="col-md-10 div-btn form-floating mb-3">
                     <input type="email" class="form-control form-control-lg" id="floatingInput" placeholder="E-mail"
                         required>
                     <label for="floatingInput" style="font-size: large;">E-mail</label>
-                    <a href="/senha" class="col-md-3 btn btn-primary btn-email">Enviar</a>
+                    <a class="col-md-3 btn btn-primary btn-email" @click.prevent="mostrarDiv">Enviar</a>
                 </div>
 
             </div>
@@ -36,6 +66,10 @@
 </template>
 
 <style>
+.hidden {
+    display: none;
+}
+
 .back-color {
     background-color: #304358;
 }
@@ -68,7 +102,7 @@
 }
 
 .p-email {
-    padding: 25px 0px 0px 0px;
+    padding: 15px 0px 0px 0px;
 }
 
 .btn-email {
@@ -90,5 +124,6 @@ div,
 p,
 h2 {
     font-family: sans-serif;
-}</style>
+}
+</style>
 
