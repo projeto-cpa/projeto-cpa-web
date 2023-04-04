@@ -1,37 +1,34 @@
 <script>
-import Swal from 'sweetalert2'
-
 export default {
     data: function () {
         return {
-            email: '',
+            mensagem: '',
+            email: 'admim',
+            senha: 'admim',
+            meuEmail: '',
+            minhaSenha: ''
         }
     },
     methods: {
         salvaLogin: function () {
-            if (this.email.length == 0 || this.email.length == null || this.email.length < 5) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Atenção!',
-                    text: 'A senha não pode ser vazia.',
-                    time: 5000
-                }).then(function () {
-                    that.$router.push({ path: '/listagem/turmas' });
-                    console.log('Rodou');
-                });
+            if (this.meuEmail != this.email || this.minhaSenha != this.senha) {
+                this.mensagem = "Seu login está incorreto.";
+                console.log("Rodou");
+                this.refs.toast.show();
             } else {
-                Swal.fire({
-                    icon: 'success!',
-                    title: 'Rodou!',
-                    text: 'Funcionou',
-                    time: 5000
-                }).then(function () {
-                    that.$router.push({ path: '/listagem/turmas' });
-                    console.log('Rodou');
-                });
-                console.log('Não rodou');
+                this.chamaToast();
             }
+        },
+        chamaToast: function () {
+            this.refs.toast.show();
+            this.$router.push({ path: '/' });
         }
+    },
+    mounted: function () {
+        const toast = require('bootstrap');
+        toast.forEach(function (item) {
+            new bootstrap.Toast(item);
+        });
     }
 }
 </script >
@@ -47,20 +44,37 @@ export default {
             <div class="wdt-50">
                 <form class="config-form form col-12 col-md-12 col-lg-12">
                     <div class="mb-3">
-                        <label for="email" class="config-label-login form-label">Email:</label>
-                        <input v-if="email" id="email" type="email" class="form-control" aria-describedby="emailHelp">
+                        <label for="meuEmail" class="config-label-login form-label">Email:</label>
+                        <input id="meuEmail" type="email" class="form-control" aria-describedby="emailHelp" v-model="meuEmail">
                     </div>
                     <div class="mb-3">
-                        <label for="senha" class="config-label-login form-label">Senha:</label>
-                        <input id="senha" type="password" class="form-control">
+                        <label for="minhaSenha" class="config-label-login form-label">Senha:</label>
+                        <input id="minhaSenha" type="password" class="form-control" v-model="minhaSenha">
                     </div>
                     <div class="div-esqueci-senha">
                         <a href="" class="btn btn-primary" @click="salvaLogin">Entrar</a>
-                        <a href="" class="esqueci-senha"> Esqueceu a senha ?</a>
+                        <a href="/recuperar" class="esqueci-senha"> Esqueceu a senha ?</a>
                     </div>
                 </form>
             </div>
         </div>
+
+        <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11" ref="toast">
+            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Atenção!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <p v-if="mensagem">
+                        {{ mensagem }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
     </section>
 </template>
 
