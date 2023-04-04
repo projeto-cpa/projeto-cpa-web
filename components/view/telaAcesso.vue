@@ -38,7 +38,6 @@ export default {
 }
 </script>
 
-
 <template>
     <section class="page-login">
 
@@ -85,6 +84,9 @@ export default {
 
     </section>
 </template>
+
+<script>
+</script>
 
 <style>
 .page-login {

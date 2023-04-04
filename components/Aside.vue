@@ -61,6 +61,9 @@ export default {
                     caminho: '/turmas',
                     texto: 'Turmas',
                     icone: 'fa fa-bars',
+                    caminho: '/turmas',
+                    texto: 'Turmas',
+                    icone: 'fa fa-users',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -171,8 +174,10 @@ export default {
                         }
                     ]
                 },
+                
             ]
-        };
+        }
+        
     },
     methods: {
         aoClicarPrincipal: function (link) {

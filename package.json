@@ -11,14 +11,16 @@
   "dependencies": {
     "@nuxtjs/pwa": "^3.3.5",
     "bootstrap": "^5.3.0-alpha1",
+    "bootstrap-vue": "^2.23.1",
     "core-js": "^3.25.3",
     "font-awesome": "^4.7.0",
     "mitt": "^3.0.0",
     "nuxt": "^2.15.8",
     "sweetalert2": "^11.7.3",
     "uuid": "^9.0.0",
-    "vue": "^2.7.10",
+    "vue": "^2.7.14",
     "vue-server-renderer": "^2.7.10",
-    "vue-template-compiler": "^2.7.10"
+    "vue-template-compiler": "^2.7.10",
+    "vue-toasted": "^1.1.28"
   }
 }
