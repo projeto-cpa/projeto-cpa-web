@@ -1,7 +1,10 @@
 <script>
+import Swal from 'sweetalert2';
 import Filtro from '../../utils/Filtro.vue';
 import Paginacao from '../../utils/Paginacao.vue'
 import { Filtros, Requisicao } from '../../../api/listagem/disciplinas.js';
+import { RequisicaoDelete } from '../../../api/listagem/DeletarDisciplinas.js';
+import { RequisicaoEdite } from '../../../api/listagem/EditarDisciplinas.js';
 
 export default {
     loading: {
@@ -13,6 +16,13 @@ export default {
             recebendo: false,
             resultados: []
         };
+    },
+    components: {
+        'Filtro': Filtro,
+        'Paginacao': Paginacao
+    },
+    mounted: function () {
+        this.receberDados()
     },
     methods: {
         textoBotaoAtivar: function (ativo) {
@@ -74,14 +84,64 @@ export default {
                     that.$nuxt.$loading.finish()
                 })
             }, 750);
+        },
+        DeletarDados: async function () {
+            var that = this;
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+            var resposta = await RequisicaoDelete();
+            if (resposta.sucesso) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao deletar',
+                    text: 'Obteve sucesso ao deletar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao deletar',
+                    text: 'Obteve erro ao deletar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            }
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                })
+            }, 750);
+        },
+        EditarDados: async function () {
+            var that = this;
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+            var resposta = await RequisicaoEdite();
+            if (resposta.sucesso) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao editar',
+                    text: 'Obteve sucesso ao editar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao editar',
+                    text: 'Obteve erro ao editar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            }
         }
-    },
-    components: {
-        'Filtro': Filtro,
-        'Paginacao': Paginacao
-    },
-    mounted: function () {
-        this.receberDados()
     }
 };
 </script>
@@ -161,7 +221,8 @@ export default {
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)" class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
+                                        <a href="#" :class="classeBotaoAtivar(item.ativo)"
+                                            class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
                                     </div>
                                 </div>
                                 <div class="col m-auto">
@@ -178,8 +239,9 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1">Editar</a>
-                                        <a href="#" class="btn d-block btn-sm btn-danger">Excluir</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1"
+                                            @click="EditarDados">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-danger" @click="DeletarDados">Excluir</a>
                                     </div>
                                 </div>
                             </div>
@@ -209,12 +271,11 @@ export default {
     max-width: 50px;
 }
 
-.col.activations{
+.col.activations {
     max-width: 150px;
 }
 
-.col.date{
+.col.date {
     max-width: 200px;
 }
-
 </style>
