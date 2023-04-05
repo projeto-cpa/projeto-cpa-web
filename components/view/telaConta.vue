@@ -156,21 +156,28 @@
     </div>
 </template>
 
-<style scoped>
-.modal.show {
-    position: fixed;
-    top: 60px;
-    background-color: rgb(0 0 0 / 50%);
-}
-</style>
-
 <style>
 .modal-backdrop.show {
     display: none !important;
 }
+.modal.show {
+    position: fixed;
+    top: 60px !important;
+    background-color: rgb(0 0 0 / 50%);
+}
+.modal-open header:not(main header):before{
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    height: calc(100% + 1px) !important;
+    z-index: 1 !important;
+}
 </style>
 
-<style>
+<style scoped>
 .card-profile{
     max-width: 320px !important;
 }
