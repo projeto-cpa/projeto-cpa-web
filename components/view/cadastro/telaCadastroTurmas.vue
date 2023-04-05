@@ -66,17 +66,17 @@ export default {
                     tipo: 'select',
                     valores: [
                         {
-                            nome: 'matutino',
+                            nome: 'Matutino',
                             id: 'a' + uuidv4(),
                             valor: "Matutino"
                         },
                         {
-                            nome: 'vespertino',
+                            nome: 'Vespertino',
                             id: 'a' + uuidv4(),
                             valor: "Vespertino"
                         },
                         {
-                            nome: 'noturno',
+                            nome: 'Noturno',
                             id: 'a' + uuidv4(),
                             valor: "Noturno"
                         }

@@ -2,29 +2,33 @@
 export default {
     data: function () {
         return {
-            false: false,
-            toast: null,
-            logado: false,
-            mensagem: '',
-            validaSenha: '',
             dados: {
+                email: '',
                 senha: '',
-                email: ''
             },
             login: {
-                meuEmail: 'admim',
-                minhaSenha: 'admim'
+                meuEmail: 'admin',
+                minhaSenha: 'admin'
             },
+            toast: null,
+            mensagem: ''
         }
     },
     methods: {
-        abrirToast: function () {
-            if (this.dados.meuEmail == '' || this.login.minhaSenha == '') {
-                this.mensagem = 'Os campos de senha e e-mail não pode ser vazios';
+        aoEnviarFormulario: function () {
+            if (this.validarFormulario()) {
+                this.abrirToast()
+            }
+        },
+        validarFormulario: function () {
+            if (this.dados.email != this.login.meuEmail || this.dados.senha != this.login.minhaSenha) {
+                this.mensagem = 'Os campos de senha e e-mail estão incorretos';
             } else {
-                this.logado = true;
                 this.redirecionarParaHome()
             }
+            this.abrirToast()
+        },
+        abrirToast: function () {
             this.toast.show();
         },
         redirecionarParaHome() {
@@ -47,18 +51,17 @@ export default {
 
         <div class="div-form-login col-7 col-md-7 col-lg-7">
             <div class="wdt-50">
-                <form class="config-form form col-12 col-md-12 col-lg-12">
+                <form class="config-form form col-12 col-md-12 col-lg-12" @submit.prevent="aoEnviarFormulario">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="config-label-login form-label">Email:</label>
-                        <input type="email" v-model="email" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp">
+                        <label for="email" class="config-label-login form-label">Email:</label>
+                        <input v-model="dados.email" class="form-control" id="email">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="config-label-login form-label">Senha:</label>
-                        <input type="password" v-model="senha" class="form-control" id="exampleInputPassword1">
+                        <label for="senha" class="config-label-login form-label">Senha:</label>
+                        <input v-model="dados.senha" class="form-control" id="senha">
                     </div>
                     <div class="div-esqueci-senha">
-                        <button type="submit" href="" class="btn btn-primary" @click="abrirToast">Entrar</button>
+                        <button class="btn btn-primary" @click="validarFormulario">Entrar</button>
                         <a class="esqueci-senha" href="/recuperar"> Esqueceu a senha ?</a>
                     </div>
                 </form>
@@ -84,9 +87,6 @@ export default {
 
     </section>
 </template>
-
-<script>
-</script>
 
 <style>
 .page-login {
