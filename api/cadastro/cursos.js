@@ -15,7 +15,7 @@ async function apiCadastroCursos(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('/cadastro/cursos.json', opcoes).then(function (response) {
+        fetch('http://localhost:8080/cadastro/cursos.json', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {

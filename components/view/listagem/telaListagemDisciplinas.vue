@@ -239,8 +239,7 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1"
-                                            @click="EditarDados">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1" @click="EditarDados">Editar</a>
                                         <a href="#" class="btn d-block btn-sm btn-danger" @click="DeletarDados">Excluir</a>
                                     </div>
                                 </div>
