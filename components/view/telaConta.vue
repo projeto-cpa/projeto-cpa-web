@@ -94,7 +94,7 @@
             <div class="container-fluid conteudo-principal">
                 <section>
                     <div class="row m-0">
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg">
                             <article>
                                 <div class="card">
                                     <div class="card-body">
@@ -127,7 +127,7 @@
                                 </div>
                             </article>
                         </div>
-                        <article class="col-12 col-lg-6">
+                        <article class="col-12 col-lg card-profile">
                             <div>
                                 <!-- End -->
                                 <div class="row">
@@ -167,5 +167,11 @@
 <style>
 .modal-backdrop.show {
     display: none !important;
+}
+</style>
+
+<style>
+.card-profile{
+    max-width: 320px !important;
 }
 </style>
