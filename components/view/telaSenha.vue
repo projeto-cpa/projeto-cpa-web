@@ -29,8 +29,15 @@
                         placeholder="Confirme a senha" required>
                     <label for="floatingInput" style="font-size: large;">Confirmar senha</label>
                     <a href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</a>
-                </div>               
-
+                </div>
+                <div>
+                    <div>
+                    </div>
+                    <div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -94,5 +101,6 @@ div,
 p,
 h2 {
     font-family: sans-serif;
-}</style>
+}
+</style>
 
