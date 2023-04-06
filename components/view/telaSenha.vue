@@ -1,3 +1,18 @@
+<script>
+    export default {
+        data: function () {
+            return {
+
+            }
+        },
+        methods: {
+            validaSenha: function () {
+                
+            }
+        }
+    }
+</script>
+
 <template>
     <section class="display-tela-recuperar">
 
@@ -28,14 +43,14 @@
                     <input type="text" class="form-control form-control-lg" id="floatingInput"
                         placeholder="Confirme a senha" required>
                     <label for="floatingInput" style="font-size: large;">Confirmar senha</label>
-                    <a href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</a>
+                    <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
                 </div>
-                <div>
-                    <div>
+                <div style="display: flex;">
+                    <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
                     </div>
-                    <div>
+                    <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
                     </div>
-                    <div>
+                    <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
                     </div>
                 </div>
             </div>
