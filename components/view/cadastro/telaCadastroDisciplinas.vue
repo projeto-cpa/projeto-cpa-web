@@ -91,6 +91,32 @@ export default {
                             this.valido = false;
                         }
                     }
+                },
+                {
+                    etiqueta: 'Selecione o curso',
+                    nome: 'curso',
+                    valor: '',
+                    valido: null,
+                    id: 'a' + uuidv4(),
+                    tipo: 'select',
+                    valores: [
+                       
+                    ],
+                    ajuda: 'Selecione uma das opções',
+                    classe: {
+                        coluna: 'col-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor !== '') {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
                 }
             ]
         };
