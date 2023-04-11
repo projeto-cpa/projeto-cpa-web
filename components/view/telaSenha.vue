@@ -2,13 +2,32 @@
     export default {
         data: function () {
             return {
-
+                senha: '',
+                confirmaSenha: '',
+                toast: null,
+                mensagem: ''
             }
         },
         methods: {
             validaSenha: function () {
-                
+                if (this.senha != this.confirmaSenha) {
+                this.mensagem = 'As senhas devem ser iguais';
+            } else {
+                //this.redirecionarParaHome()
             }
+            this.abrirToast()
+            },
+        
+        abrirToast: function () {
+            this.toast.show();
+        },
+        redirecionarParaHome() {
+            this.$router.push({ path: '/' })
+            }
+        },
+        mounted: function () {
+        const bootstrap = require('bootstrap')
+        this.toast = new bootstrap.Toast(this.$refs.toast);
         }
     }
 </script>
@@ -26,6 +45,7 @@
             </div>
 
             <div class="alinha-form-senha">
+            <form class="config-form form col-12 col-md-12 col-lg-12" @submit.prevent="aoEnviarFormulario">
                 <div class="col-md-10 text-email">
                     <h2 style="font-size: 27px;">Alteração de senha</h2>
                 </div>
@@ -35,14 +55,14 @@
                 </div>
 
                 <div class="col-md-10 div-btn form-floating mb-3">
-                    <input type="text" class="form-control form-control-lg" id="floatingInput" placeholder="Senha" required>
-                    <label for="floatingInput" style="font-size: 18px;">Senha</label>
+                    <input v-model="senha" type="text" class="form-control form-control-lg" id="senha" placeholder="Senha" required>
+                    <label for="senha" style="font-size: 18px;">Senha</label>
                 </div>
 
                 <div class="col-md-10 div-btn form-floating mb-3">
-                    <input type="text" class="form-control form-control-lg" id="floatingInput"
+                    <input v-model="confirmaSenha" type="text" class="form-control form-control-lg" id="confirmaSenha"
                         placeholder="Confirme a senha" required>
-                    <label for="floatingInput" style="font-size: large;">Confirmar senha</label>
+                    <label for="confirmaSenha" style="font-size: large;">Confirmar senha</label>
                     <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
                 </div>
                 <div style="display: flex;">
@@ -52,6 +72,24 @@
                     </div>
                     <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
                     </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" ref="toast">
+                <div class="toast-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
+                    <strong class="me-auto"> Atenção!</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div id="mensagem" class="toast-body">
+                    <p v-if="mensagem">{{ mensagem }}</p>
                 </div>
             </div>
         </div>
