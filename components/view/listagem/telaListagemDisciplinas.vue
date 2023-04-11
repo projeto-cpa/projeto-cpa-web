@@ -39,6 +39,20 @@ export default {
                 return 'btn-primary';
             }
         },
+        buscarIndexPeloIDEmValores: function (valores, id) {
+            var i = 0;
+            valores.forEach(function (item, index) {
+                //console.log(id)
+                if (item.id === id) {
+                    i = index;
+                }
+            });
+            return i;
+        },
+        aoClicarEmAtivar: function(id){
+            var item = this.resultados[this.buscarIndexPeloIDEmValores(this.resultados,id)];
+            console.log('recuperado', item)
+        },
         formatarData: function (data) {
             var data = new Date(data);
             var dia = data.getDate();
@@ -76,6 +90,7 @@ export default {
             })
 
             var resposta = await Requisicao();
+            console.log('olar',resposta);
             this.resultados = resposta;
 
             setTimeout(function () {
@@ -221,7 +236,7 @@ export default {
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)"
+                                        <a @click="aoClicarEmAtivar(item.id)" :class="classeBotaoAtivar(item.ativo)"
                                             class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
                                     </div>
                                 </div>

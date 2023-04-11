@@ -7,7 +7,7 @@ async function apiCadastroCursos(data) {
 
     var opcoes = {
         body: json,
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -15,7 +15,7 @@ async function apiCadastroCursos(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/cadastro/cursos.json', opcoes).then(function (response) {
+        fetch('http://localhost:3005/cadastro/cursos.json', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
