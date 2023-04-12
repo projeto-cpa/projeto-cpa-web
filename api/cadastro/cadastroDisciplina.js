@@ -1,7 +1,13 @@
-async function Requisicao() {
+import formToJSON from "../../helpers/formToJSON.js";
+
+async function cadastroDisciplina(data) {
+    console.log('data', data);
+    var json = formToJSON(data);
+    console.log('json', json);
 
     var opcoes = {
-        method: 'GET',
+        body: json,
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -9,7 +15,7 @@ async function Requisicao() {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/curso', opcoes).then(function (response) {
+        fetch('http://localhost:8080/disciplina', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -24,12 +30,4 @@ async function Requisicao() {
 
 }
 
-const Filtros = {
-    colunas: [
-        { nome: 'id', etiqueta: 'ID', tipo: 'number' },
-        { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
-        { nome: 'descricao', etiqueta: 'Descrição', tipo: 'string' }
-    ]
-};
-
-export { Filtros, Requisicao }
+export default cadastroDisciplina;

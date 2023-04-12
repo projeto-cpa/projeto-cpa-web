@@ -1,6 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/disciplinas.js'
+import cadastroDisciplina from '../../../api/cadastro/cadastroDisciplina.js';
+import listagemCurso from '../../../api/listagem/listagemCurso';
 import Swal from 'sweetalert2';
 
 export default {
@@ -94,7 +95,7 @@ export default {
                 },
                 {
                     etiqueta: 'Selecione o curso',
-                    nome: 'curso',
+                    nome: 'idCurso',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -154,7 +155,7 @@ export default {
                 that.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao(data);
+            var resposta = await cadastroDisciplina(data);
 
             setTimeout(function () {
                 that.$nextTick(() => {
@@ -182,9 +183,37 @@ export default {
                     });
                 }
             }, 1000);
+        },
+        buscarIndexPeloNome: function (nome) {
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.formulario.forEach(function (item, index) {
+                console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
+        listarCurso: async function () {
+            var lista = await listagemCurso();
+            var valores = [];
+            lista.forEach(function (item) {
+                valores.push({
+                    nome: item.nome,
+                    id: 'a' + uuidv4(),
+                    valor: item.id
+                });
+            });
+            this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
+            console.log(lista,valores);
         }
     },
     mounted: async function () {
+        this.listarCurso();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {

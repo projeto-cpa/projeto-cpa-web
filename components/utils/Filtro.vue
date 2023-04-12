@@ -26,7 +26,6 @@ export default {
                     <div class="form-floating">
                         <select class="form-control" placeholder="Pesquisar em">
                             <option disabled selected>Campo padrão</option>
-                            <option v-for="(coluna, index) in filtros.colunas" :key="index" :v-model="coluna.nome">{{ coluna.etiqueta }}</option>
                         </select>
                         <label for="">Pesquisar em</label>
                     </div>
