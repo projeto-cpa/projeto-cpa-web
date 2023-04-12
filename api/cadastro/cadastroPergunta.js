@@ -1,7 +1,13 @@
-async function Requisicao() {
+import formToJSON from "../../helpers/formToJSON.js";
+
+async function cadastroPergunta(data) {
+    console.log('data', data);
+    var json = formToJSON(data);
+    console.log('json', json);
 
     var opcoes = {
-        method: 'GET',
+        body: json,
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -9,7 +15,7 @@ async function Requisicao() {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/listagem/perguntas', opcoes).then(function (response) {
+        fetch('http://localhost:8080/pergunta', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -24,12 +30,4 @@ async function Requisicao() {
 
 }
 
-const Filtros = {
-    colunas: [
-        { nome: 'id', etiqueta: 'ID', tipo: 'number' },
-        {nome: 'tipo', etiqueta: 'Tipo_Pergunta', tipo: 'String'},
-        { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
-    ]
-};
-
-export { Filtros, Requisicao }
+export default cadastroPergunta;

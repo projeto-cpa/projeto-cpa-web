@@ -68,3 +68,17 @@ body{
   background: transparent;
 }
 </style>
+
+<style>
+input.form-control,textarea.form-control,
+select.form-control {
+    background-position: calc(100% - 40px) 20px !important;
+}
+</style>
+
+<style>
+/* .offcanvas.offcanvas-end {
+    top: -60px !important;
+    height: calc(100% + 60px);
+} */
+</style>

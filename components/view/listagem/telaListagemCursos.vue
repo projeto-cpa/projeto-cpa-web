@@ -1,7 +1,7 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
-import listagemCurso from '../../../api/listagem/listagemCurso';
+import listagemCurso from '../../../api/listagem/listagemCurso.js';
 
 export default {
     loading: {

@@ -15,14 +15,14 @@ export default {
                 {
                     caminho: '/conta',
                     texto: 'Conta',
-                    icone: 'fa fa-user',
+                    icone: 'fa fa-user-circle',
                     id: uuidv4(),
                     ativo: false
                 },
                 {
                     caminho: '/cargos',
                     texto: 'Cargos',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-id-card',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -41,7 +41,7 @@ export default {
                 {
                     caminho: '/disciplinas',
                     texto: 'Disciplinas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-book',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -60,7 +60,7 @@ export default {
                 {
                     caminho: '/turmas',
                     texto: 'Turmas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-users',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -79,7 +79,7 @@ export default {
                 {
                     caminho: '/cursos',
                     texto: 'Cursos',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-graduation-cap',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -98,7 +98,7 @@ export default {
                 {
                     caminho: '/perguntas',
                     texto: 'Perguntas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-commenting',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -117,7 +117,7 @@ export default {
                 {
                     caminho: '/respostas',
                     texto: 'Respostas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-comments',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -197,7 +197,7 @@ export default {
         classeAtiva: function (link) {
             //console.log(link);
             if (link.ativo) {
-                return 'active';
+                return 'active bg-light border-light';
             } else {
                 return ''
             }
@@ -209,7 +209,7 @@ export default {
         },
         classeItemAtivo: function (item) {
             if (this.$nuxt.$route.path === item.caminho) {
-                return 'active';
+                return 'active bg-secondary';
             } else {
                 return '';
             }
@@ -236,9 +236,9 @@ export default {
         },
         corTexto: function (link) {
             if (link.ativo) {
-                return 'text-white';
+                return 'text-dark';
             } else {
-                return 'text-dark'
+                return 'text-muted'
             }
         },
         corItemTexto: function (item) {
@@ -272,7 +272,7 @@ export default {
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
-                    <span v-if="link.items" class="link-arrow">
+                    <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
                         <i :class="classeFlexa(link)"></i>
                     </span>
                 </div>
@@ -355,6 +355,10 @@ footer .card {
 .list-group-item.active {
     /*background-color: #273c4f !important;*/
     /*border-color: #273c4f !important;*/
+}
+
+.list-group-item:active{
+    border: 1px solid #ccc !important;
 }
 
 .list-group-item .list-group-item {

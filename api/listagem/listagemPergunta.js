@@ -1,4 +1,4 @@
-async function Requisicao() {
+async function listagemPergunta() {
 
     var opcoes = {
         method: 'GET',
@@ -9,7 +9,7 @@ async function Requisicao() {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/listagem/respostas', opcoes).then(function (response) {
+        fetch('http://localhost:8080/pergunta', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -24,12 +24,5 @@ async function Requisicao() {
 
 }
 
-const Filtros = {
-    colunas: [
-        { nome: 'id', etiqueta: 'ID', tipo: 'number' },
-        { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
-    
-    ]
-};
 
-export { Filtros, Requisicao }
+export default listagemPergunta

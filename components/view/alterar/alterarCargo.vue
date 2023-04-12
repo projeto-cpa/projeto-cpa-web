@@ -26,17 +26,25 @@ export default {
 </script>
 
 <template>
-    <div class="offcanvas offcanvas-end" ref="offcanvas">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="offcanvas offcanvas-end" ref="offcanvas" data-bs-backdrop="false" data-bs-scroll="true">
+        <div class="offcanvas-header bg-light text-dark">
+            <h5 class="offcanvas-title">Alteração de cargo</h5>
+            <button type="button" class="btn" data-bs-dismiss="offcanvas" aria-label="Close">
+                <i class="fa fa-close"></i>
+            </button>
         </div>
-        <div class="offcanvas-body">Sou uma barra lateral</div>
+        <div class="offcanvas-body">Insira aqui seu conteúdo</div>
     </div>
 </template>
 
 <style>
 .offcanvas {
     top: 60px !important;
+    z-index: 99;
+    height: calc(100% - 120px) !important;
+}
+
+.offcanvas-header{
+    height: 60px !important;
 }
 </style>

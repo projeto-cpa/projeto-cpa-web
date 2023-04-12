@@ -6,7 +6,7 @@ export default {
 
 <template>
     <main class="col p-0 bg-light">
-        <header class="bg-primary">
+        <header class="bg-secondary">
             <h1 class="text-white">{{ titulo }}</h1>
         </header>
         <div class="content-frame">
