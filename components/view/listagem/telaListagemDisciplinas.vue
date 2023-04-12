@@ -54,6 +54,19 @@ export default {
             var item = this.resultados[this.buscarIndexPeloIDEmValores(this.resultados, id)];
             var ativo = item.ativo ? false : true;
             var resposta = await Alteracao();
+            if (resposta.sucesso){
+                this.resultados[this.buscarIndexPeloIDEmValores(this.resultados, id)] = ativo;
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao alterar',
+                    text: 'Obteve erro ao alterar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                })
+            }
             console.log('resposta',resposta)
             console.log('recuperado', item)
         },
