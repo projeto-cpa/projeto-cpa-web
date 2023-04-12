@@ -9,7 +9,7 @@ async function Alteracao(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:3005/ativar/disciplina.json', opcoes).then(function (response) {
+        fetch('http://localhost:3005/desativar/disciplina.json', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
