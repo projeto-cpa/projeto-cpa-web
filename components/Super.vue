@@ -70,9 +70,32 @@ body{
 </style>
 
 <style>
-input.form-control,textarea.form-control,
-select.form-control {
+input.form-control,textarea.form-control {
     background-position: calc(100% - 40px) 20px !important;
+}
+
+select.form-control{
+  background-position: calc(100% - 80px) 20px !important;
+}
+
+.form-floating select ~ label{
+  overflow: visible !important;
+}
+
+.form-floating select ~ label:before{
+    right: calc(-15% + 32px);
+    top: 50%;
+    content: "\f078";
+    font: normal normal normal 26px FontAwesome;
+    color: #000 !important;
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    transform: translate(0%, -50%)
+}
+
+.form-floating select.is-valid ~ label:before, .form-floating select.is-invalid ~ label:before {
+  right: calc(-15% + 16px);
 }
 </style>
 
