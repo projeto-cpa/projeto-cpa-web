@@ -5,6 +5,7 @@ import Paginacao from '../../utils/Paginacao.vue'
 import { Filtros, Requisicao } from '../../../api/listagem/disciplinas.js';
 import { RequisicaoDelete } from '../../../api/listagem/DeletarDisciplinas.js';
 import { RequisicaoEdite } from '../../../api/listagem/EditarDisciplinas.js';
+import { Alteracao } from '../../../api/listagem/disciplinaAtivaDesativa.js';
 
 export default {
     loading: {
@@ -49,8 +50,11 @@ export default {
             });
             return i;
         },
-        aoClicarEmAtivar: function(id){
-            var item = this.resultados[this.buscarIndexPeloIDEmValores(this.resultados,id)];
+        aoClicarEmAtivar: async function (id) {
+            var item = this.resultados[this.buscarIndexPeloIDEmValores(this.resultados, id)];
+            var ativo = item.ativo ? false : true;
+            var resposta = await Alteracao();
+            console.log('resposta',resposta)
             console.log('recuperado', item)
         },
         formatarData: function (data) {
@@ -90,7 +94,7 @@ export default {
             })
 
             var resposta = await Requisicao();
-            console.log('olar',resposta);
+            console.log('olar', resposta);
             this.resultados = resposta;
 
             setTimeout(function () {
@@ -254,7 +258,8 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1" @click="EditarDados">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1"
+                                            @click="EditarDados">Editar</a>
                                         <a href="#" class="btn d-block btn-sm btn-danger" @click="DeletarDados">Excluir</a>
                                     </div>
                                 </div>
