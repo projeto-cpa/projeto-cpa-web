@@ -1,14 +1,14 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/cursos.js';
+import listagemCurso from '../../../api/listagem/listagemCurso.js';
+
 export default {
     loading: {
         continuous: true
     },
     data: function () {
         return {
-            Filtros: Filtros,
             recebendo: false,
             resultados: []
         };
@@ -60,7 +60,7 @@ export default {
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
             })
-            var resposta = await Requisicao();
+            var resposta = await listagemCurso();
             this.resultados = resposta;
             setTimeout(function () {
                 that.recebendo = false;
@@ -84,7 +84,7 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <Filtro :filtros="Filtros"></Filtro>
+                <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
                 <div class="card bg-light">
                     <div class="card-body">
@@ -96,16 +96,16 @@ export default {
                                 <div class="item header text-center"><b>Ativar/Desativar</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Nome do cargo</b></div>
+                                <div class="item header text-center"><b>Nome do curso</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Descrição do cargo</b></div>
+                                <div class="item header text-center"><b>Descrição do curso</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Criado em</b></div>
+                                <div class="item header text-center"><b>Data de criação</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Alterado em</b></div>
+                                <div class="item header text-center"><b>Data de alteração</b></div>
                             </div>
                             <div class="col options m-auto text-center">
                                 <div class="item header text-center"><b>Opções</b></div>

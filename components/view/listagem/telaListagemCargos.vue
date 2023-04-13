@@ -1,7 +1,9 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/cargos.js';
+import { Requisicao } from '../../../api/listagem/cargos.js';
+import alterarCargo from '../alterar/alterarCargo.vue';
+import emmiter from '../../../helpers/emmiter';
 
 export default {
     loading: {
@@ -9,9 +11,9 @@ export default {
     },
     data: function () {
         return {
-            Filtros: Filtros,
             recebendo: false,
-            resultados: []
+            resultados: [],
+            editar: false
         };
     },
     methods: {
@@ -57,6 +59,9 @@ export default {
             var dataFormatada = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto + ':' + segundo;
             return dataFormatada;
         },
+        abrirEdicao: function () {
+            emmiter.emit('abrirEdicaoCargo', {});
+        },
         receberDados: async function () {
             var that = this;
             this.recebendo = true;
@@ -78,7 +83,8 @@ export default {
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        'Paginacao': Paginacao,
+        'alterarCargo': alterarCargo
     },
     mounted: function () {
         this.receberDados()
@@ -90,9 +96,9 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <Filtro :filtros="Filtros"></Filtro>
+                <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
-                <div class="card bg-light">
+                <div class="card bg-light mb-2">
                     <div class="card-body">
                         <div class="row m-0">
                             <div class="col id m-auto">
@@ -108,10 +114,10 @@ export default {
                                 <div class="item header text-center"><b>Descrição do cargo</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Criado em</b></div>
+                                <div class="item header text-center"><b>Data criação</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Alterado em</b></div>
+                                <div class="item header text-center"><b>Data alteração</b></div>
                             </div>
                             <div class="col options m-auto text-center">
                                 <div class="item header text-center"><b>Opções</b></div>
@@ -121,7 +127,7 @@ export default {
                 </div>
                 <template v-if="recebendo">
                     <!-- Aqui fica a simulação do carregamento -->
-                    <div v-for="index in 5" :key="index" class="card" aria-hidden="true">
+                    <div v-for="index in 1" :key="index" class="card" aria-hidden="true">
                         <div class="card-body">
                             <div class="row m-0 placeholder-glow">
                                 <div class="col id m-auto">
@@ -139,10 +145,10 @@ export default {
                                     <div class="item placeholder">Descrição</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Criado em</b></div>
+                                    <div class="item placeholder"><b>Data criação</b></div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Alterado em</b></div>
+                                    <div class="item placeholder"><b>Data alteração</b></div>
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item placeholder"><b>Opções</b></div>
@@ -151,9 +157,18 @@ export default {
                         </div>
                     </div>
                 </template>
+                <template v-else-if="!recebendo && resultados.length <= 0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Nenhum resultado encontrado</h5>
+                            <p class="card-text text-muted">Com problemas? tente remover os filtros ou recarregue a página.</p>
+  
+                        </div>
+                    </div>
+                </template>
                 <template v-else>
                     <!-- Aqui fica o resultado da requisição -->
-                    <div v-for="(item, index) in resultados" :key="index" class="card" aria-hidden="true">
+                    <div v-for="(item, index) in resultados" :key="index" class="card mb-1" aria-hidden="true">
                         <div class="card-body">
                             <div class="row m-0">
                                 <div class="col id m-auto">
@@ -161,7 +176,8 @@ export default {
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)" class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
+                                        <a href="#" :class="classeBotaoAtivar(item.ativo)"
+                                            class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
                                     </div>
                                 </div>
                                 <div class="col m-auto">
@@ -171,14 +187,15 @@ export default {
                                     <div class="item text-center">{{ item.descricao }}</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.criadoEm) }}</div>
+                                    <div class="item text-center">{{ formatarData(item.dataCriacao) }}</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.atualizadoEm) }}</div>
+                                    <div class="item text-center">{{ formatarData(item.dataAtualizacao) }}</div>
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1"
+                                            @click="abrirEdicao">Editar</a>
                                         <a href="#" class="btn d-block btn-sm btn-danger">Excluir</a>
                                     </div>
                                 </div>
@@ -186,10 +203,11 @@ export default {
                         </div>
                     </div>
                 </template>
-                <Paginacao></Paginacao>
+                <alterarCargo :aberto="editar"></alterarCargo>
             </article>
         </section>
         <footer class="form-footer bg-white">
+            <Paginacao></Paginacao>
         </footer>
     </div>
 </template>
@@ -209,12 +227,11 @@ export default {
     max-width: 50px;
 }
 
-.col.activations{
+.col.activations {
     max-width: 150px;
 }
 
-.col.date{
+.col.date {
     max-width: 200px;
 }
-
 </style>
