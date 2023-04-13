@@ -52,5 +52,8 @@ export default {
   },
 
   // dev
-  target: 'static' 
+  target: 'static',
+
+  // SSR
+  ssr: false
 };

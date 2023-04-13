@@ -10,9 +10,25 @@ export default {
     },
     data: function () {
         return {
+            validado: null,
             enviando: false,
+            tipoPergunta: null,
+            resposta: "",
+            valoresDaPergunta: [
+                {
+                    nome: "Ruim",
+                    valor: "0"
+                },
+                {
+                    nome: "Neutro",
+                    valor: "1"
+                },
+                {
+                    nome: "Bom",
+                    valor: "2"
+                },
+            ],
             formulario: [
-
                 {
                     etiqueta: 'Perguntas',
                     nome: 'id_pergunta',
@@ -20,15 +36,8 @@ export default {
                     valido: null,
                     id: 'a' + uuidv4(),
                     tipo: 'select',
-                    valores: [
-                        {
-                            nome: this.resposta,
-                            id: 'a' + uuidv4(),
-                            valor: "true"
-                        },
-                    ],
+                    valores: [],
                     ajuda: 'Selecione uma das opções',
-
                     classe: {
                         coluna: 'col-12 mb-4'
                     },
@@ -43,35 +52,52 @@ export default {
                             this.valido = false;
                         }
                     }
-                },
-                {
-                    etiqueta: 'Resposta',
-                    nome: 'resposta',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'text',
-                    ajuda: 'Até 150 caracteres',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor.length > 15) {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
+                    // },
+                    // {
+                    //     etiqueta: 'Resposta',
+                    //     nome: 'resposta',
+                    //     valor: '',
+                    //     valido: null,
+                    //     id: 'a' + uuidv4(),
+                    //     tipo: 'text',
+                    //     ajuda: 'Até 150 caracteres',
+                    //     classe: {
+                    //         coluna: 'col-12 mb-4'
+                    //     },
+                    //     validacao: {
+                    //         valido: 'Campo validado com sucesso',
+                    //         invalido: 'Campo inválido, verifique novamente',
+                    //     },
+                    //     validar: function () {
+                    //         if (this.valor.length > 15) {
+                    //             this.valido = true;
+                    //         } else {
+                    //             this.valido = false;
+                    //         }
+                    //     }
                 }
             ]
         };
     },
     methods: {
+        validarRespostaDescritiva: function () {
+            console.log('valor', this.resposta)
+            if (this.resposta.length > 5) {
+                this.validado = true
+            } else {
+                this.validado = false
+            }
+        },
+        pegaTipo: function (campo) {
+            console.log("campo", campo);
+            console.log("valor", campo.valor);
+            var valor = this.buscarValorEmValoresPeloId(this.formulario[this.buscarIndexPeloNome('perguntas')].valores, campo.valor);
+            console.log('valor como objeto', valor);
+            this.tipoPergunta = valor.tipo;
+            // roda a roda
+            //puxou as peguntas, porem ainda n valida os campos. quer ver dps q o professor acabar? ai a gente 
 
+        },
         //e aqui esta fazendo o que?
         buscarIndexPeloNome: function (nome) {
             var i = 0;
@@ -86,6 +112,15 @@ export default {
             });
             // retorna a posicao encontrada
             return i;
+        },
+        buscarValorEmValoresPeloId(valores, id) {
+            var valor;
+            valores.forEach(function (item, index) {
+                if (item.id === id) {
+                    valor = item;
+                }
+            });
+            return valor;
         },
         receberDados: async function () {
             var that = this;
@@ -179,44 +214,63 @@ export default {
     }
 };
 </script>
-
 <template>
-    <div class="container-fluid conteudo-principal">
-        <section>
-            <article>
-                <form class="row m-0" ref="formularioCadastro">
-                    <div class="card p-0">
-                        <div class="card-body">
-                            <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
-                                <div class="form-floating">
-                                    <template v-if="campo.tipo !== 'select' && campo.tipo !== 'select'">
-                                        <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            :type="campo.tipo" class="form-control" :id="campo.id"
-                                            @keypress="campo.validar()" :class="inputClass(campo.valido)">
-                                    </template>
-                                    <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @change="campo.validar()"
-                                            :class="inputClass(campo.valido)">
-                                            <option value="" disabled selected>Selecione uma Pergunta</option>
-                                                                <option v-for="valor in campo.valores" :v-model="valor.id" :value="valor.id" :key="valor.id">
-                                                {{ valor.nome }}
-                                            </option>
-                                        </select>
-                                    </template>
-                                    <template v-else>
-                                        <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                            :class="inputClass(campo.valido)"></textarea>
-                                    </template>
-                                    <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
-                                    <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
-                                        data-bs-placement="bottom" data-bs-delay="250"><i class="fa fa-question-circle"
-                                            aria-hidden="true"></i></span>
-                                    <div class="valid-feedback">{{ campo.validacao.valido }}</div>
-                                    <div class="invalid-feedback">{{ campo.validacao.invalido }}</div>
+        <div class="container-fluid conteudo-principal">
+            <section>
+                <article>
+                    <form class="row m-0" ref="formularioCadastro">
+                        <div class="card p-0">
+                            <div class="card-body">
+
+                                <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
+                                    <div class="form-floating">
+                                        <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+                                            <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                                :type="campo.tipo" class="form-control" :id="campo.id"
+                                                @keypress="campo.validar()" :class="inputClass(campo.valido)">
+                                        </template>
+                                        <template v-else-if="campo.tipo === 'select'">
+                                            <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                                class="form-control" :id="campo.id" @change="campo.validar(); pegaTipo(campo);"
+                                                :class="inputClass(campo.valido)">
+                                                <option value="" disabled selected>Selecione uma Pergunta</option>
+                                                <option v-for="valor in campo.valores" :v-model="valor.id" :value="valor.id"
+                                                    :key="valor.id">
+                                                    {{ valor.nome }}
+                                                </option>
+                                            </select>
+                                        </template>
+                                        <template v-else>
+                                            <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                                class="form-control" :id="campo.id" @keypress="campo.validar()"
+                                                :class="inputClass(campo.valido)"></textarea>
+                                        </template>
+                                        <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
+                                        <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
+                                            data-bs-placement="bottom" data-bs-delay="250"><i class="fa fa-question-circle"
+                                                aria-hidden="true"></i></span>
+                                        <div class="valid-feedback">{{ campo.validacao.valido }}</div>
+                                        <div class="invalid-feedback">{{ campo.validacao.invalido }}</div>
+                                    </div>
                                 </div>
-                            </div>
+                                <template v-if="tipoPergunta === 'descritiva'">
+                                    <div v-for="valor in resposta" class="form-control">
+                                        <textarea name="resposta" @keyup="validarRespostaDescritiva" :v-model="resposta"
+                                            class="form-control w-100" placeholder="Preencha com a resposta...." cols="4"
+                                            rows="4"></textarea>
+                                    </div>
+                                    <template v-if="validado !== null">
+                                        <div v-if="validado" class="valid-feedback">Campo validado com sucesso
+                                        </div>
+                                        <div v-else class="invalid-feedback">Campo ínvalido, tente novamente</div>
+                                    </template>
+                                </template>
+                                <template v-else-if="tipoPergunta === 'objetiva'">
+                                    <div v-for="valor in valoresDaPergunta" class="form-check">
+                                        <input class="form-check-input" type="radio" name="opcoes" :v-model="valor.valor">
+                                        <label class="form-check-label" for="flexRadioDefault1">{{ valor.nome }}</label>
+                                    </div>
+                                </template>
                         </div>
                     </div>
                 </form>
