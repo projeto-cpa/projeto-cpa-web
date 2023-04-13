@@ -91,7 +91,11 @@ select.form-control{
     position: absolute;
     width: 26px;
     height: 26px;
-    transform: translate(0%, -50%)
+    transform: translate(0%, -0%)
+}
+
+.form-floating select:hover ~ label:before, .form-floating select:active ~ label:before, .form-floating select:focus ~ label:before{
+  color: var(--bs-primary) !important
 }
 
 .form-floating select.is-valid ~ label:before, .form-floating select.is-invalid ~ label:before {
