@@ -1,35 +1,39 @@
 <script>
-    export default {
-        data: function () {
-            return {
-                senha: '',
-                confirmaSenha: '',
-                toast: null,
-                mensagem: ''
-            }
-        },
-        methods: {
-            validaSenha: function () {
-                if (this.senha != this.confirmaSenha) {
+export default {
+    data: function () {
+        return {
+            senha: '',
+            confirmaSenha: '',
+            toast: null,
+            mensagem: ''
+        }
+    },
+    methods: {
+        validaSenha: function () {
+            if (this.senha != this.confirmaSenha) {
                 this.mensagem = 'As senhas devem ser iguais';
+            } else if (this.senha.valueOf == "" || this.confirmaSenha.valueOf == "") {
+                this.mensagem = 'A senha não pode ser nula';
+            } else if (this.senha.length < 5 || this.confirmaSenha.length < 5) {
+                this.mensagem = 'A senha não pode ser menor que 5 caracteres';
             } else {
-                //this.redirecionarParaHome()
+                this.redirecionarParaHome();
             }
             this.abrirToast()
-            },
-        
+        },
+
         abrirToast: function () {
             this.toast.show();
         },
         redirecionarParaHome() {
             this.$router.push({ path: '/' })
-            }
-        },
-        mounted: function () {
+        }
+    },
+    mounted: function () {
         const bootstrap = require('bootstrap')
         this.toast = new bootstrap.Toast(this.$refs.toast);
-        }
     }
+}
 </script>
 
 <template>
@@ -45,35 +49,36 @@
             </div>
 
             <div class="alinha-form-senha">
-            <form class="config-form form col-12 col-md-12 col-lg-12" @submit.prevent="aoEnviarFormulario">
-                <div class="col-md-10 text-email">
-                    <h2 style="font-size: 27px;">Alteração de senha</h2>
-                </div>
-
-                <div class="col-md-10 p-email">
-                    <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
-                </div>
-
-                <div class="col-md-10 div-btn form-floating mb-3">
-                    <input v-model="senha" type="text" class="form-control form-control-lg" id="senha" placeholder="Senha" required>
-                    <label for="senha" style="font-size: 18px;">Senha</label>
-                </div>
-
-                <div class="col-md-10 div-btn form-floating mb-3">
-                    <input v-model="confirmaSenha" type="text" class="form-control form-control-lg" id="confirmaSenha"
-                        placeholder="Confirme a senha" required>
-                    <label for="confirmaSenha" style="font-size: large;">Confirmar senha</label>
-                    <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
-                </div>
-                <div style="display: flex;">
-                    <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+                <div class="col-md-10" @submit.prevent="aoEnviarFormulario">
+                    <div class="col-md-12 text-email">
+                        <h2 style="font-size: 27px;">Alteração de senha</h2>
                     </div>
-                    <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+
+                    <div class="col-md-12 p-email">
+                        <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
                     </div>
-                    <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+
+                    <div class="col-md-12 div-btn form-floating mb-3">
+                        <input v-model="senha" type="text" class="form-control form-control-lg" id="senha"
+                            placeholder="Senha" required>
+                        <label for="senha" style="font-size: 18px;">Senha</label>
+                    </div>
+
+                    <div class="col-md-12 div-btn form-floating mb-3">
+                        <input v-model="confirmaSenha" type="text" class="form-control form-control-lg" id="confirmaSenha"
+                            placeholder="Confirme a senha" required>
+                        <label for="confirmaSenha" style="font-size: large;">Confirmar senha</label>
+                        <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
+                    </div>
+                    <div style="display: flex;">
+                        <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+                        </div>
+                        <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+                        </div>
+                        <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+                        </div>
                     </div>
                 </div>
-                </form>
             </div>
         </div>
 
