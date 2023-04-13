@@ -1,7 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import {Requisicao as apiCadastroUsuarios} from '../../../api/cadastro/usuarios.js';
-import {Requisicao as Disciplinas} from '../../../api/listagem/disciplinas.js';
+import listagemDisciplina from '../../../api/listagem/listagemDisciplina';
 import Swal from 'sweetalert2';
 
 export default {
@@ -190,7 +190,7 @@ export default {
                 this.$nuxt.$loading.start()
             });
 
-            var resposta = await Disciplinas();
+            var resposta = await listagemDisciplina();
             this.formulario[this.buscarIndexPeloNome('tipo_materia')].valores = this.passarSelecionado(resposta);
             console.log(that.formulario[this.buscarIndexPeloNome('tipo_materia')].valores)
             console.log(resposta)
