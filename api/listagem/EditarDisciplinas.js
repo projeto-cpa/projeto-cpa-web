@@ -1,12 +1,6 @@
-import formToJSON from "../../helpers/formToJSON.js";   
-
-async function Requisicao(data) {
-    console.log('data', data);
-    var json = formToJSON(data);
-    console.log('json', json);
+async function RequisicaoEdite() {
 
     var opcoes = {
-        body: json,
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -15,7 +9,7 @@ async function Requisicao(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/curso', opcoes).then(function (response) {
+        fetch('http://localhost:3005/deletar/disciplina.json', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -26,11 +20,16 @@ async function Requisicao(data) {
         });
     });
 
-    //console.log('resposta aguardada', resposta);
     return resposta;
 
 }
 
-export {
-    Requisicao
+const Filtros = {
+    colunas: [
+        { nome: 'id', etiqueta: 'ID', tipo: 'number' },
+        { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
+        { nome: 'descricao', etiqueta: 'Descrição', tipo: 'string' }
+    ]
 };
+
+export { Filtros, RequisicaoEdite }

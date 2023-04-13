@@ -1,6 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import {Requisicao as apiCadastroCargos} from '../../../api/cadastro/cargos.js'
+import {Requisicao as apiCadastroUsuarios} from '../../../api/cadastro/usuarios.js';
+import {Requisicao as Disciplinas} from '../../../api/listagem/disciplinas.js';
 import Swal from 'sweetalert2';
 
 export default {
@@ -156,7 +157,7 @@ export default {
             //console.log(output);
             this.enviando = true;
             this.$nuxt.$loading.start();
-            var resposta = await apiCadastroCargos(data);
+            var resposta = await apiCadastroUsuarios(data);
             setTimeout(function () {
                 this.$nuxt.$loading.finish()
             }, 750);;
@@ -180,6 +181,34 @@ export default {
                     });
                 }
             }, 1000);
+        },
+        receberDados: async function () {
+            var that = this;
+            this.recebendo = true;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            });
+
+            var resposta = await Disciplinas();
+            this.formulario[this.buscarIndexPeloNome('tipo_materia')].valores = this.passarSelecionado(resposta);
+            console.log(that.formulario[this.buscarIndexPeloNome('tipo_materia')].valores)
+            console.log(resposta)
+
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                });
+            }, 750);
+
+            console.log('hmmm', resposta)
+            this.resultados = resposta;
+        },
+        passarSelecionado: function (dados){
+            for (let index = 0; index < dados.length; index++) {
+                dados[index].selecionado = false;
+            }
+            return dados;
         }
     },
     mounted: async function () {
@@ -188,6 +217,7 @@ export default {
         tooltips.forEach(function (item) {
             new bootstrap.Tooltip(item);
         });
+        this.receberDados();
     }
 };
 </script>
