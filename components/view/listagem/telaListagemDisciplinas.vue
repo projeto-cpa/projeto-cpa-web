@@ -2,10 +2,7 @@
 import Swal from 'sweetalert2';
 import Filtro from '../../utils/Filtro.vue';
 import Paginacao from '../../utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/disciplinas.js';
-import { RequisicaoDelete } from '../../../api/listagem/DeletarDisciplinas.js';
-import { RequisicaoEdite } from '../../../api/listagem/EditarDisciplinas.js';
-import { Alteracao } from '../../../api/listagem/disciplinaAtivaDesativa.js';
+import listagemDisciplina from '../../../api/listagem/listagemDisciplina.js';
 
 export default {
     loading: {
@@ -13,7 +10,6 @@ export default {
     },
     data: function () {
         return {
-            Filtros: Filtros,
             recebendo: false,
             resultados: []
         };
@@ -106,8 +102,9 @@ export default {
                 this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao();
-            console.log('olar', resposta);
+            var resposta = await listagemDisciplina();
+            console.log('resposta', resposta);
+
             this.resultados = resposta;
 
             setTimeout(function () {
@@ -182,7 +179,7 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <Filtro :filtros="Filtros"></Filtro>
+                <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
                 <div class="card bg-light">
                     <div class="card-body">

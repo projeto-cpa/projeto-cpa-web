@@ -1,13 +1,13 @@
-import formToJSON from "../../helpers/formToJSON.js";   
+import formToJSON from "../../helpers/formToJSON.js";
 
-async function Requisicao(data) {
+async function cadastroResposta(data) {
     console.log('data', data);
     var json = formToJSON(data);
     console.log('json', json);
 
     var opcoes = {
         body: json,
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -15,7 +15,7 @@ async function Requisicao(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/curso', opcoes).then(function (response) {
+        fetch('http://localhost:8080/resposta', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -26,11 +26,8 @@ async function Requisicao(data) {
         });
     });
 
-    //console.log('resposta aguardada', resposta);
     return resposta;
 
 }
 
-export {
-    Requisicao
-};
+export default cadastroResposta;

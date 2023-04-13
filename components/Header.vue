@@ -1,7 +1,7 @@
 <script>
 export default {
     mounted: function () {
-        require('bootstrap')
+        const bootstrap = require('bootstrap');
     }
 };
 </script>
@@ -36,26 +36,27 @@ export default {
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
-                        <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..." aria-label="Search">
+                        <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..."
+                            aria-label="Search">
                         <button class="btn btn-primary rounded-5" type="submit">Pesquisar</button>
                     </form>
                     <ul class="navbar-nav d-flex ms-2">
                         <li class="nav-item dropdown no-caret dropdown-user">
-                            <a class="btn text-primary border-primary rounded-5 btn-icon btn-outline-light dropdown-toggle" id="navbarDropdownUserImage"
-                                href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                            <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle"
+                                id="navbarDropdownUserImage" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
                             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
                                 aria-labelledby="navbarDropdownUserImage">
                                 <h6 class="dropdown-header d-flex align-items-center">
                                     <img class="dropdown-user-img avatar" src="../static/user.png">
                                     <div class="dropdown-user-details">
-                                                <div class="dropdown-user-details-name">Administrador</div>
-                                                <div class="dropdown-user-details-email small">admin@admin</div>
-                                            </div>
-                                        </h6>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="/conta">
-                                            <i class="fa fa-user"></i> Minha conta </a>
+                                        <div class="dropdown-user-details-name">Administrador</div>
+                                        <div class="dropdown-user-details-email small">admin@admin</div>
+                                    </div>
+                                </h6>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/conta">
+                                    <i class="fa fa-user"></i> Minha conta </a>
                                 <a class="dropdown-item" href="/acesso">
                                     <i class="fa fa-sign-out"></i> Sair </a>
                             </div>
@@ -90,7 +91,7 @@ header nav {
     height: 60px;
     text-align: center;
     margin-right: 20px;
-    background-color: rgba(248,249,250,1)!important;
+    background-color: rgba(248, 249, 250, 1) !important;
     border-right: 1px solid #ccc;
 }
 
@@ -102,11 +103,11 @@ header nav {
 .avatar {
     width: 32px !important;
     height: 32px !important;
-    margin-right: 5px;;
+    margin-right: 5px;
+    ;
 }
 
 .dropdown-menu.dropdown-menu-end {
     min-width: 200px !important;
 }
-
 </style>

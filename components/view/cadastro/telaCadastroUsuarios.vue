@@ -284,9 +284,4 @@ textarea {
     min-height: 58px !important
 }
 
-textarea,
-input {
-    background-position: calc(100% - 40px) 20px !important;
-}
-
 </style>

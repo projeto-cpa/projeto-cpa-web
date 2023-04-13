@@ -1,6 +1,6 @@
 import formToJSON from "../../helpers/formToJSON.js";
 
-async function Requisicao(data) {
+async function cadastroDisciplina(data) {
     console.log('data', data);
     var json = formToJSON(data);
     console.log('json', json);
@@ -15,7 +15,7 @@ async function Requisicao(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/cadastro/disciplinas', opcoes).then(function (response) {
+        fetch('http://localhost:8080/disciplina', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -30,6 +30,4 @@ async function Requisicao(data) {
 
 }
 
-export {
-    Requisicao
-};
+export default cadastroDisciplina;

@@ -9,7 +9,7 @@ async function Requisicao() {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/listagem/cargos', opcoes).then(function (response) {
+        fetch('http://localhost:8080/cargo', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {

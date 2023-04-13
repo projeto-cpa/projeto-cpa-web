@@ -32,4 +32,6 @@ class Session {
     }
 }
 
-export default new Session();
+const SESSION = new Session()
+
+export default SESSION;
