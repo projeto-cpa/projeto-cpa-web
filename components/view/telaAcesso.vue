@@ -4,14 +4,16 @@ export default {
         return {
             dados: {
                 email: '',
-                senha: '',
+                password: '',
             },
             login: {
                 meuEmail: 'admin',
                 minhaSenha: 'admin'
             },
             toast: null,
-            mensagem: ''
+            mensagem: '',
+            showPassword: false,
+            liked: false
         }
     },
     methods: {
@@ -21,7 +23,7 @@ export default {
             }
         },
         validarFormulario: function () {
-            if (this.dados.email != this.login.meuEmail || this.dados.senha != this.login.minhaSenha) {
+            if (this.dados.email != this.login.meuEmail || this.dados.password != this.login.minhaSenha) {
                 this.mensagem = 'Os campos de senha e e-mail estão incorretos';
             } else {
                 this.redirecionarParaHome()
@@ -33,6 +35,9 @@ export default {
         },
         redirecionarParaHome() {
             this.$router.push({ path: '/' })
+        },
+        mostraSenha() {
+            this.liked = !this.liked
         }
     },
     mounted: function () {
@@ -57,8 +62,20 @@ export default {
                         <input v-model="dados.email" class="form-control" id="email">
                     </div>
                     <div class="mb-3">
-                        <label for="senha" class="config-label-login form-label">Senha:</label>
-                        <input v-model="dados.senha" class="form-control" id="senha">
+                        <label for="password" class="config-label-login form-label">Senha:</label>
+                        <div class="input-password">
+                            <input v-model="dados.password" type="password" class="form-control" id="password"
+                                :type="showPassword ? 'text' : 'password'">
+                            <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{ showPassword ?
+                                    '' : '' }}
+                                <span v-if="!liked">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                                <span v-else>
+                                    <i class="fa fa-eye-slash"></i>
+                                </span>
+                            </a>
+                        </div>
                     </div>
                     <div class="div-esqueci-senha">
                         <button class="btn btn-primary" @click="validarFormulario">Entrar</button>
@@ -142,5 +159,19 @@ export default {
 div,
 a {
     font-family: sans-serif;
+}
+
+.icone-olho {
+    color: rgb(255, 255, 255);
+    font-size: x-large;
+    margin: 10px;
+}
+
+.icone-olho:hover {
+    cursor: pointer;
+}
+
+.input-password {
+    display: -webkit-box;
 }
 </style>
