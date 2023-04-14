@@ -1,0 +1,8 @@
+FROM node:18
+WORKDIR /app-node
+ARG PORT_BUILD=3005
+ENV PORT=$PORT_BUILD
+COPY . .
+RUN npm install
+ENTRYPOINT npm run dev
+EXPOSE $PORT_BUILD

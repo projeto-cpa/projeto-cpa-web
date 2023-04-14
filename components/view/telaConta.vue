@@ -1,3 +1,23 @@
+<script>
+export default {
+  name: 'App',
+  methods: {
+    async sendFile() {
+      let dataForm = new FormData();
+      for (let file of this.$refs.files.files) {
+        dataForm.append(`file`, file);
+      }
+      let res = await fetch(`http://localhost:3000/upload`, {
+        method: 'POST',
+        body: dataForm,
+      });
+      let data = await res.json();
+      console.log(data);
+    },
+  },
+}
+</script>
+
 <template>
     <div>
         <!-- modals -->
@@ -137,10 +157,17 @@
                                                 <img src="https://res.cloudinary.com/mhmd/image/upload/v1557366994/img_epm3iz.png"
                                                     alt="" width="200" class="d-block mx-auto mb-4">
                                                 <!-- Default bootstrap file upload-->
-                                                <h6 class="text-center mb-4 text-muted"> You can use default Bootstrap file
-                                                    upload </h6>
+                                                <h6 class="text-center mb-4 text-muted"> Insira sua foto de perfil! </h6>
                                                 <div class="custom-file overflow-hidden mb-4">
                                                     <input id="customFile" type="file" class="form-control">
+                                                </div>
+                                                <div class ="text-center"> 
+                                                    <button class = "btn btn-dark"  @click="sendFile">
+                                                        Cancelar
+                                                    </button>
+                                                    <button class = "btn btn-primary" >
+                                                        Enviar
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
