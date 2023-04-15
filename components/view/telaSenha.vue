@@ -2,20 +2,28 @@
 export default {
     data: function () {
         return {
-            senha: '',
-            confirmaSenha: '',
+            password: '',
+            confirmaPassword: '',
             toast: null,
-            mensagem: ''
+            mensagem: '',
+            showPassword: false,
+            showConfirmPassword: false,
+            liked: false,
+            likedConfirm: false,
+            showRequirements: false,
+            showStrength: false,
+            passwordStrength: '',
+            messagePassword: ''
         }
     },
     methods: {
         validaSenha: function () {
-            if (this.senha != this.confirmaSenha) {
+            if (this.password != this.confirmaPassword) {
                 this.mensagem = 'As senhas devem ser iguais';
-            } else if (this.senha.valueOf == "" || this.confirmaSenha.valueOf == "") {
+            } else if (this.password.valueOf == "" || this.confirmaPassword.valueOf == "") {
                 this.mensagem = 'A senha não pode ser nula';
-            } else if (this.senha.length < 5 || this.confirmaSenha.length < 5) {
-                this.mensagem = 'A senha não pode ser menor que 5 caracteres';
+            } else if (this.password.length < 5 || this.confirmaPassword.length < 5) {
+                this.mensagem = 'A senha não pode ter menos que 5 caracteres';
             } else {
                 this.redirecionarParaHome();
             }
@@ -27,6 +35,87 @@ export default {
         },
         redirecionarParaHome() {
             this.$router.push({ path: '/' })
+        },
+        mostraSenha() {
+            this.liked = !this.liked
+        },
+        mostraConfirmaSenha() {
+            this.likedConfirm = !this.likedConfirm
+        },
+        checkPassword() {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (this.password.length > 0) {
+
+                if (!passwordRegex.test(this.password)) {
+
+                        this.showStrength = true;
+                        this.calculateStrength();
+
+                        if (this.passwordStrength == "Fraca") {
+                            this.messagePassword = "Inclua uma letra maiuscula, um número, um caractere especial e no minimo 8 letras." 
+
+                        }
+                        else if (this.passwordStrength == "Média") {
+                            this.messagePassword = "Inclua um número, um caractere especial e no minimo 8 letras.";
+                        }
+                        else if (this.passwordStrength == "Forte") {
+                            this.messagePassword = "Inclua um caractere especial e no minimo 8 letras.";
+                        }
+                        else if (this.passwordStrength == "Muito forte") {
+                            this.messagePassword = "Inclua no minimo 8 letras.";
+                        }
+                        else if (this.passwordStrength == "Extremamente forte") {
+                            this.messagePassword = "Senha forte validada.";
+                        }
+
+                        this.showRequirements = true;
+                }
+                else {
+                    this.showRequirements = false;
+                    this.showStrength = true;
+                    this.calculateStrength();
+                }
+            } else {
+                this.showRequirements = false;
+                this.showStrength = false;
+            }
+        },
+        calculateStrength() {
+            let score = 0;
+            if (this.password.length >= 8) {
+                score++;
+            }
+            if (/[a-z]/.test(this.password)) {
+                score++;
+            }
+            if (/[A-Z]/.test(this.password)) {
+                score++;
+            }
+            if (/\d/.test(this.password)) {
+                score++;
+            }
+            if (/[@$!%*?&]/.test(this.password)) {
+                score++;
+            }
+            switch (score) {
+                case 1:
+                    this.passwordStrength = "Fraca";
+                    break;
+                case 2:
+                    this.passwordStrength = "Média";
+                    break;
+                case 3:
+                    this.passwordStrength = "Forte";
+                    break;
+                case 4:
+                    this.passwordStrength = "Muito forte";
+                    break;
+                case 5:
+                    this.passwordStrength = "Extremamente forte";
+                    break;
+
+                    default:
+            }
         }
     },
     mounted: function () {
@@ -58,24 +147,61 @@ export default {
                         <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
                     </div>
 
-                    <div class="col-md-12 div-btn form-floating mb-3">
-                        <input v-model="senha" type="text" class="form-control form-control-lg" id="senha"
-                            placeholder="Senha" required>
-                        <label for="senha" style="font-size: 18px;">Senha</label>
+                    <div class="mb-3">
+                        <div class="input-password">
+                            <input v-model="password" type="password" class="form-control input-password" id="password"
+                                placeholder="Senha" :type="showPassword ? 'text' : 'password'" @input="checkPassword">
+                            <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{
+                                showPassword ?
+                                '' : '' }}
+                                <span v-if="!liked">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                                <span v-else>
+                                    <i class="fa fa-eye-slash"></i>
+                                </span>
+                            </a>
+                        </div>
+
+                        <span v-if="showRequirements">{{messagePassword}}</span>
+                        <span v-if="messagePassword">Força da senha: {{ passwordStrength }}</span>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="input-password">
+                            <input v-model="confirmaPassword" type="password" class="form-control input-password"
+                                id="confirmaPassword" placeholder="Confirmar senha"
+                                :type="showConfirmPassword ? 'text' : 'password'">
+                            <a class="icone-olho" v-on:click="mostraConfirmaSenha"
+                                @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ?
+                                    '' : '' }}
+                                <span v-if="!likedConfirm">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                                <span v-else>
+                                    <i class="fa fa-eye-slash"></i>
+                                </span>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="col-md-12 div-btn form-floating mb-3">
-                        <input v-model="confirmaSenha" type="text" class="form-control form-control-lg" id="confirmaSenha"
-                            placeholder="Confirme a senha" required>
-                        <label for="confirmaSenha" style="font-size: large;">Confirmar senha</label>
                         <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
                     </div>
+
                     <div style="display: flex;">
-                        <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+                        <div v-bind:style="{ backgroundColor: showRequirements ? 'red' : 'blue' }">Olá, mundo!</div>
+                        <div v-if="messagePassword == 'Fraca'" class="corFraca">
+                            teste
                         </div>
-                        <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+                        <div class="corMedia">
                         </div>
-                        <div style="height: 10px; width: 50px; background-color: #000; border-radius: 5px;">
+                        <div class="corForte">
+                        </div>
+                        <div class="corMuitoForte">
+                        </div>
+                        <div class="corExtremamenteForte">
                         </div>
                     </div>
                 </div>
@@ -86,7 +212,9 @@ export default {
             <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
                 aria-atomic="true" ref="toast">
                 <div class="d-flex">
-                    <div id="mensagem" class="toast-body">
+                    <div id="mensagem" class="toast-body" style="display: -webkit-inline-box;">
+                        <i style="margin: 0px 10px 0px 0px; font-size: x-large;" class="fa fa-exclamation-circle"
+                            aria-hidden="true"></i>
                         <p style="font-size: 18px;" v-if="mensagem">{{ mensagem }}</p>
                     </div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"

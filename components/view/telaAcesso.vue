@@ -64,7 +64,7 @@ export default {
                     <div class="mb-3">
                         <label for="password" class="config-label-login form-label">Senha:</label>
                         <div class="input-password">
-                            <input v-model="dados.password" type="password" class="form-control" id="password"
+                            <input v-model="dados.password" type="password" class="form-control input-password" id="password"
                                 :type="showPassword ? 'text' : 'password'">
                             <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{ showPassword ?
                                     '' : '' }}
@@ -89,7 +89,9 @@ export default {
             <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
                 aria-atomic="true" ref="toast">
                 <div class="d-flex">
-                    <div id="mensagem" class="toast-body">
+                    <div id="mensagem" class="toast-body" style="display: -webkit-inline-box;">
+                        <i style="margin: 0px 10px 0px 0px; font-size: x-large;" class="fa fa-exclamation-circle"
+                            aria-hidden="true"></i>
                         <p style="font-size: 18px;" v-if="mensagem">{{ mensagem }}</p>
                     </div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
@@ -173,5 +175,19 @@ a {
 
 .input-password {
     display: -webkit-box;
+}
+</style>
+
+<style>
+.input-password {
+    appearance: none !important;
+    -ms-appearance: none !important;
+    -moz-appearance: none !important;
+    -o-appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+.input-password::-ms-reveal, .input-password::-ms-clear{
+    display: none !important;
 }
 </style>

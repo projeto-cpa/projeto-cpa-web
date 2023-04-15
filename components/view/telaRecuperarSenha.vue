@@ -79,7 +79,9 @@ export default {
             <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
                 aria-atomic="true" ref="toast">
                 <div class="d-flex">
-                    <div id="mensagem" class="toast-body">
+                    <div id="mensagem" class="toast-body" style="display: -webkit-inline-box;">
+                        <i style="margin: 0px 10px 0px 0px; font-size: x-large;" class="fa fa-exclamation-circle"
+                            aria-hidden="true"></i>
                         <p style="font-size: 18px;" v-if="mensagem">{{ mensagem }}</p>
                     </div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
