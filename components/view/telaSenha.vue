@@ -13,7 +13,13 @@ export default {
             showRequirements: false,
             showStrength: false,
             passwordStrength: '',
-            messagePassword: ''
+            messagePassword: '',
+            mensagemFraca: '',
+            corFraca: false,
+            corMedia: false,
+            corForte: false,
+            corMuitoForte: false,
+            corExtremamenteForte: false,
         }
     },
     methods: {
@@ -48,27 +54,33 @@ export default {
 
                 if (!passwordRegex.test(this.password)) {
 
-                        this.showStrength = true;
-                        this.calculateStrength();
+                    this.showStrength = true;
+                    this.calculateStrength();
 
-                        if (this.passwordStrength == "Fraca") {
-                            this.messagePassword = "Inclua uma letra maiuscula, um número, um caractere especial e no minimo 8 letras." 
+                    if (this.passwordStrength == "Fraca") {
+                        this.messagePassword = "Inclua uma letra maiuscula, um número, um caractere especial e no minimo 8 letras."
+                        this.mensagemFraca = "fraca"
+                        this.corFraca = true;
+                    }
+                    else if (this.passwordStrength == "Média") {
+                        this.messagePassword = "Inclua um número, um caractere especial e no minimo 8 letras.";
+                        this.mensagemMedia = "media"
+                        this.corMedia = true;
+                    }
+                    else if (this.passwordStrength == "Forte") {
+                        this.messagePassword = "Inclua um caractere especial e no minimo 8 letras.";
+                        this.corForte = true;
+                    }
+                    else if (this.passwordStrength == "Muito forte") {
+                        this.messagePassword = "Inclua no minimo 8 letras.";
+                        this.corMuitoForte = true;
+                    }
+                    else if (this.passwordStrength == "Extremamente forte") {
+                        this.messagePassword = "Senha forte validada.";
+                        this.corExtremamenteForte = true;
+                    }
 
-                        }
-                        else if (this.passwordStrength == "Média") {
-                            this.messagePassword = "Inclua um número, um caractere especial e no minimo 8 letras.";
-                        }
-                        else if (this.passwordStrength == "Forte") {
-                            this.messagePassword = "Inclua um caractere especial e no minimo 8 letras.";
-                        }
-                        else if (this.passwordStrength == "Muito forte") {
-                            this.messagePassword = "Inclua no minimo 8 letras.";
-                        }
-                        else if (this.passwordStrength == "Extremamente forte") {
-                            this.messagePassword = "Senha forte validada.";
-                        }
-
-                        this.showRequirements = true;
+                    this.showRequirements = true;
                 }
                 else {
                     this.showRequirements = false;
@@ -114,7 +126,7 @@ export default {
                     this.passwordStrength = "Extremamente forte";
                     break;
 
-                    default:
+                default:
             }
         }
     },
@@ -163,7 +175,7 @@ export default {
                             </a>
                         </div>
 
-                        <span v-if="showRequirements">{{messagePassword}}</span>
+                        <span v-if="showRequirements">{{ messagePassword }}</span>
                         <span v-if="messagePassword">Força da senha: {{ passwordStrength }}</span>
 
                     </div>
@@ -191,17 +203,40 @@ export default {
                     </div>
 
                     <div style="display: flex;">
-                        <div v-bind:style="{ backgroundColor: showRequirements ? 'red' : 'blue' }">Olá, mundo!</div>
-                        <div v-if="messagePassword == 'Fraca'" class="corFraca">
-                            teste
+                        <div v-if="mensagemFraca">
+                            <div v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
                         </div>
-                        <div class="corMedia">
+                        <div v-else-if="mensagemMedia">
+                            <div v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }">teste</div>
                         </div>
-                        <div class="corForte">
+                        <div>
+                            <div v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }">teste</div>
                         </div>
-                        <div class="corMuitoForte">
+                        <div>
+                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">teste</div>
                         </div>
-                        <div class="corExtremamenteForte">
+                        <div>
+                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
+                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
                         </div>
                     </div>
                 </div>
