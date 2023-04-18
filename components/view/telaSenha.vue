@@ -14,7 +14,7 @@ export default {
             showStrength: false,
             passwordStrength: '',
             messagePassword: '',
-            mensagemFraca: '',
+            mensagemSenha: '',
             corFraca: false,
             corMedia: false,
             corForte: false,
@@ -59,24 +59,27 @@ export default {
 
                     if (this.passwordStrength == "Fraca") {
                         this.messagePassword = "Inclua uma letra maiuscula, um número, um caractere especial e no minimo 8 letras."
-                        this.mensagemFraca = "fraca"
+                        this.mensagemSenha = "fraca"
                         this.corFraca = true;
                     }
                     else if (this.passwordStrength == "Média") {
                         this.messagePassword = "Inclua um número, um caractere especial e no minimo 8 letras.";
-                        this.mensagemMedia = "media"
+                        this.mensagemSenha = "media"
                         this.corMedia = true;
                     }
                     else if (this.passwordStrength == "Forte") {
                         this.messagePassword = "Inclua um caractere especial e no minimo 8 letras.";
+                        this.mensagemSenha = "forte"
                         this.corForte = true;
                     }
                     else if (this.passwordStrength == "Muito forte") {
                         this.messagePassword = "Inclua no minimo 8 letras.";
+                        this.mensagemSenha = "muito forte"
                         this.corMuitoForte = true;
                     }
-                    else if (this.passwordStrength == "Extremamente forte") {
+                    else {
                         this.messagePassword = "Senha forte validada.";
+                        this.mensagemSenha = "extremamente forte"
                         this.corExtremamenteForte = true;
                     }
 
@@ -198,47 +201,70 @@ export default {
                         </div>
                     </div>
 
+                    <div>
+                        <div class="col-md-12 config-cor-senha" v-if="mensagemSenha == 'fraca' ">
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                        </div>
+                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'media' ">
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                        </div>
+                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'forte' ">
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
+                        </div>
+                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'muito forte' ">
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">
+                            </div>
+                        </div>
+                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'extremamente forte' ">
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                        </div>
+                        <div class="col-md-12 config-cor-senha" v-else>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                        </div>
+                    </div>
+
                     <div class="col-md-12 div-btn form-floating mb-3">
                         <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
                     </div>
 
-                    <div style="display: flex;">
-                        <div v-if="mensagemFraca">
-                            <div v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }">teste</div>
-                        </div>
-                        <div v-else-if="mensagemMedia">
-                            <div v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }">teste</div>
-                        </div>
-                        <div>
-                            <div v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }">teste</div>
-                        </div>
-                        <div>
-                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">teste</div>
-                        </div>
-                        <div>
-                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
-                            <div v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }">teste</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -319,5 +345,15 @@ p,
 h2 {
     font-family: sans-serif;
 }
-</style>
+
+.cor-senha {
+    border-radius: 10px;
+    height: 15px;
+}
+
+.config-cor-senha {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}</style>
 
