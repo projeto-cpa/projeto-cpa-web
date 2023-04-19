@@ -159,10 +159,10 @@ export default {
                                     <div class="item text-center">{{ item.nome }}</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.criadoEm) }}</div>
+                                    <div class="item text-center">{{ formatarData(item.dataCriacao) }}</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.atualizadoEm) }}</div>
+                                    <div class="item text-center">{{ formatarData(item.dataAtualizacao) }}</div>
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
