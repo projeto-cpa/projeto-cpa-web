@@ -28,8 +28,8 @@ export default {
                 this.mensagem = 'As senhas devem ser iguais';
             } else if (this.password.valueOf == "" || this.confirmaPassword.valueOf == "") {
                 this.mensagem = 'A senha não pode ser nula';
-            } else if (this.password.length < 5 || this.confirmaPassword.length < 5) {
-                this.mensagem = 'A senha não pode ter menos que 5 caracteres';
+            } else if (this.password.length < 8 || this.confirmaPassword.length < 8) {
+                this.mensagem = 'A senha não pode ter menos que 8 caracteres';
             } else {
                 this.redirecionarParaHome();
             }
@@ -49,7 +49,7 @@ export default {
             this.likedConfirm = !this.likedConfirm
         },
         checkPassword() {
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]){8,}$/;
             if (this.password.length > 0) {
 
                 if (!passwordRegex.test(this.password)) {
@@ -77,7 +77,7 @@ export default {
                         this.mensagemSenha = "muito forte"
                         this.corMuitoForte = true;
                     }
-                    else {
+                    else if (this.passwordStrength == "Extremamente forte") {
                         this.messagePassword = "Senha forte validada.";
                         this.mensagemSenha = "extremamente forte"
                         this.corExtremamenteForte = true;
@@ -97,7 +97,7 @@ export default {
         },
         calculateStrength() {
             let score = 0;
-            if (this.password.length >= 8) {
+            if (this.password.length > 7) {
                 score++;
             }
             if (/[a-z]/.test(this.password)) {
@@ -143,10 +143,10 @@ export default {
 <template>
     <section class="display-tela-recuperar">
 
-        <div class="col-3 col-md-3 col-lg-3 back-color hvh-100"></div>
+    <div class="col-3 col-md-3 col-lg-3 back-color hvh-100"></div>
 
-        <div class="col-6 col-md-6 col-lg-6 hvh-100"
-            style="display: flex; justify-content: space-evenly; align-items: center; flex-wrap: wrap;">
+    <div class="col-6 col-md-6 col-lg-6 hvh-100"
+        style="display: flex; justify-content: space-evenly; align-items: center; flex-wrap: wrap;">
 
             <div class="col-5 col-md-5 col-lg-5" style="display: flex; justify-content: center; align-items: center;">
                 <img loading="lazy" src="../../static/imagemBIO-EDU (2).png" style="width: 30vh;">
@@ -177,10 +177,6 @@ export default {
                                 </span>
                             </a>
                         </div>
-
-                        <span v-if="showRequirements">{{ messagePassword }}</span>
-                        <span v-if="messagePassword">Força da senha: {{ passwordStrength }}</span>
-
                     </div>
 
                     <div class="mb-3">
@@ -202,28 +198,44 @@ export default {
                     </div>
 
                     <div>
-                        <div class="col-md-12 config-cor-senha" v-if="mensagemSenha == 'fraca' ">
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                        <div class="col-md-12 config-cor-senha"
+                            v-if="passwordStrength == 'Fraca' && this.password.length > 0">
+                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }">
+                            </div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'media' ">
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Média'">
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'forte' ">
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Forte'">
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'muito forte' ">
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Muito forte'">
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
                             <div class="col-md-2 cor-senha"
@@ -232,10 +244,11 @@ export default {
                                 v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">
+                            <div class="col-md-2 cor-senha"
+                                v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">
                             </div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="mensagemSenha == 'extremamente forte' ">
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Extremamente forte'">
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
                             <div class="col-md-2 cor-senha"
@@ -260,6 +273,23 @@ export default {
                                 v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
                         </div>
                     </div>
+
+                    <div class="heigth-15"></div>
+                    <div class="col-md-12 alert alert-primary" role="alert">
+                        <p v-if="showRequirements">Status da senha: {{ passwordStrength }} </p>
+                        <ul class="config-ul">
+                            <li>Inclua uma letra maiuscula</li>
+                            <li>Inclua um número</li>
+                            <li>Inclua um caractere especial</li>
+                            <li>Inclua no minimo 8 letras</li>
+                        </ul>
+                    </div>
+                    <!--
+                        <br>
+                            <span v-if="showRequirements && this.password.length > 0">{{ messagePassword }}</span>
+                            <span v-if="messagePassword && this.password.length > 0">Força da senha: {{ passwordStrength
+                            }}</span>
+                            -->
 
                     <div class="col-md-12 div-btn form-floating mb-3">
                         <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
@@ -355,5 +385,14 @@ h2 {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
-}</style>
+}
+
+.heigth-15 {
+    height: 15px;
+}
+
+.config-ul {
+    margin-bottom: 0rem;
+}
+</style>
 
