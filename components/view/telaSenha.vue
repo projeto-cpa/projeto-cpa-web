@@ -49,7 +49,7 @@ export default {
             this.likedConfirm = !this.likedConfirm
         },
         checkPassword() {
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]){8,}$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]){16,}$/;
             if (this.password.length > 0) {
 
                 if (!passwordRegex.test(this.password)) {
@@ -97,7 +97,7 @@ export default {
         },
         calculateStrength() {
             let score = 0;
-            if (this.password.length > 7) {
+            if (this.password.length > 16) {
                 score++;
             }
             if (/[a-z]/.test(this.password)) {
@@ -109,7 +109,7 @@ export default {
             if (/\d/.test(this.password)) {
                 score++;
             }
-            if (/[@$!%*?&]/.test(this.password)) {
+            if (/[@$!%*?&#¨()]/.test(this.password)) {
                 score++;
             }
             switch (score) {
@@ -211,7 +211,7 @@ export default {
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Média'">
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Média' && this.password.length > 4">
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
                             <div class="col-md-2 cor-senha"
@@ -223,7 +223,7 @@ export default {
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Forte'">
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Forte' && this.password.length > 7">
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
                             <div class="col-md-2 cor-senha"
@@ -235,7 +235,7 @@ export default {
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Muito forte'">
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Muito forte' && this.password.length > 7">
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
                             <div class="col-md-2 cor-senha"
@@ -248,7 +248,7 @@ export default {
                                 v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">
                             </div>
                         </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Extremamente forte'">
+                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Extremamente forte' && this.password.length > 15">
                             <div class="col-md-2 cor-senha"
                                 v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
                             <div class="col-md-2 cor-senha"
@@ -277,6 +277,7 @@ export default {
                     <div class="heigth-15"></div>
                     <div class="col-md-12 alert alert-primary" role="alert">
                         <p v-if="showRequirements">Status da senha: {{ passwordStrength }} </p>
+                        <p v-else>Status da senha: Vazia</p>
                         <ul class="config-ul">
                             <li>Inclua uma letra maiuscula</li>
                             <li>Inclua um número</li>
