@@ -55,7 +55,7 @@ export default {
                     <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
                 </div>
                 <div class="div-form-login col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
-                    <div class="config-width">
+                    <div class="w-80">
                         <form class="config-form form col-12 col-md-12 col-lg-12" @submit.prevent="aoEnviarFormulario">
                             <div class="config-input-login mb-3">
                                 <i class="fa fa-envelope icon-email" aria-hidden="true"></i>
@@ -106,8 +106,8 @@ export default {
     </section>
 </template>
 
-<style>
-section {
+<style scoped>
+.section {
     width: 100%;
     min-height: 100vh;
 }
@@ -130,17 +130,13 @@ section {
     justify-content: center;
     align-items: center;
 }
-
-.config-label-login {
-    color: #fff;
-}
-
-.config-width {
-    width: 60%;
+.w-80 {
+    width: 80%;
 }
 
 .img-cpa {
     width: 300px;
+    padding: 10px 0px 0px 0px;
 }
 
 .esqueci-senha {

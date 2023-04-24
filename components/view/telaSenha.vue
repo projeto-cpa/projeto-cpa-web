@@ -26,8 +26,6 @@ export default {
         validaSenha: function () {
             if (this.password != this.confirmaPassword) {
                 this.mensagem = 'As senhas devem ser iguais';
-            } else if (this.password.valueOf == "" || this.confirmaPassword.valueOf == "") {
-                this.mensagem = 'A senha não pode ser nula';
             } else if (this.password.length < 8 || this.confirmaPassword.length < 8) {
                 this.mensagem = 'A senha não pode ter menos que 8 caracteres';
             } else {
@@ -109,7 +107,7 @@ export default {
             if (/\d/.test(this.password)) {
                 score++;
             }
-            if (/[@$!%*?&#¨()]/.test(this.password)) {
+            if (/[@$!%*?&#¨()-_=+''""]/.test(this.password)) {
                 score++;
             }
             switch (score) {
@@ -141,215 +139,202 @@ export default {
 </script>
 
 <template>
-    <section class="display-tela-recuperar">
-
-    <div class="col-3 col-md-3 col-lg-3 back-color hvh-100"></div>
-
-    <div class="col-6 col-md-6 col-lg-6 hvh-100"
-        style="display: flex; justify-content: space-evenly; align-items: center; flex-wrap: wrap;">
-
-            <div class="col-5 col-md-5 col-lg-5" style="display: flex; justify-content: center; align-items: center;">
-                <img loading="lazy" src="../../static/imagemBIO-EDU (2).png" style="width: 30vh;">
-            </div>
-
-            <div class="alinha-form-senha">
-                <div class="col-md-10" @submit.prevent="aoEnviarFormulario">
-                    <div class="col-md-12 text-email">
-                        <h2 style="font-size: 27px;">Alteração de senha</h2>
+    <section class="section">
+        <div class="row">
+            <div class="conteudo-principal">
+                <div class="col-12 conteudo-divs">
+                    <div class="div-img-cpa col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                        <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
                     </div>
-
-                    <div class="col-md-12 p-email">
-                        <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-password">
-                            <input v-model="password" type="password" class="form-control input-password" id="password"
-                                placeholder="Senha" :type="showPassword ? 'text' : 'password'" @input="checkPassword">
-                            <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{
-                                showPassword ?
-                                '' : '' }}
-                                <span v-if="!liked">
-                                    <i class="fa fa-eye"></i>
-                                </span>
-                                <span v-else>
-                                    <i class="fa fa-eye-slash"></i>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <div class="input-password">
-                            <input v-model="confirmaPassword" type="password" class="form-control input-password"
-                                id="confirmaPassword" placeholder="Confirmar senha"
-                                :type="showConfirmPassword ? 'text' : 'password'">
-                            <a class="icone-olho" v-on:click="mostraConfirmaSenha"
-                                @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ?
-                                    '' : '' }}
-                                <span v-if="!likedConfirm">
-                                    <i class="fa fa-eye"></i>
-                                </span>
-                                <span v-else>
-                                    <i class="fa fa-eye-slash"></i>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="col-md-12 config-cor-senha"
-                            v-if="passwordStrength == 'Fraca' && this.password.length > 0">
-                            <div class="col-md-2 cor-senha" v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }">
+                    <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 div-senhas">
+                        <div class="w-80" @submit.prevent="aoEnviarFormulario">
+                            <div class="col-md-12 text-email">
+                                <h2 style="font-size: 27px;">Alteração de senha</h2>
                             </div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
-                        </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Média' && this.password.length > 4">
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
-                        </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Forte' && this.password.length > 7">
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
-                        </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Muito forte' && this.password.length > 7">
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">
+
+                            <div class="col-md-12 p-email">
+                                <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
                             </div>
-                        </div>
-                        <div class="col-md-12 config-cor-senha" v-else-if="passwordStrength == 'Extremamente forte' && this.password.length > 15">
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
-                        </div>
-                        <div class="col-md-12 config-cor-senha" v-else>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
-                            <div class="col-md-2 cor-senha"
-                                v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+
+                            <div class="config-input-login mb-3">
+                                <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
+                                <input v-model="password" type="password" class="form-control input-password" id="password"
+                                    :type="showPassword ? 'text' : 'password'" @input="checkPassword" placeholder="Senha:"
+                                    aria-describedby="addon-wrapping" style="border-radius: 0px;">
+                                <span class="input-group-text" id="addon-wrapping"
+                                    style="padding: 0px; border-radius: 0px;">
+                                    <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{
+                                        showPassword ?
+                                        '' : '' }}
+                                        <span v-if="!liked">
+                                            <i class="fa fa-eye" style="padding: 5px;"></i>
+                                        </span>
+                                        <span v-else>
+                                            <i class="fa fa-eye-slash" style="padding: 5px;"></i>
+                                        </span>
+                                    </a>
+                                </span>
+                            </div>
+
+                            <div class="config-input-login mb-3">
+                                <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
+                                <input v-model="confirmaPassword" type="password" class="form-control input-password"
+                                    id="confirmaPassword" placeholder="Confirmar senha:"
+                                    :type="showConfirmPassword ? 'text' : 'password'" style="border-radius: 0px;">
+                                <span class="input-group-text" id="addon-wrapping"
+                                    style="padding: 0px; border-radius: 0px;">
+                                    <a class="icone-olho" v-on:click="mostraConfirmaSenha"
+                                        @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ?
+                                            '' : '' }}
+                                        <span v-if="!likedConfirm">
+                                            <i class="fa fa-eye" style="padding: 5px;"></i>
+                                        </span>
+                                        <span v-else>
+                                            <i class="fa fa-eye-slash" style="padding: 5px;"></i>
+                                        </span>
+                                    </a>
+                                </span>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="col-12 config-cor-senha" v-if="this.password.length < 1 ">
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                </div>
+                                <div class="col-12 config-cor-senha"
+                                    v-else-if="passwordStrength == 'Fraca' && this.password.length > 0 || this.password.length < 4 ">
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }">
+                                    </div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
+                                </div>
+                                <div class="col-12 config-cor-senha"
+                                    v-else-if="passwordStrength == 'Média' && this.password.length > 3 || this.password.length < 6 ">
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
+                                </div>
+                                <div class="col-12 config-cor-senha"
+                                    v-else-if="passwordStrength == 'Forte' && this.password.length > 5 || this.password.length < 9 ">
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
+                                </div>
+                                <div class="col-12 config-cor-senha"
+                                    v-else-if="passwordStrength == 'Muito forte' && this.password.length > 8 || this.password.length < 16 ">
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">
+                                    </div>
+                                </div>
+                                <div class="col-12 config-cor-senha"
+                                    v-else-if="passwordStrength == 'Extremamente forte' && this.password.length > 15 ">
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
+                                </div>
+                                <div class="col-12 config-cor-senha" v-else>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                    <div class="col-2 cor-senha"
+                                        v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
+                                </div>
+                            </div>
+
+                            <div class="heigth-15"></div>
+
+                            <div class="col-md-12 alert alert-primary" role="alert">
+                                <p class="cor-azul" v-if="showRequirements">Status da senha: {{ passwordStrength }} </p>
+                                <p class="cor-azul" v-else>Status da senha: Vazia</p>
+                                <ul class="config-ul cor-azul">
+                                    <li>Inclua uma letra maiuscula</li>
+                                    <li>Inclua um número</li>
+                                    <li>Inclua um caractere especial</li>
+                                    <li>Inclua no minimo 8 letras</li>
+                                </ul>
+                            </div>
+
+                            <button @click="validaSenha" href="/"
+                                class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 btn btn-primary btn-senha">Enviar</button>
+
                         </div>
                     </div>
-
-                    <div class="heigth-15"></div>
-                    <div class="col-md-12 alert alert-primary" role="alert">
-                        <p v-if="showRequirements">Status da senha: {{ passwordStrength }} </p>
-                        <p v-else>Status da senha: Vazia</p>
-                        <ul class="config-ul">
-                            <li>Inclua uma letra maiuscula</li>
-                            <li>Inclua um número</li>
-                            <li>Inclua um caractere especial</li>
-                            <li>Inclua no minimo 8 letras</li>
-                        </ul>
-                    </div>
-                    <!--
-                        <br>
-                            <span v-if="showRequirements && this.password.length > 0">{{ messagePassword }}</span>
-                            <span v-if="messagePassword && this.password.length > 0">Força da senha: {{ passwordStrength
-                            }}</span>
-                            -->
-
-                    <div class="col-md-12 div-btn form-floating mb-3">
-                        <button @click="validaSenha" href="/" class="col-md-3 btn btn-primary btn-senha">Enviar</button>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
-        <div class="toast-container position-fixed top-0 end-0 p-3">
-            <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
-                aria-atomic="true" ref="toast">
-                <div class="d-flex">
-                    <div id="mensagem" class="toast-body" style="display: -webkit-inline-box;">
-                        <i style="margin: 0px 10px 0px 0px; font-size: x-large;" class="fa fa-exclamation-circle"
-                            aria-hidden="true"></i>
-                        <p style="font-size: 18px;" v-if="mensagem">{{ mensagem }}</p>
+            <div class="toast-container position-fixed top-0 end-0 p-3">
+                <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
+                    aria-atomic="true" ref="toast">
+                    <div class="d-flex">
+                        <div id="mensagem" class="toast-body" style="display: -webkit-inline-box;">
+                            <i style="margin: 0px 10px 0px 0px; font-size: x-large;" class="fa fa-exclamation-circle"
+                                aria-hidden="true"></i>
+                            <p style="font-size: 18px;" v-if="mensagem">{{ mensagem }}</p>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
                 </div>
             </div>
-        </div>
 
-        <div class="col-3 col-md-3 col-lg-3 back-color hvh-100"></div>
+        </div>
 
     </section>
 </template>
 
-<style>
-.back-color {
-    background-color: #304358;
-}
-
-.display-tela-recuperar {
-    display: flex;
-    flex-wrap: nowrap;
-}
-
-.hvh-100 {
-    height: 100vh;
-}
-
-.alinha-form-senha {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 35%;
-    background-color: #dee2e6;
-    padding: 10px;
-    margin: 20px 50px 50px 50px;
-    flex: 1 1 100%;
-    border-radius: 10px;
-    text-align: left;
-}
-
+<style scoped>
 .text-email {
-    border-bottom: 1px solid #304358;
-    padding: 10px 0px 10px;
+    border-bottom: 1px solid #fff;
+    padding: 30px 0px 10px;
 }
 
 .p-email {
@@ -357,29 +342,22 @@ export default {
 }
 
 .btn-senha {
-    margin: 20px 0px 0px 0px;
     justify-content: center;
     display: flex;
     align-items: center;
-    height: 45px;
-}
-
-.div-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    margin: 10px 0px 20px 0px;
 }
 
 div,
 p,
 h2 {
     font-family: sans-serif;
+    color: #fff;
 }
 
 .cor-senha {
     border-radius: 10px;
-    height: 15px;
+    height: 10px;
 }
 
 .config-cor-senha {
@@ -394,6 +372,97 @@ h2 {
 
 .config-ul {
     margin-bottom: 0rem;
+}
+
+.div-img-cpa {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-cpa {
+    width: 300px;
+    padding: 10px 0px 0px 0px;
+}
+
+.icone-olho {
+    color: #304358;
+    font-size: x-large;
+}
+
+.icone-olho:hover {
+    cursor: pointer;
+}
+
+.conteudo-divs {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    border-radius: 0px;
+    height: 100vh;
+}
+
+.conteudo-principal {
+    padding: 0 !important;
+    overflow-y: auto !important;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.section {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.div-senhas {
+    background-color: #304358;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: -webkit-fill-available;
+}
+
+.w-80 {
+    width: 80%;
+}
+
+.cor-azul {
+    color: #304358;
+}
+
+.icon-senha {
+    padding: 0px 10px 0px 0px;
+    color: #fff;
+    font-size: xx-large !important;
+}
+
+.config-input-login {
+    display: flex;
+    align-items: center;
+}
+
+.input-password {
+    display: -webkit-box;
+}
+</style>
+
+<style>
+.input-password {
+    appearance: none !important;
+    -ms-appearance: none !important;
+    -moz-appearance: none !important;
+    -o-appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+.input-password::-ms-reveal,
+.input-password::-ms-clear {
+    display: none !important;
 }
 </style>
 
