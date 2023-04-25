@@ -1,7 +1,17 @@
-async function Requisicao() {
+/**
+ * Envia uma requisicao para alternar o estado de ativacao
+ * @param {Number} idCargo 
+ * @returns 
+ */
+async function ativacaoCargo(idCargo) {
+
+    var json = JSON.stringify({
+        idCargo: idCargo
+    })
 
     var opcoes = {
-        method: 'GET',
+        body: json,
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -9,7 +19,7 @@ async function Requisicao() {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/cargo', opcoes).then(function (response) {
+        fetch('http://localhost:8080/cargo/ativacao', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -24,12 +34,4 @@ async function Requisicao() {
 
 }
 
-const Filtros = {
-    colunas: [
-        { nome: 'id', etiqueta: 'ID', tipo: 'number' },
-        { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
-        { nome: 'descricao', etiqueta: 'Descrição', tipo: 'string' }
-    ]
-};
-
-export { Filtros, Requisicao }
+export default ativacaoCargo;

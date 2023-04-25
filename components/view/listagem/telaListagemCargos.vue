@@ -1,7 +1,8 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
-import { Requisicao } from '../../../api/listagem/cargos.js';
+import listagemCargo from '../../../api/listagem/listagemCargo';
+import ativacaoCargo from '../../../api/ativacao/ativacaoCargo';
 import alterarCargo from '../alterar/alterarCargo.vue';
 import emmiter from '../../../helpers/emmiter';
 
@@ -13,10 +14,37 @@ export default {
         return {
             recebendo: false,
             resultados: [],
-            editar: false
+            editar: false,
         };
     },
     methods: {
+        itemEnviando: function (item) {
+            return item.enviando;
+        },
+        ativarItem: async function (item) {
+            console.log(item)
+            var that = this;
+
+            that.resultados[that.buscarIndexPeloId(item.id)].enviando = true;
+
+            that.$nextTick(() => {
+                that.$nuxt.$loading.start()
+            });
+            
+            var resposta = await ativacaoCargo(item.id);
+            this.resultados[that.buscarIndexPeloId(item.id)].ativo = resposta.ativo;
+
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    that.resultados[that.buscarIndexPeloId(item.id)].enviando = false;
+                    that.$nextTick(() => {
+                        that.$nuxt.$loading.finish()
+                    });
+                    solve();
+                }, 750);
+            });
+            
+        },
         textoBotaoAtivar: function (ativo) {
             if (ativo) {
                 return 'Desativar';
@@ -59,6 +87,20 @@ export default {
             var dataFormatada = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto + ':' + segundo;
             return dataFormatada;
         },
+        buscarIndexPeloId: function (id) {
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.resultados.forEach(function (item, index) {
+                console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.id === id) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
         abrirEdicao: function () {
             emmiter.emit('abrirEdicaoCargo', {});
         },
@@ -70,8 +112,14 @@ export default {
                 this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao();
-            this.resultados = resposta;
+            var resposta = await listagemCargo();
+
+            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                this.resultados = resposta.content.map(function (item) {
+                    item.enviando = false;
+                    return item;
+                });
+            }
 
             setTimeout(function () {
                 that.recebendo = false;
@@ -161,8 +209,8 @@ export default {
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Nenhum resultado encontrado</h5>
-                            <p class="card-text text-muted">Com problemas? tente remover os filtros ou recarregue a página.</p>
-  
+                            <p class="card-text text-muted">Com problemas? tente remover os filtros ou recarregue a página.
+                            </p>
                         </div>
                     </div>
                 </template>
@@ -177,7 +225,11 @@ export default {
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
                                         <a href="#" :class="classeBotaoAtivar(item.ativo)"
-                                            class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
+                                            class="btn d-block rounded-5 btn-sm" :disabled="itemEnviando(item)"
+                                            @click="ativarItem(item)">
+                                            <span>{{ textoBotaoAtivar(item.ativo) }}</span>
+                                            <span v-if="itemEnviando(item)"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col m-auto">
