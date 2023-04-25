@@ -1,7 +1,7 @@
 <template>
     <div class="row justify-content-center">
         <div class="col m-auto d-flex justify-content-start">
-            <a href="#" class="btn btn-outline-primary">
+            <a href="#" class="btn btn-outline-primary disabled" disabled>
                 <span><i class="fa fa-arrow-left"></i></span>
                 <span>Anterior</span>
             </a>

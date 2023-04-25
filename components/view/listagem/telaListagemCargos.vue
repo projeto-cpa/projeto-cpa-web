@@ -1,10 +1,13 @@
 <script>
-import Filtro from '../../../components/utils/Filtro.vue';
-import Paginacao from '../../../components/utils/Paginacao.vue'
-import listagemCargo from '../../../api/listagem/listagemCargo';
-import ativacaoCargo from '../../../api/ativacao/ativacaoCargo';
-import alterarCargo from '../alterar/alterarCargo.vue';
 import emmiter from '../../../helpers/emmiter';
+import Swal from 'sweetalert2';
+import Filtro from '../../../components/utils/Filtro.vue';
+import alterarCargo from '../alterar/alterarCargo.vue';
+import Paginacao from '../../../components/utils/Paginacao.vue'
+/** API */
+import listagemCargo from '../../../api/listagem/listagemCargo.js';
+import ativacaoCargo from '../../../api/ativacao/ativacaoCargo.js';
+import exclusaoCargo from '../../../api/exclusao/exclusaoCargo.js';
 
 export default {
     loading: {
@@ -18,46 +21,116 @@ export default {
         };
     },
     methods: {
-        itemEnviando: function (item) {
-            return item.enviando;
+        excluirItem: async function (item) {
+
+            var modal = await Swal.fire({
+                icon: 'error',
+                title: 'Confirmar ação',
+                text: 'Deseja excluir o item?',
+                confirmButtonText: 'Confirmar',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (modal.isConfirmed) {
+                this.resultados[this.buscarIndexPeloId(item.id)].excluindo = true;
+
+                this.$nextTick(() => {
+                    this.$nuxt.$loading.start()
+                });
+
+                var resposta = await exclusaoCargo(item.id);
+
+                await new Promise(function (solve) {
+                    setTimeout(function () {
+                        solve();
+                    }, 750);
+                });
+
+                this.resultados[this.buscarIndexPeloId(item.id)].excluindo = false;
+
+                this.$nextTick(() => {
+                    this.$nuxt.$loading.finish()
+                });
+
+                if (resposta.sucesso) {
+                    this.resultados.splice(this.buscarIndexPeloId(item.id), 1);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ocorreu uma falha',
+                        text: 'Não foi possível excluir o item',
+                        confirmButtonText: 'Entendido'
+                    });
+                }
+            }
         },
         ativarItem: async function (item) {
-            console.log(item)
-            var that = this;
 
-            that.resultados[that.buscarIndexPeloId(item.id)].enviando = true;
+            var text = item.ativo ? 'desativar' : 'ativar';
 
-            that.$nextTick(() => {
-                that.$nuxt.$loading.start()
+            var modal = await Swal.fire({
+                icon: 'info',
+                title: 'Confirmar ação',
+                text: `Deseja ${text} o item?`,
+                confirmButtonText: 'Confirmar',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar'
             });
-            
-            var resposta = await ativacaoCargo(item.id);
-            this.resultados[that.buscarIndexPeloId(item.id)].ativo = resposta.ativo;
 
-            await new Promise(function (solve) {
-                setTimeout(function () {
-                    that.resultados[that.buscarIndexPeloId(item.id)].enviando = false;
-                    that.$nextTick(() => {
-                        that.$nuxt.$loading.finish()
-                    });
-                    solve();
-                }, 750);
-            });
-            
+            if (modal.isConfirmed) {
+                this.resultados[this.buscarIndexPeloId(item.id)].ativando = true;
+
+                this.$nextTick(() => {
+                    this.$nuxt.$loading.start()
+                });
+
+                var resposta = await ativacaoCargo(item.id);
+
+                await new Promise(function (solve) {
+                    setTimeout(function () {
+                        solve();
+                    }, 750);
+                });
+
+                this.resultados[this.buscarIndexPeloId(item.id)].ativo = resposta.ativo;
+                this.resultados[this.buscarIndexPeloId(item.id)].ativando = false;
+
+                this.$nextTick(() => {
+                    this.$nuxt.$loading.finish()
+                });
+            }
+
         },
-        textoBotaoAtivar: function (ativo) {
-            if (ativo) {
+        textoBotaoAtivar: function (item) {
+            if (item.ativo) {
                 return 'Desativar';
             } else {
                 return 'Ativar';
             }
         },
-        classeBotaoAtivar: function (ativo) {
-            if (ativo) {
-                return 'btn-secondary';
-            } else {
-                return 'btn-primary';
+        classeBotaoExcluir: function (item) {
+            var cls = "btn-danger";
+
+            if (item.excluindo) {
+                cls += ' disabled';
             }
+
+            return cls;
+        },
+        classeBotaoAtivar: function (item) {
+            var cls = "";
+            if (item.ativo) {
+                cls += 'btn-secondary';
+            } else {
+                cls += 'btn-primary';
+            }
+
+            if (item.ativando) {
+                cls += ' disabled';
+            }
+
+            return cls;
         },
         formatarData: function (data) {
             var data = new Date(data);
@@ -101,8 +174,8 @@ export default {
             // retorna a posicao encontrada
             return i;
         },
-        abrirEdicao: function () {
-            emmiter.emit('abrirEdicaoCargo', {});
+        abrirEdicao: function (item) {
+            emmiter.emit('abrirEdicaoCargo', item);
         },
         receberDados: async function () {
             var that = this;
@@ -116,7 +189,8 @@ export default {
 
             if (!resposta.empty && resposta.content && resposta.content.length > 0) {
                 this.resultados = resposta.content.map(function (item) {
-                    item.enviando = false;
+                    item.ativando = false;
+                    item.excluindo = false;
                     return item;
                 });
             }
@@ -183,7 +257,7 @@ export default {
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item">
-                                        <a href="#" class="btn btn-sm btn-secondary placeholder disabled"></a>
+                                        <a class="btn btn-sm btn-secondary placeholder disabled"></a>
                                     </div>
                                 </div>
                                 <div class="col m-auto">
@@ -220,15 +294,14 @@ export default {
                         <div class="card-body">
                             <div class="row m-0">
                                 <div class="col id m-auto">
-                                    <div class="item text-center">{{ item.id }}</div>
+                                    <div class="item text-center item-id">{{ item.id }}</div>
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)"
-                                            class="btn d-block rounded-5 btn-sm" :disabled="itemEnviando(item)"
-                                            @click="ativarItem(item)">
-                                            <span>{{ textoBotaoAtivar(item.ativo) }}</span>
-                                            <span v-if="itemEnviando(item)"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                                        <a :class="classeBotaoAtivar(item)" class="btn d-block rounded-5 btn-sm"
+                                            :disabled="item.ativando" @click="ativarItem(item)">
+                                            <span>{{ textoBotaoAtivar(item) }}</span>
+                                            <span v-if="item.ativando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
                                         </a>
                                     </div>
                                 </div>
@@ -246,9 +319,18 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1"
-                                            @click="abrirEdicao">Editar</a>
-                                        <a href="#" class="btn d-block btn-sm btn-danger">Excluir</a>
+                                        <a class="btn d-block rounded-5 btn-sm btn-dark mb-1"
+                                            @click="abrirEdicao(item)">
+                                            <span><i class="fa fa-pencil"></i></span>
+                                            <span>Alterar</span>
+                                        </a>
+                                        <a :class="classeBotaoExcluir(item)"
+                                            class="btn d-block rounded-5 btn-sm btn-danger" @click="excluirItem(item)"
+                                            :disabled="item.excluindo">
+                                            <span v-if="item.excluindo"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                                            <span v-else><i class="fa fa-trash"></i></span>
+                                            <span>Excluir</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

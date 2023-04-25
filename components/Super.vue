@@ -19,11 +19,11 @@ export default {
     </div>
 </template>
 
-<!-- <style>
+<style>
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-</style> -->
+</style>
 
-<!-- <style>
+<style>
 body{
     font-family: 'Roboto', sans-serif !important;
     color:#273c4f;
@@ -31,7 +31,7 @@ body{
     overflow: hidden;
 }
 
-</style> -->
+</style>
 
 <style type="text/css">
 ::-webkit-scrollbar {
@@ -78,28 +78,8 @@ select.form-control{
   background-position: calc(100% - 80px) 20px !important;
 }
 
-.form-floating select ~ label{
-  overflow: visible !important;
-}
-
-.form-floating select ~ label:before{
-    right: calc(-15% + 32px);
-    top: 50%;
-    content: "\f078";
-    font: normal normal normal 26px FontAwesome;
-    color: #000 !important;
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    transform: translate(0%, -0%)
-}
-
-.form-floating select:hover ~ label:before, .form-floating select:active ~ label:before, .form-floating select:focus ~ label:before{
-  color: var(--bs-primary) !important
-}
-
-.form-floating select.is-valid ~ label:before, .form-floating select.is-invalid ~ label:before {
-  right: calc(-15% + 16px);
+.form-control.is-valid, .was-validated .form-control:valid {
+    background-position: calc(100% - 42px) 50% !important;
 }
 </style>
 

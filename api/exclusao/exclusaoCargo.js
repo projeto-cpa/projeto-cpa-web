@@ -1,9 +1,9 @@
 /**
- * Envia uma requisicao para alternar o estado de ativacao
+ * Envia uma requisicao para excluir o cargo
  * @param {Number} idCargo 
  * @returns 
  */
-async function ativacaoCargo(idCargo) {
+async function exclusaoCargo(idCargo) {
 
     var json = JSON.stringify({
         idCargo: idCargo
@@ -11,7 +11,7 @@ async function ativacaoCargo(idCargo) {
 
     var opcoes = {
         body: json,
-        method: 'PUT',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -19,7 +19,7 @@ async function ativacaoCargo(idCargo) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/cargo/ativacao', opcoes).then(function (response) {
+        fetch('http://localhost:8080/cargo/exclusao', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -34,4 +34,4 @@ async function ativacaoCargo(idCargo) {
 
 }
 
-export default ativacaoCargo;
+export default exclusaoCargo;
