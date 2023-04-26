@@ -54,6 +54,7 @@ header{
     width:100%;
     height: 60px;
     /*background-color: #273c4f;*/
+    box-shadow: 3px 3px 9px var(--bs-gray-400);
 }
 
 header h1{

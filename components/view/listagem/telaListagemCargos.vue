@@ -2,12 +2,13 @@
 import emmiter from '../../../helpers/emmiter';
 import Swal from 'sweetalert2';
 import Filtro from '../../../components/utils/Filtro.vue';
-import alterarCargo from '../alterar/alterarCargo.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
 /** API */
 import listagemCargo from '../../../api/listagem/listagemCargo.js';
 import ativacaoCargo from '../../../api/ativacao/ativacaoCargo.js';
 import exclusaoCargo from '../../../api/exclusao/exclusaoCargo.js';
+/** ALTERACAO */
+import alterarCargo from '../alterar/alterarCargo.vue';
 
 export default {
     loading: {
@@ -17,7 +18,6 @@ export default {
         return {
             recebendo: false,
             resultados: [],
-            editar: false,
         };
     },
     methods: {
@@ -25,8 +25,8 @@ export default {
 
             var modal = await Swal.fire({
                 icon: 'error',
-                title: 'Confirmar ação',
-                text: 'Deseja excluir o item?',
+                title: 'Confirmar exclusão',
+                html: `Deseja excluir o item <b>Id.${item.id}</b>, ${item.nome}?`,
                 confirmButtonText: 'Confirmar',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar'
@@ -68,12 +68,15 @@ export default {
         ativarItem: async function (item) {
 
             var text = item.ativo ? 'desativar' : 'ativar';
+            var icon = item.ativo ? 'warning' : 'info';
+            var buttonText = text.charAt(0).toUpperCase() + text.slice(1);
+            var term = item.ativo ? 'desativação' : 'ativação';
 
             var modal = await Swal.fire({
-                icon: 'info',
-                title: 'Confirmar ação',
-                text: `Deseja ${text} o item?`,
-                confirmButtonText: 'Confirmar',
+                icon: icon,
+                title: `Confirmar ${term}`,
+                html: `Deseja ${text} o item <b>Id.${item.id}</b>, ${item.nome}?`,
+                confirmButtonText: buttonText,
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar'
             });
@@ -157,8 +160,13 @@ export default {
                 segundo = '0' + segundo;
             }
 
-            var dataFormatada = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto + ':' + segundo;
-            return dataFormatada;
+            var _data = dia + '/' + mes + '/' + ano;
+            var _hora = hora + ':' + minuto;
+            
+            return {
+                data: _data,
+                hora: _hora
+            };
         },
         buscarIndexPeloId: function (id) {
             var i = 0;
@@ -201,6 +209,15 @@ export default {
                     that.$nuxt.$loading.finish()
                 })
             }, 750);
+        },
+        aoAlterarCargo: function (item) {
+            var achado = this.resultados[this.buscarIndexPeloId(item.id)];
+            console.log('alterou', item, achado);
+            this.editar = false;
+            this.resultados[this.buscarIndexPeloId(item.id)].ativo = item.ativo;
+            this.resultados[this.buscarIndexPeloId(item.id)].nome = item.nome;
+            this.resultados[this.buscarIndexPeloId(item.id)].descricao = item.descricao;
+            this.resultados[this.buscarIndexPeloId(item.id)].dataAtualizacao = item.dataAtualizacao;
         }
     },
     components: {
@@ -209,6 +226,7 @@ export default {
         'alterarCargo': alterarCargo
     },
     mounted: function () {
+        emmiter.on('aoAlterarCargo', this.aoAlterarCargo)
         this.receberDados()
     }
 };
@@ -226,8 +244,8 @@ export default {
                             <div class="col id m-auto">
                                 <div class="item header text-center"><b>Id.</b></div>
                             </div>
-                            <div class="col activations m-auto">
-                                <div class="item header text-center"><b>Ativar/Desativar</b></div>
+                            <div class="col activations my-auto mx-3">
+                                <div class="item header text-center"><b>Ativação</b></div>
                             </div>
                             <div class="col m-auto">
                                 <div class="item header text-center"><b>Nome do cargo</b></div>
@@ -236,10 +254,10 @@ export default {
                                 <div class="item header text-center"><b>Descrição do cargo</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Data criação</b></div>
+                                <div class="item header text-center"><b>Data da criação</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Data alteração</b></div>
+                                <div class="item header text-center"><b>Data da alteração</b></div>
                             </div>
                             <div class="col options m-auto text-center">
                                 <div class="item header text-center"><b>Opções</b></div>
@@ -254,9 +272,11 @@ export default {
                             <div class="row m-0 placeholder-glow">
                                 <div class="col id m-auto">
                                     <div class="item placeholder">Id</div>
+                                    <div class="item placeholder">Id</div>
                                 </div>
-                                <div class="col activations m-auto">
+                                <div class="col activations my-auto mx-3">
                                     <div class="item">
+                                        <a class="btn btn-sm btn-secondary placeholder mb-1 disabled"></a>
                                         <a class="btn btn-sm btn-secondary placeholder disabled"></a>
                                     </div>
                                 </div>
@@ -267,10 +287,12 @@ export default {
                                     <div class="item placeholder">Descrição</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Data criação</b></div>
+                                    <div class="item placeholder"><b>Data da criação</b></div>
+                                    <div class="item placeholder"><b>Data da criação</b></div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Data alteração</b></div>
+                                    <div class="item placeholder"><b>Data da alteração</b></div>
+                                    <div class="item placeholder"><b>Data da alteração</b></div>
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item placeholder"><b>Opções</b></div>
@@ -294,10 +316,19 @@ export default {
                         <div class="card-body">
                             <div class="row m-0">
                                 <div class="col id m-auto">
-                                    <div class="item text-center item-id">{{ item.id }}</div>
+                                    <div class="item text-center item-id">
+                                        <span>{{ item.id }}</span>
+                                        <input class="form-check-input" type="checkbox" value=""/>
+                                    </div>
                                 </div>
-                                <div class="col activations m-auto">
+                                <div class="col activations my-auto mx-3">
                                     <div class="item text-center">
+                                        <template v-if="item.ativo">
+                                            <a class="btn rounded-5 d-block mb-1 btn-sm btn-outline-primary disabled">Ativado</a>
+                                        </template>
+                                        <template v-else>
+                                            <a class="btn rounded-5 d-block mb-1 btn-sm btn-outline-secondary disabled">Desativado</a>
+                                        </template>
                                         <a :class="classeBotaoAtivar(item)" class="btn d-block rounded-5 btn-sm"
                                             :disabled="item.ativando" @click="ativarItem(item)">
                                             <span>{{ textoBotaoAtivar(item) }}</span>
@@ -312,14 +343,20 @@ export default {
                                     <div class="item text-center">{{ item.descricao }}</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.dataCriacao) }}</div>
+                                    <div class="item text-center">
+                                        <div>{{ formatarData(item.dataCriacao).data }}</div>
+                                        <div>{{ formatarData(item.dataCriacao).hora }}</div>
+                                    </div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.dataAtualizacao) }}</div>
+                                    <div class="item text-center">
+                                        <div>{{ formatarData(item.dataAtualizacao).data }}</div>
+                                        <div>{{ formatarData(item.dataAtualizacao).hora }}</div>
+                                    </div>
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a class="btn d-block rounded-5 btn-sm btn-dark mb-1"
+                                        <a class="btn d-block rounded-5 btn-sm btn-outline-secondary mb-1"
                                             @click="abrirEdicao(item)">
                                             <span><i class="fa fa-pencil"></i></span>
                                             <span>Alterar</span>
@@ -337,10 +374,10 @@ export default {
                         </div>
                     </div>
                 </template>
-                <alterarCargo :aberto="editar"></alterarCargo>
+                <alterarCargo></alterarCargo>
             </article>
         </section>
-        <footer class="form-footer bg-white">
+        <footer class="form-footer bg-secondary">
             <Paginacao></Paginacao>
         </footer>
     </div>
@@ -367,5 +404,16 @@ export default {
 
 .col.date {
     max-width: 200px;
+}
+
+.item-id{
+    font-weight: bold;
+}
+
+.form-check-input {
+    width: 28px;
+    height: 28px;
+    background-size: 75%;
+    border-radius: 50% !important;
 }
 </style>

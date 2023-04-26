@@ -1,12 +1,15 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import emmiter from '../../../helpers/emmiter';
+import alteracaoCargo from '../../../api/alteracao/alteracaoCargo.js';
+import Swal from 'sweetalert2';
 
 export default {
     data: function () {
         return {
             Offcanvas: null,
             identificacao: '',
+            enviando: false,
             formulario: [
                 {
                     etiqueta: 'Nome do cargo',
@@ -111,6 +114,9 @@ export default {
             this.recuperarEstado(item);
             this.Offcanvas.show();
         },
+        fecharCanvas: function () {
+            this.Offcanvas.hide();
+        },
         recuperarEstado: function (item) {
             this.formulario[this.buscarIndexPeloNome('descricao')].valor = item.descricao;
             this.formulario[this.buscarIndexPeloNome('nome')].valor = item.nome;
@@ -125,6 +131,65 @@ export default {
                 return '';
             } else {
                 return 'is-invalid';
+            }
+        },
+        validarFormulario: function () {
+            var valido = true;
+            this.formulario.forEach(function (campo) {
+                campo.validar();
+                if (campo.valido === false) {
+                    valido = false;
+                }
+            });
+            return valido;
+        },
+        enviarFormulario: async function () {
+            if (!this.validarFormulario()) {
+                return;
+            }
+
+            var data = new FormData(this.$refs.formularioCadastro);
+            this.enviando = true;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+
+            var resposta = await alteracaoCargo(data);
+
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
+            });
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            });
+
+            this.enviando = false;
+            if (resposta.sucesso) {
+
+                var modal = await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao alterar',
+                    text: 'A alteração obteve sucesso',
+                    confirmButtonText: 'Entendido'
+                });
+
+                var atualizado = resposta;
+                delete atualizado.sucesso;
+
+                this.fecharCanvas();
+                emmiter.emit('aoAlterarCargo', atualizado);
+                
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ocorreu uma falha',
+                    text: 'O cadastro não obteve sucesso',
+                    confirmButtonText: 'Entendido'
+                });
             }
         }
     },
@@ -147,7 +212,7 @@ export default {
 
 <template>
     <div class="offcanvas offcanvas-alterar offcanvas-end" ref="offcanvas" data-bs-backdrop="false" data-bs-scroll="true">
-        <div class="offcanvas-header bg-dark text-white">
+        <div class="offcanvas-header bg-secondary text-white">
             <h5 class="offcanvas-title">Alteração do cargo: #{{ identificacao }}</h5>
             <button type="button" class="btn btn-light" data-bs-dismiss="offcanvas" aria-label="Close">
                 <i class="fa fa-close"></i>
@@ -190,6 +255,7 @@ export default {
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="idCargo" v-model="identificacao" class="d-none"/>
             </form>
             <!-- fim conteudo do alterar -->
             <div class="row mx-0">
@@ -197,7 +263,10 @@ export default {
                     <div class="card-body">
                         <div class="text-end d-flex">
                             <a class="btn btn-secondary me-3" data-bs-dismiss="offcanvas">Cancelar</a>
-                            <a class="btn btn-primary flex-grow-1">Salvar</a>
+                            <button class="btn btn-primary flex-grow-1" @click="enviarFormulario" :disabled="enviando">
+                                <span>Salvar</span>
+                                <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                            </button>
                         </div>
                     </div>
                 </div>

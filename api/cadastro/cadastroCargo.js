@@ -1,6 +1,6 @@
 import formToJSON from "../../helpers/formToJSON.js";
 
-async function Requisicao(data) {
+async function cadastroCargo(data) {
     console.log('data', data);
     var json = formToJSON(data);
     console.log('json', json);
@@ -30,6 +30,4 @@ async function Requisicao(data) {
 
 }
 
-export {
-    Requisicao
-};
+export default cadastroCargo;
