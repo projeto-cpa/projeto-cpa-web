@@ -122,6 +122,9 @@ export default {
             this.formulario[this.buscarIndexPeloNome('nome')].valor = item.nome;
             this.formulario[this.buscarIndexPeloNome('ativo')].valor = item.ativo;
             this.identificacao = item.id;
+            for (var x = 0; x < this.formulario.length; x++){
+                this.formulario[x].valido = null;
+            }
             console.log('recuperando', item)
         },
         inputClass: function (valido) {
@@ -212,7 +215,7 @@ export default {
 
 <template>
     <div class="offcanvas offcanvas-alterar offcanvas-end" ref="offcanvas" data-bs-backdrop="false" data-bs-scroll="true">
-        <div class="offcanvas-header bg-secondary text-white">
+        <div class="offcanvas-header bg-primary text-white">
             <h5 class="offcanvas-title">Alteração do cargo: #{{ identificacao }}</h5>
             <button type="button" class="btn btn-light" data-bs-dismiss="offcanvas" aria-label="Close">
                 <i class="fa fa-close"></i>

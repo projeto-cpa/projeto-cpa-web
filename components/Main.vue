@@ -69,6 +69,7 @@ header h1{
     position:relative;
     height:calc(100vh - 120px) !important;
     z-index: 2;
+    box-shadow: inset 3px 3px 9px var(--bs-gray-400);
 }
 
 main{

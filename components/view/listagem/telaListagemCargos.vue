@@ -8,7 +8,7 @@ import listagemCargo from '../../../api/listagem/listagemCargo.js';
 import ativacaoCargo from '../../../api/ativacao/ativacaoCargo.js';
 import exclusaoCargo from '../../../api/exclusao/exclusaoCargo.js';
 /** ALTERACAO */
-import alterarCargo from '../alterar/alterarCargo.vue';
+import alteracaoCargo from '../../offcanvas/alteracao/alteracaoCargo.vue';
 
 export default {
     loading: {
@@ -18,9 +18,27 @@ export default {
         return {
             recebendo: false,
             resultados: [],
+            requisicao: listagemCargo,
+            retorno: function (resposta) {
+                emmiter.emit('aoListarCargo', resposta);
+            },
+            selecaoTodos: false,
+            paginacao: {
+                pagina: 0,
+                quantidade: 5,
+                paginas: 0,
+                total: 0
+            }
         };
     },
     methods: {
+        selecionarTodos: function () {
+            this.selecaoTodos = !this.selecaoTodos;
+
+            this.resultados.forEach((item) => {
+                item.selecionado = this.selecaoTodos;
+            });
+        },
         excluirItem: async function (item) {
 
             var modal = await Swal.fire({
@@ -113,10 +131,29 @@ export default {
             }
         },
         classeBotaoExcluir: function (item) {
-            var cls = "btn-danger";
+            var cls = 'btn-danger';
 
             if (item.excluindo) {
                 cls += ' disabled';
+            }
+
+            return cls;
+        },
+        classeItem: function (item, index) {
+            var cls = '';
+
+            if (item.selecionado) {
+                cls += ' text-secondary'
+            } else {
+                cls += ' text-muted';
+            }
+
+            if (item.selecionado) {
+                cls += ' active'
+            }
+
+            if (index % 2) {
+                cls += ' card-alt';
             }
 
             return cls;
@@ -162,7 +199,7 @@ export default {
 
             var _data = dia + '/' + mes + '/' + ano;
             var _hora = hora + ':' + minuto;
-            
+
             return {
                 data: _data,
                 hora: _hora
@@ -170,64 +207,93 @@ export default {
         },
         buscarIndexPeloId: function (id) {
             var i = 0;
-            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
-            // no forEach traz o item e a posicao do item atual
+
             this.resultados.forEach(function (item, index) {
                 console.log(item)
-                // a gente compara o nome dado com o nome que existe no formulario....
                 if (item.id === id) {
                     i = index;
                 }
             });
-            // retorna a posicao encontrada
+
             return i;
         },
         abrirEdicao: function (item) {
             emmiter.emit('abrirEdicaoCargo', item);
         },
+        selecaoItem: function (item) {
+            var selecionado = this.resultados[this.buscarIndexPeloId(item.id)].selecionado;
+            this.resultados[this.buscarIndexPeloId(item.id)].selecionado = selecionado ? false : true;
+        },
         receberDados: async function () {
-            var that = this;
             this.recebendo = true;
 
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
             })
 
-            var resposta = await listagemCargo();
+            var resposta = await listagemCargo(this.paginacao.pagina, this.paginacao.quantidade);
+            this.paginacao.paginas = resposta.totalPages;
+            this.paginacao.total = resposta.totalElements;
 
             if (!resposta.empty && resposta.content && resposta.content.length > 0) {
                 this.resultados = resposta.content.map(function (item) {
+                    item.selecionado = false;
                     item.ativando = false;
                     item.excluindo = false;
                     return item;
                 });
             }
 
-            setTimeout(function () {
-                that.recebendo = false;
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
-                })
-            }, 750);
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
+            })
+
+            this.recebendo = false;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            })
+
         },
         aoAlterarCargo: function (item) {
-            var achado = this.resultados[this.buscarIndexPeloId(item.id)];
-            console.log('alterou', item, achado);
             this.editar = false;
             this.resultados[this.buscarIndexPeloId(item.id)].ativo = item.ativo;
             this.resultados[this.buscarIndexPeloId(item.id)].nome = item.nome;
             this.resultados[this.buscarIndexPeloId(item.id)].descricao = item.descricao;
             this.resultados[this.buscarIndexPeloId(item.id)].dataAtualizacao = item.dataAtualizacao;
-        }
+        },
+        aoListarCargo: function (resposta) {
+            this.selecaoTodos = false;
+            this.paginacao.paginas = resposta.totalPages;
+            this.paginacao.total = resposta.totalElements;
+
+            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                this.resultados = resposta.content.map(function (item) {
+                    item.selecionado = false;
+                    item.ativando = false;
+                    item.excluindo = false;
+                    return item;
+                });
+            }
+
+        },
+        aoAlterarCarregamento: function (estado) {
+            this.recebendo = estado;
+        },
     },
     components: {
         'Filtro': Filtro,
         'Paginacao': Paginacao,
-        'alterarCargo': alterarCargo
+        'alteracaoCargo': alteracaoCargo
     },
     mounted: function () {
-        emmiter.on('aoAlterarCargo', this.aoAlterarCargo)
         this.receberDados()
+        emmiter.on('aoListarCargo', this.aoListarCargo);
+        emmiter.on('aoAlterarCargo', this.aoAlterarCargo);
+        emmiter.on('aoIniciarCarregamento', this.aoAlterarCarregamento);
+        emmiter.on('aoFinalizarCarregamento', this.aoAlterarCarregamento);
     }
 };
 </script>
@@ -238,11 +304,13 @@ export default {
             <article>
                 <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
-                <div class="card bg-light mb-2">
+                <div class="card bg-light mb-2 d-none d-xl-block">
                     <div class="card-body">
                         <div class="row m-0">
                             <div class="col id m-auto">
                                 <div class="item header text-center"><b>Id.</b></div>
+                                <input class="form-check-input" type="checkbox" value="" :checked="selecaoTodos"
+                                    @click="selecionarTodos" />
                             </div>
                             <div class="col activations my-auto mx-3">
                                 <div class="item header text-center"><b>Ativação</b></div>
@@ -266,8 +334,8 @@ export default {
                     </div>
                 </div>
                 <template v-if="recebendo">
-                    <!-- Aqui fica a simulação do carregamento -->
-                    <div v-for="index in 1" :key="index" class="card" aria-hidden="true">
+                    <!-- inicio simulação do carregamento -->
+                    <div v-for="index in paginacao.quantidade" :key="index" class="card" aria-hidden="true">
                         <div class="card-body">
                             <div class="row m-0 placeholder-glow">
                                 <div class="col id m-auto">
@@ -296,10 +364,12 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item placeholder"><b>Opções</b></div>
+                                    <div class="item placeholder"><b>Opções</b></div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- fim simulação do carregamento -->
                 </template>
                 <template v-else-if="!recebendo && resultados.length <= 0">
                     <div class="card">
@@ -312,22 +382,28 @@ export default {
                 </template>
                 <template v-else>
                     <!-- Aqui fica o resultado da requisição -->
-                    <div v-for="(item, index) in resultados" :key="index" class="card mb-1" aria-hidden="true">
+                    <div v-for="(item, index) in resultados" :key="index" :class="classeItem(item, index)"
+                        class="card card-item mb-1" aria-hidden="true">
                         <div class="card-body">
                             <div class="row m-0">
-                                <div class="col id m-auto">
+                                <div class="col-xl-auto col-12 col-md-6 id my-xl-auto mb-1 mb-xl-0 col-box  mt-0 mt-xl-auto">
                                     <div class="item text-center item-id">
-                                        <span>{{ item.id }}</span>
-                                        <input class="form-check-input" type="checkbox" value=""/>
+                                        <div><span><b>{{ item.id }}</b></span></div>
+                                        <div>
+                                            <input class="form-check-input" type="checkbox" value=""
+                                                @click="selecaoItem(item)" :checked="item.selecionado" />
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col activations my-auto mx-3">
+                                <div class="col-xl col-12 col-md-6 activations my-xl-auto mx-xl-3 mx-xl-auto mb-1 mb-xl-auto col-box mt-0 mt-xl-auto">
                                     <div class="item text-center">
                                         <template v-if="item.ativo">
-                                            <a class="btn rounded-5 d-block mb-1 btn-sm btn-outline-primary disabled">Ativado</a>
+                                            <a
+                                                class="btn rounded-5 d-block mb-1 btn-sm btn-outline-primary disabled">Ativado</a>
                                         </template>
                                         <template v-else>
-                                            <a class="btn rounded-5 d-block mb-1 btn-sm btn-outline-secondary disabled">Desativado</a>
+                                            <a
+                                                class="btn rounded-5 d-block mb-1 btn-sm btn-outline-secondary disabled">Desativado</a>
                                         </template>
                                         <a :class="classeBotaoAtivar(item)" class="btn d-block rounded-5 btn-sm"
                                             :disabled="item.ativando" @click="ativarItem(item)">
@@ -336,49 +412,68 @@ export default {
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col m-auto">
+                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-1 mb-xl-auto col-box">
+                                    <div class="d-block d-xl-none">
+                                        <div class="title text-center"><b>Nome do cargo</b></div>
+                                    </div>
                                     <div class="item text-center">{{ item.nome }}</div>
                                 </div>
-                                <div class="col m-auto">
+                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-1 mb-xl-auto col-box">
+                                    <div class="d-block d-xl-none">
+                                        <div class="title text-center"><b>Descrição do cargo</b></div>
+                                    </div>
                                     <div class="item text-center">{{ item.descricao }}</div>
                                 </div>
-                                <div class="col date m-auto">
+                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-1 mb-xl-auto col-box">
+                                    <div class="d-block d-xl-none">
+                                        <div class="title text-center"><b>Data da criação</b></div>
+                                    </div>
                                     <div class="item text-center">
                                         <div>{{ formatarData(item.dataCriacao).data }}</div>
                                         <div>{{ formatarData(item.dataCriacao).hora }}</div>
                                     </div>
                                 </div>
-                                <div class="col date m-auto">
+                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-1 mb-xl-auto col-box">
+                                    <div class="d-block d-xl-none">
+                                        <div class="title text-center"><b>Data da alteração</b></div>
+                                    </div>
                                     <div class="item text-center">
                                         <div>{{ formatarData(item.dataAtualizacao).data }}</div>
                                         <div>{{ formatarData(item.dataAtualizacao).hora }}</div>
                                     </div>
                                 </div>
-                                <div class="col options m-auto">
+                                <div class="col-xl col-12 options m-xl-auto mb-1 mb-xl-auto col-box">
                                     <div class="item text-center">
-                                        <a class="btn d-block rounded-5 btn-sm btn-outline-secondary mb-1"
-                                            @click="abrirEdicao(item)">
-                                            <span><i class="fa fa-pencil"></i></span>
-                                            <span>Alterar</span>
-                                        </a>
-                                        <a :class="classeBotaoExcluir(item)"
-                                            class="btn d-block rounded-5 btn-sm btn-danger" @click="excluirItem(item)"
-                                            :disabled="item.excluindo">
-                                            <span v-if="item.excluindo"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
-                                            <span v-else><i class="fa fa-trash"></i></span>
-                                            <span>Excluir</span>
-                                        </a>
+                                        <div class="row m-0">
+                                            <div class="col-12 col-md-6 col-xl-12">
+                                                <a class="btn w-100 rounded-5 btn-sm btn-outline-secondary mb-1"
+                                                    @click="abrirEdicao(item)">
+                                                    <span><i class="fa fa-pencil"></i></span>
+                                                    <span>Alterar</span>
+                                                </a>
+                                            </div>
+                                            <div class="col-12 col-md-6 col-xl-12">
+                                                <a :class="classeBotaoExcluir(item)"
+                                                    class="btn w-100 rounded-5 btn-sm btn-danger" @click="excluirItem(item)"
+                                                    :disabled="item.excluindo">
+                                                    <span v-if="item.excluindo"><i
+                                                            class="fa fa-spinner fa-spin fa-fw"></i></span>
+                                                    <span v-else><i class="fa fa-trash"></i></span>
+                                                    <span>Excluir</span>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </template>
-                <alterarCargo></alterarCargo>
+                <alteracaoCargo></alteracaoCargo>
             </article>
         </section>
-        <footer class="form-footer bg-secondary">
-            <Paginacao></Paginacao>
+        <footer class="form-footer bg-white">
+            <Paginacao :estado="paginacao" :requisicao="requisicao" :retorno="retorno"></Paginacao>
         </footer>
     </div>
 </template>
@@ -390,23 +485,37 @@ export default {
     border-radius: 25px !important;
 }
 
-.col.options {
-    max-width: 200px;
+@media (max-width: 1199.98px) {
+    .col-box {
+        border: 1px solid var(--bs-gray-400);
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .col-box.id, .col-box.activations{
+        height: 90px;
+    }
 }
 
-.col.id {
-    max-width: 50px;
+@media (min-width: 1200px) {
+    .col.options {
+        max-width: 200px;
+    }
+
+    .col.id {
+        max-width: 50px;
+    }
+
+    .col.activations {
+        max-width: 150px;
+    }
+
+    .col.date {
+        max-width: 200px;
+    }
 }
 
-.col.activations {
-    max-width: 150px;
-}
-
-.col.date {
-    max-width: 200px;
-}
-
-.item-id{
+.item-id {
     font-weight: bold;
 }
 
@@ -416,4 +525,20 @@ export default {
     background-size: 75%;
     border-radius: 50% !important;
 }
+
+.card.card-alt {
+    background-color: var(--bs-light-bg-subtle);
+}
+
+.card-item.active{
+    border-color: #9ec5ff !important;
+    background-color: var(--bs-primary-bg-subtle) !important;
+}
+
+.card-item:hover,
+.card-item:focus,
+.card-item:active {
+    background-color: #f5f9ff !important;
+}
+
 </style>

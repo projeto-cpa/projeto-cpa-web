@@ -1,15 +1,29 @@
-async function listagemCargo() {
+/**
+ * Retorna a listagem do cargo
+ * @param {Number} pagina 
+ * @param {Number} quantidade 
+ * @returns 
+ */
+async function listagemCargo(pagina, quantidade) {
+
+    if (!pagina) {
+        pagina = 0;
+    }
+
+    if (!quantidade) {
+        quantidade = 5;
+    }
 
     var opcoes = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },
-        mode: "cors"
+        mode: 'cors'
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/cargo?pagina=0&qtd=10', opcoes).then(function (response) {
+        fetch(`http://localhost:8080/cargo?pagina=${pagina}&qtd=${quantidade}`, opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -23,13 +37,5 @@ async function listagemCargo() {
     return resposta;
 
 }
-
-const Filtros = {
-    colunas: [
-        { nome: 'id', etiqueta: 'ID', tipo: 'number' },
-        { nome: 'nome', etiqueta: 'Nome', tipo: 'string' },
-        { nome: 'descricao', etiqueta: 'Descrição', tipo: 'string' }
-    ]
-};
 
 export default listagemCargo;

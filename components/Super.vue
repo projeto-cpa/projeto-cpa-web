@@ -84,8 +84,7 @@ select.form-control{
 </style>
 
 <style>
-/* .offcanvas.offcanvas-end {
-    top: -60px !important;
-    height: calc(100% + 60px);
-} */
+.form-footer{
+  box-shadow: 3px 3px 9px var(--bs-gray-400);
+}
 </style>
