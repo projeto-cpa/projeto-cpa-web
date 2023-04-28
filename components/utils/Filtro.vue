@@ -13,7 +13,7 @@ export default {
 </script>
 
 <template>
-    <div class="card mb-2">
+    <div class="card mb-4 mb-lg-2">
         <div class="card-body card-filter">
             <div class="row m-0">
                 <div class="col-12 col-lg-8 mb-2 mb-lg-0">

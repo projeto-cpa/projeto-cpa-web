@@ -295,4 +295,10 @@ export default {
     top: 20px;
     right: 20px;
 }
+
+@media (max-width: 767.98px){
+    .offcanvas.offcanvas-alterar{
+        width: 100% !important;
+    }
+}
 </style>
