@@ -1,8 +1,27 @@
+<script>
+import emitter from '../helpers/emmiter.js';
+
+export default {
+    data: function () {
+        return {
+            show: false
+        };
+    },
+    methods: {
+        toggleSideBar() {
+            var show = this.show = !this.show;
+            emitter.emit('toggleSideBar', show);
+        }
+    }
+};
+</script>
+
 <template>
     <footer>
         <div class="btn-toggler rounded-5 bg-white d-block d-lg-none">
-            <button class="btn btn-primary rounded-5">
-                <span><i class="fa fa-th-large"></i></span>
+            <button class="btn btn-primary rounded-5" @click="toggleSideBar">
+                <span v-if="!show"><i class="fa fa-th-large"></i></span>
+                <span v-else><i class="fa fa-times"></i></span>
             </button>
         </div>
         <slot></slot>
@@ -31,5 +50,4 @@ footer{
     height: 46px;
     text-align:center;
 }
-
 </style>
