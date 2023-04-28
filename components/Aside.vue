@@ -209,7 +209,7 @@ export default {
         },
         classeItemAtivo: function (item) {
             if (this.$nuxt.$route.path === item.caminho) {
-                return 'active bg-secondary';
+                return 'active bg-primary';
             } else {
                 return '';
             }
@@ -236,9 +236,9 @@ export default {
         },
         corTexto: function (link) {
             if (link.ativo) {
-                return 'text-dark';
+                return 'text-primary';
             } else {
-                return 'text-muted'
+                return 'text-secondary'
             }
         },
         corItemTexto: function (item) {
@@ -271,7 +271,7 @@ export default {
                 class="principal list-group-item list-group-item-action btn rounded-0" @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
-                    <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
+                    <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
                     <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
                         <i :class="classeFlexa(link)"></i>
                     </span>
@@ -292,12 +292,15 @@ export default {
                     <div class="container-fluid p-0">
                         <div class="row m-0">
                             <div class="col-8">
-                                <a href="/conta" class="dropdown-header d-flex align-items-center" data-v-1a9bb128=""><img
-                                        src="/_nuxt/static/user.png" class="dropdown-user-img avatar" data-v-1a9bb128="">
-                                    <div class="dropdown-user-details" data-v-1a9bb128="">
-                                        <div class="dropdown-user-details-name" data-v-1a9bb128="">Administrador</div>
-                                        <div class="dropdown-user-details-email small" data-v-1a9bb128="">
-                                            admin@admin</div>
+                                <a href="/conta" class="dropdown-header btn btn-link d-flex align-items-center">
+                                    <img src="/_nuxt/static/user.png" class="dropdown-user-img avatar me-2">
+                                    <div class="dropdown-user-details text-start">
+                                        <div class="dropdown-user-details-name">
+                                            <b>Administrador</b>
+                                        </div>
+                                        <div class="dropdown-user-details-email small">
+                                            <span>admin@admin</span>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
@@ -378,6 +381,7 @@ footer .card {
 
 .principal.list-group-item.active {
     height: auto !important;
+    box-shadow: inset 0px 3px 3px var(--bs-gray-400);
 }
 
 .list-group.collapse {
@@ -388,5 +392,11 @@ footer .card {
 .list-group-item:active .list-group-item:active * {
     color: #0d6efd !important;
     border-color: #0d6efd !important;
+}
+
+.avatar{
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
 }
 </style>

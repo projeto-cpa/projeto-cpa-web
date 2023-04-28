@@ -81,7 +81,4 @@
     align-items: center;
 }
 
-div,a {
-    font-family: sans-serif;
-}
 </style>

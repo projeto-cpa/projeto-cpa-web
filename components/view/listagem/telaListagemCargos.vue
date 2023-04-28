@@ -301,11 +301,11 @@ export default {
 <template>
     <div class="container-fluid conteudo-principal">
         <section>
-            <article>
+            <article class="listing-page">
                 <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
                 <div class="card bg-light mb-4 mb-lg-2 d-none d-xl-block">
-                    <div class="card-body card-item">
+                    <div class="card-body">
                         <div class="row m-0">
                             <div class="col id m-auto">
                                 <div class="item header text-center"><b>Id.</b></div>
@@ -339,33 +339,28 @@ export default {
                         aria-hidden="true">
                         <div class="card-body">
                             <div class="row m-0 placeholder-glow">
-                                <div class="col id m-auto">
-                                    <div class="item placeholder">Id</div>
-                                    <div class="item placeholder">Id</div>
+                                <div
+                                    class="col-xl-auto col-12 mb-xl-auto col-md-6 id my-xl-auto mb-2 mb-xl-0 mt-0 mt-xl-auto">
+                                    <div class="placeholder"></div>
                                 </div>
-                                <div class="col activations my-auto">
-                                    <div class="item">
-                                        <a class="btn btn-sm btn-secondary placeholder mb-1 disabled"></a>
-                                        <a class="btn btn-sm btn-secondary placeholder disabled"></a>
-                                    </div>
+                                <div
+                                    class="col-xl col-12 col-md-6 activations my-xl-auto mx-xl-3 mx-xl-auto mb-2 mb-xl-auto mt-0 mt-xl-auto">
+                                    <div class="placeholder"></div>
                                 </div>
-                                <div class="col m-auto">
-                                    <div class="item placeholder">Nome</div>
+                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="placeholder"></div>
                                 </div>
-                                <div class="col m-auto">
-                                    <div class="item placeholder">Descrição</div>
+                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="placeholder"></div>
                                 </div>
-                                <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Data da criação</b></div>
-                                    <div class="item placeholder"><b>Data da criação</b></div>
+                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="placeholder"></div>
                                 </div>
-                                <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Data da alteração</b></div>
-                                    <div class="item placeholder"><b>Data da alteração</b></div>
+                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="placeholder"></div>
                                 </div>
-                                <div class="col options m-auto">
-                                    <div class="item placeholder"><b>Opções</b></div>
-                                    <div class="item placeholder"><b>Opções</b></div>
+                                <div class="col-xl col-12 options m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="placeholder"></div>
                                 </div>
                             </div>
                         </div>
@@ -373,7 +368,7 @@ export default {
                     <!-- fim simulação do carregamento -->
                 </template>
                 <template v-else-if="!recebendo && resultados.length <= 0">
-                    <div class="card">
+                    <div class="card card-none">
                         <div class="card-body">
                             <h5 class="card-title">Nenhum resultado encontrado</h5>
                             <p class="card-text text-muted">Com problemas? tente remover os filtros ou recarregue a página.
@@ -393,7 +388,7 @@ export default {
                                         <div class="col-box">
                                             <div class="item text-center item-id">
                                                 <div>
-                                                    <span class="d-inline d-lg-none"><b>Id.</b></span>
+                                                    <span class="d-inline d-xl-none"><b>Id.</b></span>
                                                     <span><b>{{ item.id }}</b></span>
                                                 </div>
                                                 <div>
@@ -529,22 +524,24 @@ export default {
 }
 
 @media (min-width: 1200px) {
-    .card-item .options {
+    .row .options {
         width: 200px;
         max-width: 200px;
     }
 
-    .card-item .id {
+    .row .id {
         width: 50px;
         max-width: 50px;
     }
 
-    .card-item .activations {
+    .row .activations {
         width: 150px;
         max-width: 150px;
+        margin-left: 25px !important;
+        margin-right: 25px !important;
     }
 
-    .card-item .date {
+    .row .date {
         width: 200px;
         max-width: 200px;
     }
@@ -577,4 +574,21 @@ export default {
 .card-item.active:focus {
     border-color: #9ec5ff !important;
     background-color: var(--bs-primary-bg-subtle) !important;
+}
+
+.card-list .card-item,
+.card-none {
+    box-shadow: 0px 0px 9px var(--bs-gray-400);
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+
+    .card-item .row .col-xl:nth-of-type(1),
+    .card-item .row .col-xl-auto:nth-of-type(1),
+    .card-item .row .col-xl:nth-of-type(3),
+    .card-item .row .col-xl-auto:nth-of-type(3),
+    .card-item .row .col-xl:nth-of-type(5),
+    .card-item .row .col-xl-auto:nth-of-type(5) {
+        padding-right: 0;
+    }
 }</style>

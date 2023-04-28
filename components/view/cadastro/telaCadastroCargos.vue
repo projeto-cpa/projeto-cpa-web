@@ -178,7 +178,7 @@ export default {
         <section>
             <article>
                 <form class="row m-0" ref="formularioCadastro">
-                    <div class="card p-0">
+                    <div class="card p-0 card-register">
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
@@ -234,5 +234,9 @@ export default {
 textarea {
     max-height: 400px !important;
     min-height: 58px !important
+}
+
+.card-register{
+    box-shadow: 0px 0px 9px var(--bs-gray-400);
 }
 </style>

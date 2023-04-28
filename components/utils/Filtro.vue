@@ -13,8 +13,8 @@ export default {
 </script>
 
 <template>
-    <div class="card mb-4 mb-lg-2">
-        <div class="card-body card-filter">
+    <div class="card mb-4 mb-lg-2 card-filter">
+        <div class="card-body">
             <div class="row m-0">
                 <div class="col-12 col-lg-8 mb-2 mb-lg-0">
                     <div class="form-floating">
@@ -41,7 +41,12 @@ export default {
 </template>
 
 <style scoped>
+
 .card-filter{
+    box-shadow: 0px 0px 9px var(--bs-gray-400);
+}
+
+.card-filter .card-body{
     padding-left:4px;
     padding-right:4px;
 }
