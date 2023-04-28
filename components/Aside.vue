@@ -265,7 +265,7 @@ export default {
 </script>
 
 <template>
-    <aside class="col p-0">
+    <aside class="col p-0 d-none d-lg-block">
         <div class="main list-group rounded-0 ">
             <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0" @click.stop.prevent="aoClicarPrincipal(link)">

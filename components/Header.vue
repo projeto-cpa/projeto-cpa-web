@@ -40,7 +40,7 @@ export default {
                             aria-label="Search">
                         <button class="btn btn-primary rounded-5" type="submit">Pesquisar</button>
                     </form>
-                    <ul class="navbar-nav d-flex ms-2">
+                    <ul class="navbar-nav ms-2 d-none d-lg-flex">
                         <li class="nav-item dropdown no-caret dropdown-user">
                             <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle"
                                 id="navbarDropdownUserImage" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -109,5 +109,31 @@ header nav {
 
 .dropdown-menu.dropdown-menu-end {
     min-width: 200px !important;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-brand {
+        background-color: #fff !important;
+        border: none !important;
+        text-align: left !important;
+        padding-left: 20px !important;
+        width: auto !important;
+    }
+
+    .navbar-collapse {
+        z-index: 99;
+        width: 100%;
+        margin-right: -20px;
+        padding: 10px 20px;
+        background-color: #ffffff;
+        box-shadow: 0px 3px 9px var(--bs-gray-400);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        border-top: 1px solid #ccc;
+        margin-top: -1px;
+    }
 }
 </style>

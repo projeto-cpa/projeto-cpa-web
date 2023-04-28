@@ -94,18 +94,21 @@ export default {
             <a href="#" :class="classeBotaoAnterior" class="btn btn-secondary" @click="paginaAnterior"
                 :disabled="botaoAnteriorDesativado">
                 <span><i class="fa fa-arrow-left"></i></span>
-                <span>Anterior</span>
+                <span class="d-none d-md-inline-block">Anterior</span>
             </a>
         </div>
-        <div class="col m-auto">
+        <div class="col-auto m-auto">
             <div class="text-center">
-                <p class="m-0">Exibindo {{ quantidadeAtual }} de {{ quantidadeTotal }} resultados</p>
+                <p class="m-0">
+                    <span class="d-none d-md-inline-block">Exibindo</span>
+                    <span>{{ quantidadeAtual }} de {{ quantidadeTotal }} resultados</span>
+                </p>
             </div>
         </div>
         <div class="col m-auto d-flex justify-content-end">
             <a href="#" :class="classeBotaoProximo" class="btn btn-secondary" @click="proximaPagina"
                 :disabled="botaoProximoDesativado">
-                <span>Próximo</span>
+                <span class="d-none d-md-inline-block">Próximo</span>
                 <span><i class="fa fa-arrow-right"></i></span>
             </a>
         </div>

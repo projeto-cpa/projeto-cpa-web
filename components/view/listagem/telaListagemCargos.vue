@@ -304,15 +304,15 @@ export default {
             <article>
                 <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
-                <div class="card bg-light mb-2 d-none d-xl-block">
-                    <div class="card-body">
+                <div class="card bg-light mb-4 mb-lg-2 d-none d-xl-block">
+                    <div class="card-body card-item">
                         <div class="row m-0">
                             <div class="col id m-auto">
                                 <div class="item header text-center"><b>Id.</b></div>
                                 <input class="form-check-input" type="checkbox" value="" :checked="selecaoTodos"
                                     @click="selecionarTodos" />
                             </div>
-                            <div class="col activations my-auto mx-3">
+                            <div class="col activations my-auto">
                                 <div class="item header text-center"><b>Ativação</b></div>
                             </div>
                             <div class="col m-auto">
@@ -335,14 +335,14 @@ export default {
                 </div>
                 <template v-if="recebendo">
                     <!-- inicio simulação do carregamento -->
-                    <div v-for="index in paginacao.quantidade" :key="index" class="card" aria-hidden="true">
+                    <div v-for="index in paginacao.quantidade" :key="index" class="card mb-4 mb-lg-2 card-item" aria-hidden="true">
                         <div class="card-body">
                             <div class="row m-0 placeholder-glow">
                                 <div class="col id m-auto">
                                     <div class="item placeholder">Id</div>
                                     <div class="item placeholder">Id</div>
                                 </div>
-                                <div class="col activations my-auto mx-3">
+                                <div class="col activations my-auto">
                                     <div class="item">
                                         <a class="btn btn-sm btn-secondary placeholder mb-1 disabled"></a>
                                         <a class="btn btn-sm btn-secondary placeholder disabled"></a>
@@ -383,84 +383,105 @@ export default {
                 <template v-else>
                     <!-- Aqui fica o resultado da requisição -->
                     <div v-for="(item, index) in resultados" :key="index" :class="classeItem(item, index)"
-                        class="card card-item mb-1" aria-hidden="true">
+                        class="card card-item mb-4 mb-lg-2" aria-hidden="true">
                         <div class="card-body">
                             <div class="row m-0">
-                                <div class="col-xl-auto col-12 col-md-6 id my-xl-auto mb-1 mb-xl-0 col-box  mt-0 mt-xl-auto">
-                                    <div class="item text-center item-id">
-                                        <div><span><b>{{ item.id }}</b></span></div>
-                                        <div>
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                @click="selecaoItem(item)" :checked="item.selecionado" />
+
+                                <div class="col-xl-auto col-12 mb-xl-auto col-md-6 id my-xl-auto mb-2 mb-xl-0 mt-0 mt-xl-auto">
+                                    <div class="col-box">
+                                        <div class="item text-center item-id">
+                                            <div><span><b>{{ item.id }}</b></span></div>
+                                            <div>
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    @click="selecaoItem(item)" :checked="item.selecionado" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl col-12 col-md-6 activations my-xl-auto mx-xl-3 mx-xl-auto mb-1 mb-xl-auto col-box mt-0 mt-xl-auto">
-                                    <div class="item text-center">
-                                        <template v-if="item.ativo">
-                                            <a
-                                                class="btn rounded-5 d-block mb-1 btn-sm btn-outline-primary disabled">Ativado</a>
-                                        </template>
-                                        <template v-else>
-                                            <a
-                                                class="btn rounded-5 d-block mb-1 btn-sm btn-outline-secondary disabled">Desativado</a>
-                                        </template>
-                                        <a :class="classeBotaoAtivar(item)" class="btn d-block rounded-5 btn-sm"
-                                            :disabled="item.ativando" @click="ativarItem(item)">
-                                            <span>{{ textoBotaoAtivar(item) }}</span>
-                                            <span v-if="item.ativando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
-                                        </a>
+
+                                <div class="col-xl col-12 col-md-6 activations my-xl-auto mx-xl-3 mx-xl-auto mb-2 mb-xl-auto mt-0 mt-xl-auto">
+                                    <div class="col-box">
+                                        <div class="item text-center">
+                                            <template v-if="item.ativo">
+                                                <a
+                                                    class="btn rounded-5 d-block mb-1 btn-sm btn-outline-primary disabled">Ativado</a>
+                                            </template>
+                                            <template v-else>
+                                                <a
+                                                    class="btn rounded-5 d-block mb-1 btn-sm btn-outline-secondary disabled">Desativado</a>
+                                            </template>
+                                            <a :class="classeBotaoAtivar(item)" class="btn d-block rounded-5 btn-sm"
+                                                :disabled="item.ativando" @click="ativarItem(item)">
+                                                <span>{{ textoBotaoAtivar(item) }}</span>
+                                                <span v-if="item.ativando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-1 mb-xl-auto col-box">
-                                    <div class="d-block d-xl-none">
-                                        <div class="title text-center"><b>Nome do cargo</b></div>
-                                    </div>
-                                    <div class="item text-center">{{ item.nome }}</div>
-                                </div>
-                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-1 mb-xl-auto col-box">
-                                    <div class="d-block d-xl-none">
-                                        <div class="title text-center"><b>Descrição do cargo</b></div>
-                                    </div>
-                                    <div class="item text-center">{{ item.descricao }}</div>
-                                </div>
-                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-1 mb-xl-auto col-box">
-                                    <div class="d-block d-xl-none">
-                                        <div class="title text-center"><b>Data da criação</b></div>
-                                    </div>
-                                    <div class="item text-center">
-                                        <div>{{ formatarData(item.dataCriacao).data }}</div>
-                                        <div>{{ formatarData(item.dataCriacao).hora }}</div>
+
+                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="col-box">
+                                        <div class="d-block d-xl-none">
+                                            <div class="title text-center"><b>Nome do cargo</b></div>
+                                        </div>
+                                        <div class="item text-center">{{ item.nome }}</div>
                                     </div>
                                 </div>
-                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-1 mb-xl-auto col-box">
-                                    <div class="d-block d-xl-none">
-                                        <div class="title text-center"><b>Data da alteração</b></div>
-                                    </div>
-                                    <div class="item text-center">
-                                        <div>{{ formatarData(item.dataAtualizacao).data }}</div>
-                                        <div>{{ formatarData(item.dataAtualizacao).hora }}</div>
+
+                                <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="col-box">
+                                        <div class="d-block d-xl-none">
+                                            <div class="title text-center"><b>Descrição do cargo</b></div>
+                                        </div>
+                                        <div class="item text-center">{{ item.descricao }}</div>
                                     </div>
                                 </div>
-                                <div class="col-xl col-12 options m-xl-auto mb-1 mb-xl-auto col-box">
-                                    <div class="item text-center">
-                                        <div class="row m-0">
-                                            <div class="col-12 col-md-6 col-xl-12">
-                                                <a class="btn w-100 rounded-5 btn-sm btn-outline-secondary mb-1"
-                                                    @click="abrirEdicao(item)">
-                                                    <span><i class="fa fa-pencil"></i></span>
-                                                    <span>Alterar</span>
-                                                </a>
-                                            </div>
-                                            <div class="col-12 col-md-6 col-xl-12">
-                                                <a :class="classeBotaoExcluir(item)"
-                                                    class="btn w-100 rounded-5 btn-sm btn-danger" @click="excluirItem(item)"
-                                                    :disabled="item.excluindo">
-                                                    <span v-if="item.excluindo"><i
-                                                            class="fa fa-spinner fa-spin fa-fw"></i></span>
-                                                    <span v-else><i class="fa fa-trash"></i></span>
-                                                    <span>Excluir</span>
-                                                </a>
+
+                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="col-box">
+                                        <div class="d-block d-xl-none">
+                                            <div class="title text-center"><b>Data da criação</b></div>
+                                        </div>
+                                        <div class="item text-center">
+                                            <div>{{ formatarData(item.dataCriacao).data }}</div>
+                                            <div>{{ formatarData(item.dataCriacao).hora }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="col-box">
+                                        <div class="d-block d-xl-none">
+                                            <div class="title text-center"><b>Data da alteração</b></div>
+                                        </div>
+                                        <div class="item text-center">
+                                            <div>{{ formatarData(item.dataAtualizacao).data }}</div>
+                                            <div>{{ formatarData(item.dataAtualizacao).hora }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl col-12 options m-xl-auto mb-2 mb-xl-auto">
+                                    <div class="col-box">
+                                        <div class="item text-center">
+                                            <div class="row m-0">
+                                                <div class="col-12 col-md-6 col-xl-12">
+                                                    <a class="btn w-100 rounded-5 btn-sm btn-outline-secondary mb-1"
+                                                        @click="abrirEdicao(item)">
+                                                        <span><i class="fa fa-pencil"></i></span>
+                                                        <span>Alterar</span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-12 col-md-6 col-xl-12">
+                                                    <a :class="classeBotaoExcluir(item)"
+                                                        class="btn w-100 rounded-5 btn-sm btn-danger" @click="excluirItem(item)"
+                                                        :disabled="item.excluindo">
+                                                        <span v-if="item.excluindo"><i
+                                                                class="fa fa-spinner fa-spin fa-fw"></i></span>
+                                                        <span v-else><i class="fa fa-trash"></i></span>
+                                                        <span>Excluir</span>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -488,29 +509,33 @@ export default {
 @media (max-width: 1199.98px) {
     .col-box {
         border: 1px solid var(--bs-gray-400);
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding: 10px;
+        border-radius:12px;
     }
 
-    .col-box.id, .col-box.activations{
+    .id .col-box, .activations .col-box{
         height: 90px;
     }
 }
 
 @media (min-width: 1200px) {
-    .col.options {
+    .card-item .options {
+        width: 200px;
         max-width: 200px;
     }
 
-    .col.id {
+    .card-item .id {
+        width: 50px;
         max-width: 50px;
     }
 
-    .col.activations {
+    .card-item .activations {
+        width: 150px;
         max-width: 150px;
     }
 
-    .col.date {
+    .card-item .date {
+        width: 200px;
         max-width: 200px;
     }
 }
@@ -539,6 +564,10 @@ export default {
 .card-item:focus,
 .card-item:active {
     background-color: #f5f9ff !important;
+}
+
+.card-item .id .col-box{
+    background-color: var(--bs-light);
 }
 
 </style>

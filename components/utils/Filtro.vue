@@ -16,7 +16,7 @@ export default {
     <div class="card mb-2">
         <div class="card-body card-filter">
             <div class="row m-0">
-                <div class="col-8">
+                <div class="col-12 col-lg-8 mb-2 mb-lg-0">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="" placeholder="Termo de pesquisa">
                         <label for="">Termo de pesquisa</label>
