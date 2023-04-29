@@ -51,30 +51,42 @@ export default {
     <section class="section">
         <div class="row">
             <div class="conteudo-principal">
-                <div class="div-img-cpa col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                <div class="div-img-cpa col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
                 </div>
-                <div class="div-form-login col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                <div class="div-form-login col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="w-80">
                         <form class="config-form form col-12 col-md-12 col-lg-12" @submit.prevent="aoEnviarFormulario">
-                            <div class="config-input-login mb-3">
+                            <div class="config-input-login mb-2">
                                 <i class="fa fa-envelope icon-email" aria-hidden="true"></i>
-                                <input v-model="dados.email" class="form-control" id="email" placeholder="E-mail:" style="border-radius: 0px;">
+                                <label style="color: #fff;">E-mail de acesso</label>
                             </div>
-                            <div class="config-input-login input-password flex-nowrap mb-3">
+                            <div class="config-input-login form-floating mb-3">
+                                <input v-model="dados.email" class="form-control" id="email" placeholder="E-mail:"
+                                    style="border-radius: 0px;">
+                                <label for="email">Insira o e-mail:</label>
+                            </div>
+                            <div class="config-input-login mb-2">
                                 <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
-                                <input v-model="dados.password" type="password" class="form-control input-password"
-                                    id="password" :type="showPassword ? 'text' : 'password'" placeholder="Senha:"
+                                <label style="color: #fff;">Senha de acesso</label>
+                            </div>
+                            <div class="config-input-login form-floating mb-3">
+                                <input v-model="dados.password" type="password"
+                                    class="form-control form-floating input-password" id="password"
+                                    :type="showPassword ? 'text' : 'password'" placeholder="Senha:"
                                     aria-describedby="addon-wrapping" style="border-radius: 0px;">
-                                <span class="input-group-text" id="addon-wrapping" style="padding: 0px; border-radius: 0px;"><a
-                                        class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{
+                                <label for="password">Insira o e-mail:</label>
+                                <span class="input-group-text" id="addon-wrapping"
+                                    style="padding: 0px; border-radius: 0px;">
+                                    <a class="icone-olho" v-on:click="mostraSenha"
+                                        @click="showPassword = !showPassword">{{
                                             showPassword ?
                                             '' : '' }}
                                         <span v-if="!liked">
-                                            <i class="fa fa-eye" aria-hidden="true" style="padding: 5px;"></i>
+                                            <i class="fa fa-eye" aria-hidden="true" style="height: 56px; padding: 15px;"></i>
                                         </span>
                                         <span v-else>
-                                            <i class="fa fa-eye-slash" aria-hidden="true" style="padding: 5px;"></i>
+                                            <i class="fa fa-eye-slash" aria-hidden="true" style="height: 56px; padding: 15px;"></i>
                                         </span>
                                     </a>
                                 </span>
@@ -130,6 +142,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .w-80 {
     width: 80%;
 }

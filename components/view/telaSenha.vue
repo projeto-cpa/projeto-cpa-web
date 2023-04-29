@@ -60,7 +60,7 @@ export default {
                         this.mensagemSenha = "fraca"
                         this.corFraca = true;
                     }
-                    else if (this.passwordStrength == "Média") {
+                    else if (this.passwordStrength == "Media") {
                         this.messagePassword = "Inclua um número, um caractere especial e no minimo 8 letras.";
                         this.mensagemSenha = "media"
                         this.corMedia = true;
@@ -95,19 +95,19 @@ export default {
         },
         calculateStrength() {
             let score = 0;
-            if (this.password.length > 16) {
+            if (this.password.length > 15) {
                 score++;
             }
             if (/[a-z]/.test(this.password)) {
                 score++;
             }
-            if (/[A-Z]/.test(this.password)) {
+            if (/[A-Z]/.test(this.password) && this.password.length > 3) {
                 score++;
             }
-            if (/\d/.test(this.password)) {
+            if (/\d/.test(this.password) && this.password.length > 7 && score >= 1) {
                 score++;
             }
-            if (/[@$!%*?&#¨()-_=+''""]/.test(this.password)) {
+            if (/[@$!%*?&#¨()-_=+''""]/.test(this.password) && this.password.length > 12 && score > 2) {
                 score++;
             }
             switch (score) {
@@ -115,7 +115,7 @@ export default {
                     this.passwordStrength = "Fraca";
                     break;
                 case 2:
-                    this.passwordStrength = "Média";
+                    this.passwordStrength = "Media";
                     break;
                 case 3:
                     this.passwordStrength = "Forte";
@@ -210,7 +210,7 @@ export default {
                                         v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
                                 </div>
                                 <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Fraca' && this.password.length > 0 || this.password.length < 4 ">
+                                    v-else-if="passwordStrength == 'Fraca'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }">
                                     </div>
@@ -224,7 +224,7 @@ export default {
                                         v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
                                 </div>
                                 <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Média' && this.password.length > 3 || this.password.length < 6 ">
+                                    v-else-if="passwordStrength == 'Media'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -237,7 +237,7 @@ export default {
                                         v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
                                 </div>
                                 <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Forte' && this.password.length > 5 || this.password.length < 9 ">
+                                    v-else-if="passwordStrength == 'Forte'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -250,7 +250,7 @@ export default {
                                         v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
                                 </div>
                                 <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Muito forte' && this.password.length > 8 || this.password.length < 16 ">
+                                    v-else-if="passwordStrength == 'Muito forte'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -264,7 +264,7 @@ export default {
                                     </div>
                                 </div>
                                 <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Extremamente forte' && this.password.length > 15 ">
+                                    v-else-if="passwordStrength == 'Extremamente forte'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
