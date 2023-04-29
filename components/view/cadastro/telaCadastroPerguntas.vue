@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/perguntas.js'
+import cadastroPergunta from '../../../api/cadastro/cadastroPergunta.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -13,7 +13,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Pergunta',
-                    nome: 'nome',
+                    nome: 'texto',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -45,12 +45,12 @@ export default {
                         {
                             nome: 'Descritiva',
                             id: 'a' + uuidv4(),
-                            valor: 'Descritiva'
+                            valor: 'descritiva'
                         },
                         {
-                            nome: 'Objetiva',
+                            nome: 'Avaliativa',
                             id: 'a' + uuidv4(),
-                            valor: 'Objetiva'
+                            valor: 'avaliativa'
                         },
                     ],
                     ajuda: 'Selecione uma das Opções.',
@@ -69,7 +69,6 @@ export default {
                         }
                     }
                 },
-
                 {
                     etiqueta: 'Estado de ativação',
                     nome: 'ativo',
@@ -141,7 +140,7 @@ export default {
                 that.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao(data);
+            var resposta = await cadastroPergunta(data);
 
             setTimeout(function () {
                 that.$nextTick(() => {
@@ -244,8 +243,4 @@ textarea {
     min-height: 58px !important
 }
 
-textarea,
-input {
-    background-position: calc(100% - 40px) 20px !important;
-}
 </style>

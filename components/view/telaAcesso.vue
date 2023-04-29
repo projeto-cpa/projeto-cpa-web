@@ -1,161 +1,72 @@
-<script>
-export default {
-    data: function () {
-        return {
-            dados: {
-                email: '',
-                password: '',
-            },
-            login: {
-                meuEmail: 'admin',
-                minhaSenha: 'admin'
-            },
-            toast: null,
-            mensagem: '',
-            showPassword: false,
-            liked: false
-        }
-    },
-    methods: {
-        aoEnviarFormulario: function () {
-            if (this.validarFormulario()) {
-                this.abrirToast()
-            }
-        },
-        validarFormulario: function () {
-            if (this.dados.email != this.login.meuEmail || this.dados.password != this.login.minhaSenha) {
-                this.mensagem = 'Os campos de senha e e-mail estão incorretos';
-            } else {
-                this.redirecionarParaHome()
-            }
-            this.abrirToast()
-        },
-        abrirToast: function () {
-            this.toast.show();
-        },
-        redirecionarParaHome() {
-            this.$router.push({ path: '/' })
-        },
-        mostraSenha() {
-            this.liked = !this.liked
-        }
-    },
-    mounted: function () {
-        const bootstrap = require('bootstrap')
-        this.toast = new bootstrap.Toast(this.$refs.toast);
-    }
-}
-</script>
-
 <template>
-    <section class="section">
-        <div class="row">
-            <div class="conteudo-principal">
-                <div class="div-img-cpa col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
-                </div>
-                <div class="div-form-login col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <div class="w-80">
-                        <form class="config-form form col-12 col-md-12 col-lg-12" @submit.prevent="aoEnviarFormulario">
-                            <div class="config-input-login mb-2">
-                                <i class="fa fa-envelope icon-email" aria-hidden="true"></i>
-                                <label style="color: #fff;">E-mail de acesso</label>
-                            </div>
-                            <div class="config-input-login form-floating mb-3">
-                                <input v-model="dados.email" class="form-control" id="email" placeholder="E-mail:"
-                                    style="border-radius: 0px;">
-                                <label for="email">Insira o e-mail:</label>
-                            </div>
-                            <div class="config-input-login mb-2">
-                                <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
-                                <label style="color: #fff;">Senha de acesso</label>
-                            </div>
-                            <div class="config-input-login form-floating mb-3">
-                                <input v-model="dados.password" type="password"
-                                    class="form-control form-floating input-password" id="password"
-                                    :type="showPassword ? 'text' : 'password'" placeholder="Senha:"
-                                    aria-describedby="addon-wrapping" style="border-radius: 0px;">
-                                <label for="password">Insira o e-mail:</label>
-                                <span class="input-group-text" id="addon-wrapping"
-                                    style="padding: 0px; border-radius: 0px;">
-                                    <a class="icone-olho" v-on:click="mostraSenha"
-                                        @click="showPassword = !showPassword">{{
-                                            showPassword ?
-                                            '' : '' }}
-                                        <span v-if="!liked">
-                                            <i class="fa fa-eye" aria-hidden="true" style="height: 56px; padding: 15px;"></i>
-                                        </span>
-                                        <span v-else>
-                                            <i class="fa fa-eye-slash" aria-hidden="true" style="height: 56px; padding: 15px;"></i>
-                                        </span>
-                                    </a>
-                                </span>
-                            </div>
-                            <div class="div-esqueci-senha">
-                                <button class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 btn btn-primary"
-                                    @click="validarFormulario">Entrar</button>
-                                <a class="esqueci-senha" href="/recuperar"> Esqueceu a senha ?</a>
-                            </div>
-                        </form>
+    <section class="page-login">
+
+        <div class="div-img-biopark col-5 col-md-5 col-lg-5">
+            <img class="img-biopark" loading="lazy" src="../../static/img-biopark.svg">
+        </div>
+
+        <div class="div-form-login col-7 col-md-7 col-lg-7">
+            <div class="wdt-50">
+                <form class="config-form form col-12 col-md-12 col-lg-12">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="config-label-login form-label">Email:</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                     </div>
-                </div>
-                <div class="col-6 toast-container position-fixed top-0 end-0 p-3">
-                    <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
-                        aria-atomic="true" ref="toast">
-                        <div class="d-flex">
-                            <div id="mensagem" class="toast-body" style="display: -webkit-inline-box;">
-                                <i style="margin: 0px 10px 0px 0px; font-size: x-large;" class="fa fa-exclamation-circle"
-                                    aria-hidden="true"></i>
-                                <p style="font-size: 18px;" v-if="mensagem">{{ mensagem }}</p>
-                            </div>
-                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                                aria-label="Close"></button>
-                        </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="config-label-login form-label">Senha:</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1">
                     </div>
-                </div>
+                    <div class="div-esqueci-senha">
+                        <a href="/" class="btn btn-primary">Entrar</a>
+                        <a class="esqueci-senha" href="/recuperar"> Esqueceu a senha ?</a>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
 </template>
 
-<style scoped>
-.section {
-    width: 100%;
-    min-height: 100vh;
+<style>
+.page-login {
+    display: flex;
+    flex-direction: row;
 }
 
 .config-form {
     background-color: #304358;
 }
 
-.div-img-cpa {
-    height: auto;
+.div-img-biopark {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .div-form-login {
-    height: 100%;
+    height: 100vh;
     background-color: #304358;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.w-80 {
-    width: 80%;
+.config-label-login {
+    color: #fff;
 }
 
-.img-cpa {
+.wdt-50 {
+    width: 60%;
+}
+
+.img-biopark {
     width: 300px;
-    padding: 10px 0px 0px 0px;
+    height: 120px;
 }
 
 .esqueci-senha {
     text-decoration: none;
     color: #fff;
-    margin: 20px 0px 0px 0px;
 }
 
 .esqueci-senha:hover {
@@ -165,67 +76,9 @@ export default {
 .div-esqueci-senha {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
 }
 
-div,
-a {
-    font-family: sans-serif;
-}
-
-.icone-olho {
-    color: #304358;
-    font-size: x-large;
-}
-
-.icone-olho:hover {
-    cursor: pointer;
-}
-
-.input-password {
-    display: -webkit-box;
-}
-
-.conteudo-principal {
-    padding: 0 !important;
-    overflow-y: auto !important;
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.config-input-login {
-    display: flex;
-    align-items: center;
-}
-
-.icon-email {
-    font-size: x-large !important;
-    color: #fff;
-    padding: 0px 6px 0px 0px;
-}
-
-.icon-senha {
-    padding: 0px 10px 0px 0px;
-    color: #fff;
-    font-size: xx-large !important;
-}
-</style>
-
-<style>
-.input-password {
-    appearance: none !important;
-    -ms-appearance: none !important;
-    -moz-appearance: none !important;
-    -o-appearance: none !important;
-    -webkit-appearance: none !important;
-}
-
-.input-password::-ms-reveal,
-.input-password::-ms-clear {
-    display: none !important;
-}
 </style>
