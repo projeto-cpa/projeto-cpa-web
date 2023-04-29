@@ -1,7 +1,7 @@
 <script>
 import Filtro from '../../utils/Filtro.vue';
-import Paginacao from '../../utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/respostas.js';
+// import Paginacao from '../../utils/Paginacao.vue'
+import listagemResposta from '../../../api/listagem/listagemResposta.js';
 
 export default {
     loading: {
@@ -9,7 +9,6 @@ export default {
     },
     data: function () {
         return {
-            Filtros: Filtros,
             recebendo: false,
             resultados: []
         };
@@ -51,7 +50,7 @@ export default {
                 this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao();
+            var resposta = await listagemResposta();
             this.resultados = resposta;
 
             setTimeout(function () {
@@ -64,7 +63,7 @@ export default {
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        // 'Paginacao': Paginacao
     },
     mounted: function () {
         this.receberDados()
@@ -76,7 +75,7 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <Filtro :filtros="Filtros"></Filtro>
+                <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
                 <div class="card bg-light">
                     <div class="card-body">
@@ -84,11 +83,11 @@ export default {
                             <div class="col id m-auto">
                                 <div class="item header text-center"><b>Id.</b></div>
                             </div>
-                            <div class="col activations m-auto">
-                                <div class="item header text-center"><b>Ativar/Desativar</b></div>
+                            <div class="col m-auto">
+                                <div class="item header text-center"><b>Nota</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Respostas Enviadas</b></div>
+                                <div class="item header text-center"><b>Texto</b></div>
                             </div>
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Criado em</b></div>
@@ -110,15 +109,12 @@ export default {
                                 <div class="col id m-auto">
                                     <div class="item placeholder">Id</div>
                                 </div>
-                                <div class="col activations m-auto">
-                                    <div class="item">
-                                        <a href="#" class="btn btn-sm btn-secondary placeholder disabled"></a>
-                                    </div>
+                                <div class="col m-auto">
+                                    <div class="item placeholder">Nota</div>
                                 </div>
                                 <div class="col m-auto">
-                                    <div class="item placeholder">Nome</div>
+                                    <div class="item placeholder">Texto</div>
                                 </div>
-
                                 <div class="col date m-auto">
                                     <div class="item placeholder"><b>Criado em</b></div>
                                 </div>
@@ -140,13 +136,11 @@ export default {
                                 <div class="col id m-auto">
                                     <div class="item text-center">{{ item.id }}</div>
                                 </div>
-                                <div class="col activations m-auto">
-                                    <div class="item text-center">
-                                        <a href="#" class="btn d-block rounded-5 btn-sm btn-primary">Ativar</a>
-                                    </div>
+                                <div class="col m-auto">
+                                    <div class="item text-center">{{ item.nota ? item.nota : 'N/A' }}</div>
                                 </div>
                                 <div class="col m-auto">
-                                    <div class="item text-center">{{ item.nome }}</div>
+                                    <div class="item text-center">{{ item.texto ? item.texto : 'N/A' }}</div>
                                 </div>
                                 <div class="col date m-auto">
                                     <div class="item text-center">{{ formatarData(item.criadoEm) }}</div>
@@ -164,7 +158,7 @@ export default {
                         </div>
                     </div>
                 </template>
-                <Paginacao></Paginacao>
+                <!-- <Paginacao></Paginacao> -->
             </article>
         </section>
         <footer class="form-footer bg-white">

@@ -1,13 +1,17 @@
-import formToJSON from "../../helpers/formToJSON.js";   
+/**
+ * Envia uma requisicao para excluir o cargo
+ * @param {Number} idCargo 
+ * @returns 
+ */
+async function exclusaoCargo(idCargo) {
 
-async function Requisicao(data) {
-    console.log('data', data);
-    var json = formToJSON(data);
-    console.log('json', json);
+    var json = JSON.stringify({
+        idCargo: idCargo
+    })
 
     var opcoes = {
         body: json,
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -15,7 +19,7 @@ async function Requisicao(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/curso', opcoes).then(function (response) {
+        fetch('http://localhost:8080/cargo/exclusao', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -26,11 +30,8 @@ async function Requisicao(data) {
         });
     });
 
-    //console.log('resposta aguardada', resposta);
     return resposta;
 
 }
 
-export {
-    Requisicao
-};
+export default exclusaoCargo;

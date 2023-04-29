@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import {Requisicao as apiCadastroCargos} from '../../../api/cadastro/cargos.js'
+//import {Requisicao as apiCadastroCargos} from '../../../api/cadastro/cadastroCargo.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -156,7 +156,7 @@ export default {
             //console.log(output);
             this.enviando = true;
             this.$nuxt.$loading.start();
-            var resposta = await apiCadastroCargos(data);
+            //var resposta = await apiCadastroCargos(data);
             setTimeout(function () {
                 this.$nuxt.$loading.finish()
             }, 750);;
@@ -252,11 +252,6 @@ export default {
 textarea {
     max-height: 400px !important;
     min-height: 58px !important
-}
-
-textarea,
-input {
-    background-position: calc(100% - 40px) 20px !important;
 }
 
 </style>
