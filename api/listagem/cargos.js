@@ -1,4 +1,4 @@
-async function listagemCurso() {
+async function Requisicao() {
 
     var opcoes = {
         method: 'GET',
@@ -9,7 +9,7 @@ async function listagemCurso() {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/curso', opcoes).then(function (response) {
+        fetch('http://localhost:8080/listagem/cargos', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -32,4 +32,4 @@ const Filtros = {
     ]
 };
 
-export default listagemCurso;
+export { Filtros, Requisicao }

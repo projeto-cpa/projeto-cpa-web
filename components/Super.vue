@@ -19,13 +19,13 @@ export default {
     </div>
 </template>
 
-<!-- <style>
+<style>
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-</style> -->
+</style>
 
 <style>
 body{
-    /* font-family: 'Roboto', sans-serif !important; */
+    font-family: 'Roboto', sans-serif !important;
     color:#273c4f;
     font-size: 16px;
     overflow: hidden;
@@ -33,30 +33,30 @@ body{
 
 </style>
 
-<style type="text/css">
+<style>
 ::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-button {
   width: 0px;
   height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e1e1e1;
+  background: #ededed;
   border: 0px none #ffffff;
-  border-radius: 50px;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+  background: #cccccc;
 }
 ::-webkit-scrollbar-thumb:active {
   background: #000000;
 }
 ::-webkit-scrollbar-track {
-  background: #666666;
+  background: #0d6efd;
   border: 0px none #ffffff;
-  border-radius: 50px;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-track:hover {
   background: #666666;
@@ -66,25 +66,5 @@ body{
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
-}
-</style>
-
-<style>
-input.form-control,textarea.form-control {
-    background-position: calc(100% - 40px) 20px !important;
-}
-
-select.form-control{
-  background-position: calc(100% - 80px) 20px !important;
-}
-
-.form-control.is-valid, .was-validated .form-control:valid {
-    background-position: calc(100% - 42px) 50% !important;
-}
-</style>
-
-<style>
-.form-footer{
-  box-shadow: 3px 3px 9px var(--bs-gray-400);
 }
 </style>

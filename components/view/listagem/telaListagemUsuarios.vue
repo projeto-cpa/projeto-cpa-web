@@ -1,6 +1,6 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
-// import Paginacao from '../../../components/utils/Paginacao.vue'
+import Paginacao from '../../../components/utils/Paginacao.vue'
 import { Filtros, Requisicao } from '../../../api/listagem/usuarios.js';
 
 export default {
@@ -20,7 +20,7 @@ export default {
         <section>
             <article>
                 <Filtro :filtros="Filtros"></Filtro>
-                <!-- <Paginacao></Paginacao> -->
+                <Paginacao></Paginacao>
             </article>
         </section>
         <footer class="form-footer bg-white">

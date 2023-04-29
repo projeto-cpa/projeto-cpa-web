@@ -1,7 +1,13 @@
-async function listagemResposta() {
+import formToJSON from "../../helpers/formToJSON.js";
+
+async function Requisicao(data) {
+    console.log('data', data);
+    var json = formToJSON(data);
+    console.log('json', json);
 
     var opcoes = {
-        method: 'GET',
+        body: json,
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -9,7 +15,7 @@ async function listagemResposta() {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/resposta', opcoes).then(function (response) {
+        fetch('http://localhost:8080/listagem/respostas', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -24,4 +30,6 @@ async function listagemResposta() {
 
 }
 
-export default listagemResposta;
+export {
+    Requisicao
+};

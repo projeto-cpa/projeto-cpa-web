@@ -1,8 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import { Requisicao, Perguntas } from '../../../api/cadastro/perguntas.js'
 import Swal from 'sweetalert2';
-import listagemPergunta from '../../../api/listagem/listagemPergunta.js';
-import cadastroResposta from '../../../api/cadastro/cadastroResposta.js';
 
 
 export default {
@@ -12,12 +11,11 @@ export default {
     data: function () {
         return {
             enviando: false,
-            tipoPergunta: null,
             formulario: [
+
                 {
                     etiqueta: 'Perguntas',
-                    ativo: true,
-                    nome: 'idPergunta',
+                    nome: 'id_pergunta',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -48,8 +46,7 @@ export default {
                 },
                 {
                     etiqueta: 'Resposta',
-                    ativo: false,
-                    nome: 'texto',
+                    nome: 'resposta',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -63,27 +60,11 @@ export default {
                         invalido: 'Campo inválido, verifique novamente',
                     },
                     validar: function () {
-                        this.valido = true;
-                    }
-                },
-                {
-                    etiqueta: 'Nota',
-                    ativo: false,
-                    nome: 'nota',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'range',
-                    ajuda: 'Até 150 caracteres',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        this.valido = true;
+                        if (this.valor.length > 15) {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
                     }
                 }
             ]
@@ -106,35 +87,25 @@ export default {
             // retorna a posicao encontrada
             return i;
         },
-        processarCampo: function (campo) {
-            if (campo.nome === 'idPergunta') {
-                var tipo = campo.valores[campo.valor - 1].tipo;
-                this.tipoPergunta = tipo;
-                if (tipo === 'DESCRITIVA') {
-                    this.formulario[this.buscarIndexPeloNome('texto')].ativo = true;
-                    this.formulario[this.buscarIndexPeloNome('nota')].ativo = false;
-                } else if (tipo === 'AVALIATIVA') {
-                    this.formulario[this.buscarIndexPeloNome('texto')].ativo = false;
-                    this.formulario[this.buscarIndexPeloNome('nota')].ativo = true;
-                } else {
-                    //throw new Error('Tipo de pergunta invalida');
-                    console.error('error no tipo da pergunta....');
-                }
-            }
-        },
-        listarPergunta: async function () {
-            var lista = await listagemPergunta();
-            var valores = [];
-            lista.forEach(function (item) {
-                valores.push({
-                    nome: item.texto,
-                    id: item.id,
-                    valor: item.id,
-                    tipo: item.tipo
-                });
+        receberDados: async function () {
+            var that = this;
+            this.recebendo = true;
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
             });
-            this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
-            console.log(lista, valores);
+
+            var resposta = await Perguntas();
+            this.formulario[this.buscarIndexPeloNome('perguntas')].valores = resposta;
+
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                });
+            }, 750);
+
+            console.log('hmmm', resposta)
+            this.resultados = resposta;
         },
         inputClass: function (valido) {
             if (valido === true) {
@@ -168,7 +139,7 @@ export default {
                 that.$nuxt.$loading.start()
             })
 
-            var resposta = await cadastroResposta(data);
+            var resposta = await Requisicao(data);
 
             setTimeout(function () {
                 that.$nextTick(() => {
@@ -185,7 +156,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/respostas' });
+                        that.$router.push({ path: '/cadastro/resposta' });
                     });
                 } else {
                     Swal.fire({
@@ -199,7 +170,7 @@ export default {
         }
     },
     mounted: async function () {
-        this.listarPergunta();
+        this.receberDados();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
@@ -216,28 +187,22 @@ export default {
                 <form class="row m-0" ref="formularioCadastro">
                     <div class="card p-0">
                         <div class="card-body">
-                            <div v-if="campo.ativo" v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
+                            <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
-                                    <template
-                                        v-if="campo.tipo !== 'select' && campo.tipo !== 'select' && campo.tipo !== 'range'">
+                                    <template v-if="campo.tipo !== 'select' && campo.tipo !== 'select'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             :type="campo.tipo" class="form-control" :id="campo.id"
                                             @keypress="campo.validar()" :class="inputClass(campo.valido)">
                                     </template>
                                     <template v-else-if="campo.tipo === 'select'">
                                         <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @change="campo.validar();processarCampo(campo);"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
                                             :class="inputClass(campo.valido)">
                                             <option value="" disabled selected>Selecione uma Pergunta</option>
-                                            <option v-for="valor in campo.valores" :v-model="valor.id" :value="valor.id"
-                                                :key="valor.id">
+                                                                <option v-for="valor in campo.valores" :v-model="valor.id" :value="valor.id" :key="valor.id">
                                                 {{ valor.nome }}
                                             </option>
                                         </select>
-                                    </template>
-                                    <template v-else-if="campo.tipo === 'range'">
-                                        <input type="range" class="form-range form-control" min="0" step="20" max="100"
-                                            :name="campo.nome" v-model="campo.valor" />
                                     </template>
                                     <template v-else>
                                         <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
@@ -276,5 +241,10 @@ export default {
 textarea {
     max-height: 400px !important;
     min-height: 58px !important
+}
+
+textarea,
+input {
+    background-position: calc(100% - 40px) 20px !important;
 }
 </style>

@@ -1,7 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import cadastroDisciplina from '../../../api/cadastro/cadastroDisciplina.js';
-import listagemCurso from '../../../api/listagem/listagemCurso';
+import { Requisicao } from '../../../api/cadastro/disciplinas.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -92,32 +91,6 @@ export default {
                             this.valido = false;
                         }
                     }
-                },
-                {
-                    etiqueta: 'Selecione o curso',
-                    nome: 'idCurso',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'select',
-                    valores: [
-                       
-                    ],
-                    ajuda: 'Selecione uma das opções',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor !== '') {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
                 }
             ]
         };
@@ -155,7 +128,7 @@ export default {
                 that.$nuxt.$loading.start()
             })
 
-            var resposta = await cadastroDisciplina(data);
+            var resposta = await Requisicao(data);
 
             setTimeout(function () {
                 that.$nextTick(() => {
@@ -183,37 +156,9 @@ export default {
                     });
                 }
             }, 1000);
-        },
-        buscarIndexPeloNome: function (nome) {
-            var i = 0;
-            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
-            // no forEach traz o item e a posicao do item atual
-            this.formulario.forEach(function (item, index) {
-                console.log(item)
-                // a gente compara o nome dado com o nome que existe no formulario....
-                if (item.nome === nome) {
-                    i = index;
-                }
-            });
-            // retorna a posicao encontrada
-            return i;
-        },
-        listarCurso: async function () {
-            var lista = await listagemCurso();
-            var valores = [];
-            lista.forEach(function (item) {
-                valores.push({
-                    nome: item.nome,
-                    id: 'a' + uuidv4(),
-                    valor: item.id
-                });
-            });
-            this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
-            console.log(lista,valores);
         }
     },
     mounted: async function () {
-        this.listarCurso();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
@@ -283,5 +228,10 @@ export default {
 textarea {
     max-height: 400px !important;
     min-height: 58px !important
+}
+
+textarea,
+input {
+    background-position: calc(100% - 40px) 20px !important;
 }
 </style>

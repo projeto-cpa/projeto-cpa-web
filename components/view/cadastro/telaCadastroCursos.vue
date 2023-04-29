@@ -1,10 +1,12 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/cursos.js'
+import apiCadastroCursos from '../../../api/cadastro/cursos.js'
 import Swal from 'sweetalert2';
 
 export default {
     loading: {
+        color: 'red',
+        height: '10px',
         continuous: true
     },
     data: function () {
@@ -13,7 +15,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Nome do curso',
-                    nome: 'nome',
+                    nome: 'nome_curso',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
@@ -35,46 +37,43 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Descrição do curso',
-                    nome: 'descricao',
+                    etiqueta: 'Disciplinas do curso',
+                    nome: 'tipo_materia',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
-                    tipo: 'textarea',
-                    ajuda: 'Até 150 caracteres',
-                    classe: {
-                        coluna: 'col-12 mb-4'
-                    },
-                    validacao: {
-                        valido: 'Campo validado com sucesso',
-                        invalido: 'Campo inválido, verifique novamente',
-                    },
-                    validar: function () {
-                        if (this.valor.length > 5) {
-                            this.valido = true;
-                        } else {
-                            this.valido = false;
-                        }
-                    }
-                },
-                {
-                    etiqueta: 'Estado de ativação',
-                    nome: 'ativo',
-                    valor: '',
-                    valido: null,
-                    id: 'a' + uuidv4(),
-                    tipo: 'select',
+                    tipo: 'multi-select',
                     valores: [
                         {
-                            nome: 'Ativado',
+                            nome: 'Modelagem de Sites Básicos',
                             id: 'a' + uuidv4(),
-                            valor: "true"
+                            valor: 0,
+                            selecionado: false
                         },
                         {
-                            nome: 'Desativado',
+                            nome: 'Orientação a objetos',
                             id: 'a' + uuidv4(),
-                            valor: "false"
+                            valor: 1,
+                            selecionado: false
                         },
+                        {
+                            nome: 'Abstração e Modelagem de Dados',
+                            id: 'a' + uuidv4(),
+                            valor: 2,
+                            selecionado: false
+                        },
+                        {
+                            nome: 'Desenvolvimento de Sites Dinâmicos',
+                            id: 'a' + uuidv4(),
+                            valor: 3,
+                            selecionado: false
+                        },
+                        {
+                            nome: 'Desenvolvimento de Interface Gráfica',
+                            id: 'a' + uuidv4(),
+                            valor: 4,
+                            selecionado: false
+                        }
                     ],
                     ajuda: 'Selecione uma das opções',
                     classe: {
@@ -85,17 +84,42 @@ export default {
                         invalido: 'Campo inválido, verifique novamente',
                     },
                     validar: function () {
-                        if (this.valor !== '') {
+                        if (this.valor.length > 1) {
                             this.valido = true;
                         } else {
                             this.valido = false;
                         }
                     }
-                }
+                },
+
             ]
         };
     },
     methods: {
+        buscarIndexPeloNome: function (nome) {
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.formulario.forEach(function (item, index) {
+                //console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
+        buscarIndexPeloIDEmValores: function (valores, id) {
+            var i = 0;
+            valores.forEach(function (item, index) {
+                //console.log(id)
+                if (item.id === id) {
+                    i = index;
+                }
+            });
+            return i;
+        },
         inputClass: function (valido) {
             if (valido === true) {
                 return 'is-valid';
@@ -105,37 +129,33 @@ export default {
                 return 'is-invalid';
             }
         },
-        validarFormulario: function () {
-            var valido = true;
-            this.formulario.forEach(function (campo) {
-                campo.validar();
-                if (campo.valido === false) {
-                    valido = false;
-                }
-            });
-            return valido;
+
+        mudarEstado($event, nome, id) {
+            $event.preventDefault();
+            var indexnone = this.buscarIndexPeloNome('tipo_materia');
+            var objeto = this.formulario[indexnone];
+            //console.log(objeto)
+            var indexID = this.buscarIndexPeloIDEmValores(objeto.valores, id);
+            var valor = objeto.valores[indexID];
+            //console.log(valor);
+            var selecionado = this.formulario[indexnone].valores[indexID].selecionado ? false : true;
+            this.formulario[indexnone].valores[indexID].selecionado = selecionado;
         },
         enviarFormulario: async function () {
-            if (!this.validarFormulario()) {
-                return;
-            }
             var that = this;
-
             var data = new FormData(this.$refs.formularioCadastro);
-            that.enviando = true;
-
-            that.$nextTick(() => {
-                that.$nuxt.$loading.start()
-            })
-
-            var resposta = await Requisicao(data);
-
+            //console.log(data);
+            var output = '';
+            for (const [key, value] of data) {
+                output += `${key}: ${value}\n`;
+            }
+            //console.log(output);
+            this.enviando = true;
+            this.$nuxt.$loading.start();
+            var resposta = await apiCadastroCursos(data);
             setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
-                });
+                this.$nuxt.$loading.finish()
             }, 750);
-
             setTimeout(function () {
                 that.enviando = false;
                 if (resposta.sucesso) {
@@ -145,7 +165,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/cursos' });
+                        that.$router.push({ path: '/listagem/cargos' });
                     });
                 } else {
                     Swal.fire({
@@ -177,24 +197,30 @@ export default {
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
-                                    <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+                                    <template
+                                        v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select' && campo.tipo !== 'multi-select'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            :type="campo.tipo" class="form-control" :id="campo.id"
-                                            @keypress="campo.validar()" :class="inputClass(campo.valido)">
+                                            :type="campo.tipo" class="form-control" :id="campo.id" @keyup="campo.validar()"
+                                            :class="inputClass(campo.valido)">
                                     </template>
-                                    <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor" class="form-control"
+                                    <template v-else-if="campo.tipo === 'multi-select'">
+                                        <select :size="campo.valores.length" :placeholder="campo.etiqueta"
+                                            :name="campo.nome" class="form-select" multiple
                                             :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
-                                            <option value="" disabled selected>Selecione uma opção</option>
-                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor" @mousedown.prevent="mudarEstado($event,campo.nome,valor.id)" :selected="valor.selecionado
+                                            ">
                                                 {{ valor.nome }}
                                             </option>
                                         </select>
                                     </template>
-                                    <template v-else>
-                                        <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                            :class="inputClass(campo.valido)"></textarea>
+                                    <template v-else-if="campo.tipo === 'select'">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-select" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                            <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
                                     </template>
                                     <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
                                     <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
@@ -228,5 +254,15 @@ export default {
 textarea {
     max-height: 400px !important;
     min-height: 58px !important
+}
+
+textarea,
+input {
+    background-position: calc(100% - 40px) 20px !important;
+}
+
+.form-select {
+    height: auto !important;
+    overflow: hidden !important;
 }
 </style>
