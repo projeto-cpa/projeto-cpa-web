@@ -5,7 +5,8 @@ import emitter from '../helpers/emmiter';
 export default {
     data: function () {
         return {
-            aside:false,
+            aside: false,
+            minimizado: false,
             links: [
                 {
                     caminho: '/',
@@ -261,23 +262,37 @@ export default {
         aoAbrirSideBar: function (state) {
             console.log('aqui', state)
             this.aside = state;
-        },  
+        },
+        aoMinimizar: function (state) {
+            console.log('min')
+            this.minimizado = state;
+        },
     },
     computed: {
         classeAside: function () {
-            var that = this;
-            console.log('test', that);
+            var cls = '';
+
             if (this.aside) {
                 console.log('1')
-                return 'aside-opened';
+                cls += 'aside-opened';
             } else {
                 console.log('2')
-                return 'aside-closed';
+                cls += 'aside-closed';
             }
+
+            if (this.minimizado) {
+                cls += ' aside-min';
+            } else {
+                cls += ' aside-max'
+            }
+
+            return cls;
+
         }
     },
     mounted: function () {
         emitter.on('toggleSideBar', this.aoAbrirSideBar);
+        emitter.on('toggleMinBar', this.aoMinimizar);
         this.recuperarEstado();
         require('bootstrap');
     }
@@ -288,18 +303,20 @@ export default {
     <aside class="col p-0 d-none d-lg-block" :class="classeAside">
         <div class="main list-group rounded-0 ">
             <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
-                class="principal list-group-item list-group-item-action btn rounded-0" @click.stop.prevent="aoClicarPrincipal(link)">
+                class="principal list-group-item list-group-item-action btn rounded-0"
+                @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
                     <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
-                        <i :class="classeFlexa(link)"></i>
+                        <i :class="classeFlexa(link)" class="icon-arrow"></i>
                     </span>
                 </div>
                 <div :class="classeMostrar(link)" class="list-group collapse ms-2"
                     v-if="link.items && link.items.length > 0" :id="link.id">
-                    <a :class="classeItemAtivo(item)" @click.prevent="aoClicarItem(item)" v-for="(item, index2) in link.items"
-                        :key="index2" class="list-group-item list-group-item-action btn mb-2 rounded-4">
+                    <a :class="classeItemAtivo(item)" @click.prevent="aoClicarItem(item)"
+                        v-for="(item, index2) in link.items" :key="index2"
+                        class="list-group-item list-group-item-action btn mb-2 rounded-4">
                         <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
                         <span :class="corItemTexto(item)" class="list-text">{{ item.texto }}</span>
                     </a>
@@ -353,7 +370,7 @@ aside footer {
     height: 60px;
 }
 
-aside .main.list-group{
+aside .main.list-group {
     height: calc(100% - 60px);
     overflow-y: auto;
 }
@@ -380,7 +397,7 @@ footer .card {
     /*border-color: #273c4f !important;*/
 }
 
-.list-group-item:active{
+.list-group-item:active {
     border: 1px solid #ccc !important;
 }
 
@@ -414,16 +431,33 @@ footer .card {
     border-color: #0d6efd !important;
 }
 
-.avatar{
+.avatar {
     width: 32px;
     height: 32px;
     object-fit: contain;
 }
 
-.aside-opened {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
+@media (max-width: 991.98px) {
+    .aside-opened {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+}
+
+@media (min-width: 992px){
+    aside.aside-min {
+    width: auto !important;
+    max-width: 95px !important;
+}
+
+aside.aside-min .link-text, aside.aside-min .list-text, aside.aside-min .icon-arrow {
+    display: none;
+}
+
+aside.aside-min .link-header{
+    text-align:center;
+}
 }
 </style>

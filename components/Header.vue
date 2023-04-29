@@ -1,7 +1,20 @@
 <script>
+import emitter from '~/helpers/emmiter';
+
 export default {
+    data: function () {
+        return {
+            show: false
+        };
+    },
     mounted: function () {
         const bootstrap = require('bootstrap');
+    },
+    methods: {
+        toggleMinBar: function () {
+            this.show = !this.show;
+            emitter.emit('toggleMinBar', this.show)
+        }
     }
 };
 </script>
@@ -15,8 +28,9 @@ export default {
                         <img src="../static/biopark_logo.png" alt="Logo" height="40" class="d-inline-block align-text-top" />
                         <span><b>CPA</b></span>
                     </a>
-                    <button class="btn btn-primary rounded-5 btn-aside d-none d-lg-block">
-                        <i class="fa fa-chevron-left"></i>
+                    <button @click="toggleMinBar" class="btn btn-primary rounded-5 btn-aside d-none d-lg-block">
+                        <i v-if="show" class="fa fa-chevron-right"></i>
+                        <i v-else class="fa fa-chevron-left"></i>
                     </button>
                 </div>
                 <div>
