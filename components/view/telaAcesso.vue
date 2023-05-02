@@ -52,25 +52,29 @@ export default {
         <div class="row">
             <div class="conteudo-principal">
                 <div class="div-img-cpa col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
+                    <img class="img-cpa" loading="lazy" src="../../static/biopark_logo.png">
                 </div>
                 <div class="div-form-login col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="w-60">
                         <form class="config-form form col-12 col-md-12 col-lg-12" @submit.prevent="aoEnviarFormulario">
                             <div class="config-input-login mb-2">
-                                <i class="fa fa-envelope icon-email" aria-hidden="true"></i>
-                                <label style="color: #fff;">E-mail de acesso</label>
+                                <div class="mb-2 text-white">
+                                    <i class="fa fa-envelope icon-email me-2" aria-hidden="true"></i>
+                                    <h4 class="d-inline-block">E-mail de acesso</h4>
+                                </div>
                             </div>
-                            <div class="config-input-login form-floating mb-3 rounded-3 hidden-scroll">
+                            <div class="config-input-login form-floating mb-3 rounded-5 hidden-scroll">
                                 <input v-model="dados.email" class="form-control" id="email" placeholder="E-mail:"
                                     style="border-radius: 0px;">
                                 <label for="email">Insira o e-mail:</label>
                             </div>
                             <div class="config-input-login mb-2">
-                                <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
-                                <label style="color: #fff;">Senha de acesso</label>
+                                <div class="mb-2 text-white">
+                                    <i class="fa fa-lock icon-senha me-2" aria-hidden="true"></i>
+                                    <h4 class="d-inline-block">Senha de acesso</h4>
+                                </div>
                             </div>
-                            <div class="config-input-login form-floating mb-3 rounded-3 hidden-scroll">
+                            <div class="config-input-login form-floating mb-3 rounded-5 hidden-scroll">
                                 <input v-model="dados.password" type="password"
                                     class="form-control form-floating input-password" id="password"
                                     :type="showPassword ? 'text' : 'password'" placeholder="Senha:"
@@ -92,9 +96,11 @@ export default {
                                 </span>
                             </div>
                             <div class="div-esqueci-senha">
-                                <button class="col-12 btn btn-primary"
-                                    @click="validarFormulario">Entrar</button>
-                                <a class="esqueci-senha btn btn-link" href="/recuperar"> Esqueceu a senha ?</a>
+                                <a href="/" class="col-12 btn btn-lg btn-primary rounded-5"
+                                   >Entrar</a>
+                                <p class="text-center w-100">
+                                    <a class="esqueci-senha btn btn-link" href="/recuperar">Esqueceu a senha? Clique aqui para recuperar</a>
+                                </p>
                             </div>
                         </form>
                     </div>
@@ -148,8 +154,7 @@ export default {
 }
 
 .img-cpa {
-    width: 300px;
-    padding: 10px 0px 0px 0px;
+    width: auto;
 }
 
 .esqueci-senha {

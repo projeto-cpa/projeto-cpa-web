@@ -24,7 +24,7 @@ export default {
         <nav class="navbar navbar-expand-lg bg-white py-0" data-bs-theme="light">
             <div class="container-fluid">
                 <div class="navbar-brand">
-                    <a href="" class="btn btn-link p-0">
+                    <a href="/" class="btn btn-link p-0">
                         <img src="../static/biopark_logo.png" alt="Logo" height="40" class="d-inline-block align-text-top" />
                         <span><b>CPA</b></span>
                     </a>
@@ -77,19 +77,12 @@ export default {
                             </ul>
                         </li>
                     </ul>
-<<<<<<< HEAD
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..."
-                            aria-label="Search">
-                        <button class="btn btn-primary rounded-5" type="submit">Pesquisar</button>
-=======
                     <form class="d-flex me-2" role="search">
                         <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..."
                             aria-label="Search" />
                         <button class="btn btn-secondary position-relative rounded-5" type="submit">
                             <span><i class="fa fa-search"></i></span>
                         </button>
->>>>>>> feature/acesso
                     </form>
                     <div class="d-flex">
                         <button type="button" class="btn btn-primary position-relative rounded-5 d-none d-lg-block">
@@ -174,17 +167,11 @@ header nav {
     width: 32px !important;
     height: 32px !important;
     margin-right: 5px;
-<<<<<<< HEAD
-    ;
-=======
->>>>>>> feature/acesso
 }
 
 .dropdown-menu.dropdown-menu-end {
     min-width: 200px !important;
 }
-<<<<<<< HEAD
-=======
 
 @media (max-width: 991.98px) {
     .navbar-brand {
@@ -220,5 +207,4 @@ header nav {
     transform: translate(0%, -50%);
 }
 
->>>>>>> feature/acesso
 </style>

@@ -236,10 +236,7 @@ textarea {
     min-height: 58px !important
 }
 
-<<<<<<< HEAD
-=======
 .card-register{
     box-shadow: 0px 0px 9px var(--bs-gray-400);
 }
->>>>>>> feature/acesso
 </style>

@@ -1,10 +1,6 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
-<<<<<<< HEAD
-import Paginacao from '../../../components/utils/Paginacao.vue'
-=======
 // import Paginacao from '../../../components/utils/Paginacao.vue'
->>>>>>> feature/acesso
 import listagemCurso from '../../../api/listagem/listagemCurso.js';
 
 export default {

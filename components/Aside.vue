@@ -212,11 +212,7 @@ export default {
         },
         classeItemAtivo: function (item) {
             if (this.$nuxt.$route.path === item.caminho) {
-<<<<<<< HEAD
                 return 'active bg-secondary';
-=======
-                return 'active bg-primary';
->>>>>>> feature/acesso
             } else {
                 return '';
             }
@@ -243,15 +239,9 @@ export default {
         },
         corTexto: function (link) {
             if (link.ativo) {
-<<<<<<< HEAD
-                return 'text-dark';
-            } else {
-                return 'text-muted'
-=======
                 return 'text-primary';
             } else {
                 return 'text-secondary'
->>>>>>> feature/acesso
             }
         },
         corItemTexto: function (item) {
@@ -310,22 +300,14 @@ export default {
 </script>
 
 <template>
-<<<<<<< HEAD
-    <aside class="col p-0">
-=======
     <aside class="col p-0 d-none d-lg-block" :class="classeAside">
->>>>>>> feature/acesso
         <div class="main list-group rounded-0 ">
             <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0"
                 @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
-<<<<<<< HEAD
-                    <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
-=======
                     <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
->>>>>>> feature/acesso
                     <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
                         <i :class="classeFlexa(link)" class="icon-arrow"></i>
                     </span>

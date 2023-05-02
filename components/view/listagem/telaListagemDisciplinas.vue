@@ -1,11 +1,7 @@
 <script>
 import Swal from 'sweetalert2';
 import Filtro from '../../utils/Filtro.vue';
-<<<<<<< HEAD
-import Paginacao from '../../utils/Paginacao.vue'
-=======
 // import Paginacao from '../../utils/Paginacao.vue'
->>>>>>> feature/acesso
 import listagemDisciplina from '../../../api/listagem/listagemDisciplina.js';
 
 export default {
@@ -20,7 +16,7 @@ export default {
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        // 'Paginacao': Paginacao
     },
     mounted: function () {
         this.receberDados()
@@ -108,10 +104,7 @@ export default {
 
             var resposta = await listagemDisciplina();
             console.log('resposta', resposta);
-<<<<<<< HEAD
 
-=======
->>>>>>> feature/acesso
             this.resultados = resposta;
 
             setTimeout(function () {
@@ -178,8 +171,6 @@ export default {
                 });
             }
         }
-<<<<<<< HEAD
-=======
     },
     components: {
         'Filtro': Filtro,
@@ -187,7 +178,6 @@ export default {
     },
     mounted: function () {
         this.receberDados()
->>>>>>> feature/acesso
     }
 };
 </script>

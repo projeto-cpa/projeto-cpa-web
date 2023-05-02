@@ -13,17 +13,10 @@ export default {
 </script>
 
 <template>
-<<<<<<< HEAD
-    <div class="card mb-2">
-        <div class="card-body card-filter">
-            <div class="row m-0">
-                <div class="col-8">
-=======
     <div class="card mb-4 mb-lg-2 card-filter">
         <div class="card-body">
             <div class="row m-0">
                 <div class="col-12 col-lg-8 mb-2 mb-lg-0">
->>>>>>> feature/acesso
                     <div class="form-floating">
                         <input type="text" class="form-control" id="" placeholder="Termo de pesquisa">
                         <label for="">Termo de pesquisa</label>

@@ -1,13 +1,4 @@
 <script>
-<<<<<<< HEAD
-import Swal from 'sweetalert2';
-import Filtro from '../../../components/utils/Filtro.vue';
-import Paginacao from '../../../components/utils/Paginacao.vue'
-import { RequisicaoDelete } from '../../../api/listagem/DeletarCargos.js';
-import { Requisicao } from '../../../api/listagem/cargos.js';
-import alterarCargo from '../alterar/alterarCargo.vue';
-import emmiter from '../../../helpers/emmiter';
-=======
 import emmiter from '../../../helpers/emmiter';
 import Swal from 'sweetalert2';
 import Filtro from '../../../components/utils/Filtro.vue';
@@ -18,7 +9,6 @@ import ativacaoCargo from '../../../api/ativacao/ativacaoCargo.js';
 import exclusaoCargo from '../../../api/exclusao/exclusaoCargo.js';
 /** ALTERACAO */
 import alteracaoCargo from '../../offcanvas/alteracao/alteracaoCargo.vue';
->>>>>>> feature/acesso
 
 export default {
     loading: {
@@ -28,9 +18,6 @@ export default {
         return {
             recebendo: false,
             resultados: [],
-<<<<<<< HEAD
-            editar: false
-=======
             requisicao: listagemCargo,
             retorno: function (resposta) {
                 emmiter.emit('aoListarCargo', resposta);
@@ -42,7 +29,6 @@ export default {
                 paginas: 0,
                 total: 0
             }
->>>>>>> feature/acesso
         };
     },
     methods: {
@@ -252,85 +238,6 @@ export default {
             this.paginacao.paginas = resposta.totalPages;
             this.paginacao.total = resposta.totalElements;
 
-<<<<<<< HEAD
-            setTimeout(function () {
-                that.recebendo = false;
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
-                })
-            }, 750);
-        },
-        DeletarDados: async function () {
-            var that = this;
-
-            this.$nextTick(() => {
-                this.$nuxt.$loading.start()
-            })
-
-            var resposta = await RequisicaoDelete();
-
-            if (resposta.sucesso) {
-                Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso ao deletar',
-                        text: 'Obteve sucesso ao deletar',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
-                    });
-            } else {
-                Swal.fire({
-                        icon: 'error',
-                        title: 'Erro ao deletar',
-                        text: 'Obteve erro ao deletar',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
-                    });
-            }
-
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
-                })
-            }, 750);
-        },
-        EditarDados: async function () {
-            var that = this;
-
-            this.$nextTick(() => {
-                this.$nuxt.$loading.start()
-            })
-
-            var resposta = await RequisicaoEdite();
-
-            if (resposta.sucesso) {
-                Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso ao editar',
-                        text: 'Obteve sucesso ao editar',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
-                    });
-            } else {
-                Swal.fire({
-                        icon: 'error',
-                        title: 'Erro ao editar',
-                        text: 'Obteve erro ao editar',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
-                    });
-            }
-
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
-                })
-            }, 750);
-        }
-=======
             if (!resposta.empty && resposta.content && resposta.content.length > 0) {
                 this.resultados = resposta.content.map(function (item) {
                     item.selecionado = false;
@@ -378,16 +285,11 @@ export default {
         aoAlterarCarregamento: function (estado) {
             this.recebendo = estado;
         },
->>>>>>> feature/acesso
     },
     components: {
         'Filtro': Filtro,
         'Paginacao': Paginacao,
-<<<<<<< HEAD
-        'alterarCargo': alterarCargo
-=======
         'alteracaoCargo': alteracaoCargo
->>>>>>> feature/acesso
     },
     mounted: function () {
         this.receberDados()
@@ -402,17 +304,10 @@ export default {
 <template>
     <div class="container-fluid conteudo-principal">
         <section>
-<<<<<<< HEAD
-            <article>
-                <Filtro></Filtro>
-                <!-- Cabeçalho da listagem -->
-                <div class="card bg-light mb-2">
-=======
             <article class="listing-page">
                 <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
                 <div class="card bg-light mb-4 mb-lg-2 d-none d-xl-block">
->>>>>>> feature/acesso
                     <div class="card-body">
                         <div class="row m-0">
                             <div class="col id m-auto">
@@ -430,17 +325,10 @@ export default {
                                 <div class="item header text-center"><b>Descrição do cargo</b></div>
                             </div>
                             <div class="col date m-auto">
-<<<<<<< HEAD
-                                <div class="item header text-center"><b>Data criação</b></div>
-                            </div>
-                            <div class="col date m-auto">
-                                <div class="item header text-center"><b>Data alteração</b></div>
-=======
                                 <div class="item header text-center"><b>Data da criação</b></div>
                             </div>
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Data da alteração</b></div>
->>>>>>> feature/acesso
                             </div>
                             <div class="col options m-auto text-center">
                                 <div class="item header text-center"><b>Opções</b></div>
@@ -449,14 +337,9 @@ export default {
                     </div>
                 </div>
                 <template v-if="recebendo">
-<<<<<<< HEAD
-                    <!-- Aqui fica a simulação do carregamento -->
-                    <div v-for="index in 1" :key="index" class="card" aria-hidden="true">
-=======
                     <!-- inicio simulação do carregamento -->
                     <div v-for="index in paginacao.quantidade" :key="index" class="card mb-4 mb-lg-2 card-item"
                         aria-hidden="true">
->>>>>>> feature/acesso
                         <div class="card-body">
                             <div class="row m-0 placeholder-glow">
                                 <div
@@ -473,19 +356,11 @@ export default {
                                 <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
                                     <div class="placeholder"></div>
                                 </div>
-<<<<<<< HEAD
-                                <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Data criação</b></div>
-                                </div>
-                                <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Data alteração</b></div>
-=======
                                 <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
                                     <div class="placeholder"></div>
                                 </div>
                                 <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
                                     <div class="placeholder"></div>
->>>>>>> feature/acesso
                                 </div>
                                 <div class="col-xl col-12 options m-xl-auto mb-2 mb-xl-auto">
                                     <div class="placeholder"></div>
@@ -515,37 +390,6 @@ export default {
                 </template>
                 <template v-else>
                     <!-- Aqui fica o resultado da requisição -->
-<<<<<<< HEAD
-                    <div v-for="(item, index) in resultados" :key="index" class="card mb-1" aria-hidden="true">
-                        <div class="card-body">
-                            <div class="row m-0">
-                                <div class="col id m-auto">
-                                    <div class="item text-center">{{ item.id }}</div>
-                                </div>
-                                <div class="col activations m-auto">
-                                    <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)"
-                                            class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
-                                    </div>
-                                </div>
-                                <div class="col m-auto">
-                                    <div class="item text-center">{{ item.nome }}</div>
-                                </div>
-                                <div class="col m-auto">
-                                    <div class="item text-center">{{ item.descricao }}</div>
-                                </div>
-                                <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.dataCriacao) }}</div>
-                                </div>
-                                <div class="col date m-auto">
-                                    <div class="item text-center">{{ formatarData(item.dataAtualizacao) }}</div>
-                                </div>
-                                <div class="col options m-auto">
-                                    <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1"
-                                            @click="abrirEdicao">Editar</a>
-                                        <a href="#" class="btn d-block btn-sm btn-danger" @click="DeletarDados">Excluir</a>
-=======
                     <div class="card-list">
                         <div v-for="(item, index) in resultados" :key="index" :class="classeItem(item, index)"
                             class="card card-item mb-4 mb-lg-2" aria-hidden="true">
@@ -649,26 +493,17 @@ export default {
                                                 </div>
                                             </div>
                                         </div>
->>>>>>> feature/acesso
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </template>
-<<<<<<< HEAD
-                <alterarCargo :aberto="editar"></alterarCargo>
-            </article>
-        </section>
-        <footer class="form-footer bg-white">
-            <Paginacao></Paginacao>
-=======
                 <alteracaoCargo></alteracaoCargo>
             </article>
         </section>
         <footer class="form-footer bg-white">
             <Paginacao :estado="paginacao" :requisicao="requisicao" :retorno="retorno"></Paginacao>
->>>>>>> feature/acesso
         </footer>
     </div>
 </template>
@@ -723,17 +558,6 @@ export default {
         max-width: 200px;
     }
 }
-
-<<<<<<< HEAD
-.col.activations {
-    max-width: 150px;
-}
-
-.col.date {
-    max-width: 200px;
-}
-</style>
-=======
 .item-id {
     font-weight: bold;
 }
@@ -779,4 +603,3 @@ export default {
         padding-right: 0;
     }
 }</style>
->>>>>>> feature/acesso

@@ -91,21 +91,6 @@ export default {
 <template>
     <div class="row justify-content-center">
         <div class="col m-auto d-flex justify-content-start">
-<<<<<<< HEAD
-            <a href="#" class="btn btn-outline-primary">
-                <span><i class="fa fa-arrow-left"></i></span>
-                <span>Anterior</span>
-            </a>
-        </div>
-        <div class="col m-auto">
-            <div class="text-center">
-                <p class="m-0">Exibindo 0 de 0 resultados</p>
-            </div>
-        </div>
-        <div class="col m-auto d-flex justify-content-end">
-            <a href="#" class="btn btn-outline-primary">
-                <span>Próximo</span>
-=======
             <a href="#" :class="classeBotaoAnterior" class="btn btn-secondary rounded-5" @click="paginaAnterior"
                 :disabled="botaoAnteriorDesativado">
                 <span><i class="fa fa-arrow-left"></i></span>
@@ -124,7 +109,6 @@ export default {
             <a href="#" :class="classeBotaoProximo" class="btn btn-secondary rounded-5" @click="proximaPagina"
                 :disabled="botaoProximoDesativado">
                 <span class="d-none d-md-inline-block">Próximo</span>
->>>>>>> feature/acesso
                 <span><i class="fa fa-arrow-right"></i></span>
             </a>
         </div>
