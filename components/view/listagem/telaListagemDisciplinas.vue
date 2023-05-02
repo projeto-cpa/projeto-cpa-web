@@ -1,7 +1,8 @@
 <script>
+import Swal from 'sweetalert2';
 import Filtro from '../../utils/Filtro.vue';
-import Paginacao from '../../utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/disciplinas.js';
+// import Paginacao from '../../utils/Paginacao.vue'
+import listagemDisciplina from '../../../api/listagem/listagemDisciplina.js';
 
 export default {
     loading: {
@@ -9,10 +10,16 @@ export default {
     },
     data: function () {
         return {
-            Filtros: Filtros,
             recebendo: false,
             resultados: []
         };
+    },
+    components: {
+        'Filtro': Filtro,
+        // 'Paginacao': Paginacao
+    },
+    mounted: function () {
+        this.receberDados()
     },
     methods: {
         textoBotaoAtivar: function (ativo) {
@@ -28,6 +35,36 @@ export default {
             } else {
                 return 'btn-primary';
             }
+        },
+        buscarIndexPeloIDEmValores: function (valores, id) {
+            var i = 0;
+            valores.forEach(function (item, index) {
+                //console.log(id)
+                if (item.id === id) {
+                    i = index;
+                }
+            });
+            return i;
+        },
+        aoClicarEmAtivar: async function (id) {
+            var item = this.resultados[this.buscarIndexPeloIDEmValores(this.resultados, id)];
+            var ativo = item.ativo ? false : true;
+            var resposta = await Alteracao();
+            if (resposta.sucesso){
+                this.resultados[this.buscarIndexPeloIDEmValores(this.resultados, id)] = ativo;
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao alterar',
+                    text: 'Obteve erro ao alterar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                })
+            }
+            console.log('resposta',resposta)
+            console.log('recuperado', item)
         },
         formatarData: function (data) {
             var data = new Date(data);
@@ -65,7 +102,9 @@ export default {
                 this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao();
+            var resposta = await listagemDisciplina();
+            console.log('resposta', resposta);
+
             this.resultados = resposta;
 
             setTimeout(function () {
@@ -74,11 +113,68 @@ export default {
                     that.$nuxt.$loading.finish()
                 })
             }, 750);
+        },
+        DeletarDados: async function () {
+            var that = this;
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+            var resposta = await RequisicaoDelete();
+            if (resposta.sucesso) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao deletar',
+                    text: 'Obteve sucesso ao deletar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao deletar',
+                    text: 'Obteve erro ao deletar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            }
+            setTimeout(function () {
+                that.$nextTick(() => {
+                    that.$nuxt.$loading.finish()
+                })
+            }, 750);
+        },
+        EditarDados: async function () {
+            var that = this;
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
+            })
+            var resposta = await RequisicaoEdite();
+            if (resposta.sucesso) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao editar',
+                    text: 'Obteve sucesso ao editar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao editar',
+                    text: 'Obteve erro ao editar',
+                    confirmButtonText: 'Entendido'
+                }).then(function () {
+                    that.$router.push({ path: '/listagem/disciplinas' });
+                });
+            }
         }
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        // 'Paginacao': Paginacao
     },
     mounted: function () {
         this.receberDados()
@@ -90,7 +186,7 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <Filtro :filtros="Filtros"></Filtro>
+                <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
                 <div class="card bg-light">
                     <div class="card-body">
@@ -161,7 +257,8 @@ export default {
                                 </div>
                                 <div class="col activations m-auto">
                                     <div class="item text-center">
-                                        <a href="#" :class="classeBotaoAtivar(item.ativo)" class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
+                                        <a @click="aoClicarEmAtivar(item.id)" :class="classeBotaoAtivar(item.ativo)"
+                                            class="btn d-block rounded-5 btn-sm">{{ textoBotaoAtivar(item.ativo) }}</a>
                                     </div>
                                 </div>
                                 <div class="col m-auto">
@@ -178,15 +275,16 @@ export default {
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item text-center">
-                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1">Editar</a>
-                                        <a href="#" class="btn d-block btn-sm btn-danger">Excluir</a>
+                                        <a href="#" class="btn d-block btn-sm btn-secondary mb-1"
+                                            @click="EditarDados">Editar</a>
+                                        <a href="#" class="btn d-block btn-sm btn-danger" @click="DeletarDados">Excluir</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </template>
-                <Paginacao></Paginacao>
+                <!-- <Paginacao></Paginacao> -->
             </article>
         </section>
         <footer class="form-footer bg-white">
@@ -209,12 +307,11 @@ export default {
     max-width: 50px;
 }
 
-.col.activations{
+.col.activations {
     max-width: 150px;
 }
 
-.col.date{
+.col.date {
     max-width: 200px;
 }
-
 </style>
