@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:api/listagem/DeletarCargos.js
 async function RequisicaoDelete() {
+========
+async function listagemPergunta() {
+>>>>>>>> feature/acesso:api/listagem/listagemPergunta.js
 
     var opcoes = {
         method: 'GET',
@@ -9,7 +13,11 @@ async function RequisicaoDelete() {
     };
 
     var resposta = await new Promise(function (resolver) {
+<<<<<<<< HEAD:api/listagem/DeletarCargos.js
         fetch('http://localhost:3005/deletar/usuario.json', opcoes).then(function (response) {
+========
+        fetch('http://localhost:8080/pergunta', opcoes).then(function (response) {
+>>>>>>>> feature/acesso:api/listagem/listagemPergunta.js
             if (response.ok) {
                 return response.json();
             } else {
@@ -24,6 +32,7 @@ async function RequisicaoDelete() {
 
 }
 
+<<<<<<<< HEAD:api/listagem/DeletarCargos.js
 const Filtros = {
     colunas: [
         { nome: 'id', etiqueta: 'ID', tipo: 'number' },
@@ -33,3 +42,7 @@ const Filtros = {
 };
 
 export { Filtros, RequisicaoDelete }
+========
+
+export default listagemPergunta
+>>>>>>>> feature/acesso:api/listagem/listagemPergunta.js

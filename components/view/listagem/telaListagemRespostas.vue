@@ -1,6 +1,10 @@
 <script>
 import Filtro from '../../utils/Filtro.vue';
+<<<<<<< HEAD
 import Paginacao from '../../utils/Paginacao.vue'
+=======
+// import Paginacao from '../../utils/Paginacao.vue'
+>>>>>>> feature/acesso
 import listagemResposta from '../../../api/listagem/listagemResposta.js';
 
 export default {
@@ -63,7 +67,7 @@ export default {
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        // 'Paginacao': Paginacao
     },
     mounted: function () {
         this.receberDados()
@@ -158,7 +162,7 @@ export default {
                         </div>
                     </div>
                 </template>
-                <Paginacao></Paginacao>
+                <!-- <Paginacao></Paginacao> -->
             </article>
         </section>
         <footer class="form-footer bg-white">

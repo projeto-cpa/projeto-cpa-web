@@ -1,9 +1,11 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import emitter from '../helpers/emmiter';
 
 export default {
     data: function () {
         return {
+            aside:false,
             links: [
                 {
                     caminho: '/',
@@ -209,7 +211,11 @@ export default {
         },
         classeItemAtivo: function (item) {
             if (this.$nuxt.$route.path === item.caminho) {
+<<<<<<< HEAD
                 return 'active bg-secondary';
+=======
+                return 'active bg-primary';
+>>>>>>> feature/acesso
             } else {
                 return '';
             }
@@ -236,9 +242,15 @@ export default {
         },
         corTexto: function (link) {
             if (link.ativo) {
+<<<<<<< HEAD
                 return 'text-dark';
             } else {
                 return 'text-muted'
+=======
+                return 'text-primary';
+            } else {
+                return 'text-secondary'
+>>>>>>> feature/acesso
             }
         },
         corItemTexto: function (item) {
@@ -255,9 +267,27 @@ export default {
             } else {
                 return '';
             }
+        },
+        aoAbrirSideBar: function (state) {
+            console.log('aqui', state)
+            this.aside = state;
+        },  
+    },
+    computed: {
+        classeAside: function () {
+            var that = this;
+            console.log('test', that);
+            if (this.aside) {
+                console.log('1')
+                return 'aside-opened';
+            } else {
+                console.log('2')
+                return 'aside-closed';
+            }
         }
     },
     mounted: function () {
+        emitter.on('toggleSideBar', this.aoAbrirSideBar);
         this.recuperarEstado();
         require('bootstrap');
     }
@@ -265,13 +295,21 @@ export default {
 </script>
 
 <template>
+<<<<<<< HEAD
     <aside class="col p-0">
+=======
+    <aside class="col p-0 d-none d-lg-block" :class="classeAside">
+>>>>>>> feature/acesso
         <div class="main list-group rounded-0 ">
             <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0" @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
+<<<<<<< HEAD
                     <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
+=======
+                    <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
+>>>>>>> feature/acesso
                     <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
                         <i :class="classeFlexa(link)"></i>
                     </span>
@@ -292,12 +330,15 @@ export default {
                     <div class="container-fluid p-0">
                         <div class="row m-0">
                             <div class="col-8">
-                                <a href="/conta" class="dropdown-header d-flex align-items-center" data-v-1a9bb128=""><img
-                                        src="/_nuxt/static/user.png" class="dropdown-user-img avatar" data-v-1a9bb128="">
-                                    <div class="dropdown-user-details" data-v-1a9bb128="">
-                                        <div class="dropdown-user-details-name" data-v-1a9bb128="">Administrador</div>
-                                        <div class="dropdown-user-details-email small" data-v-1a9bb128="">
-                                            admin@admin</div>
+                                <a href="/conta" class="dropdown-header btn btn-link d-flex align-items-center">
+                                    <img src="/_nuxt/static/user.png" class="dropdown-user-img avatar me-2">
+                                    <div class="dropdown-user-details text-start">
+                                        <div class="dropdown-user-details-name">
+                                            <b>Administrador</b>
+                                        </div>
+                                        <div class="dropdown-user-details-email small">
+                                            <span>admin@admin</span>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
@@ -378,6 +419,7 @@ footer .card {
 
 .principal.list-group-item.active {
     height: auto !important;
+    box-shadow: inset 0px 3px 3px var(--bs-gray-400);
 }
 
 .list-group.collapse {
@@ -388,5 +430,18 @@ footer .card {
 .list-group-item:active .list-group-item:active * {
     color: #0d6efd !important;
     border-color: #0d6efd !important;
+}
+
+.avatar{
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.aside-opened {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
 }
 </style>

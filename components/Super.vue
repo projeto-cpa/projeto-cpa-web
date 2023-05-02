@@ -25,7 +25,7 @@ export default {
 
 <!-- <style>
 body{
-    font-family: 'Roboto', sans-serif !important;
+    /* font-family: 'Roboto', sans-serif !important; */
     color:#273c4f;
     font-size: 16px;
     overflow: hidden;
@@ -78,6 +78,7 @@ select.form-control{
   background-position: calc(100% - 80px) 20px !important;
 }
 
+<<<<<<< HEAD
 .form-floating select ~ label{
   overflow: visible !important;
 }
@@ -100,12 +101,22 @@ select.form-control{
 
 .form-floating select.is-valid ~ label:before, .form-floating select.is-invalid ~ label:before {
   right: calc(-15% + 16px);
+=======
+.form-control.is-valid, .was-validated .form-control:valid {
+    background-position: calc(100% - 42px) 50% !important;
+>>>>>>> feature/acesso
 }
 </style>
 
 <style>
+<<<<<<< HEAD
 /* .offcanvas.offcanvas-end {
     top: -60px !important;
     height: calc(100% + 60px);
 } */
+=======
+.form-footer{
+  box-shadow: 3px 3px 9px var(--bs-gray-400);
+}
+>>>>>>> feature/acesso
 </style>

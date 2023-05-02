@@ -68,17 +68,17 @@ export default {
                         {
                             nome: 'Matutino',
                             id: 'a' + uuidv4(),
-                            valor: "m"
+                            valor: "Matutino"
                         },
                         {
                             nome: 'Vespertino',
                             id: 'a' + uuidv4(),
-                            valor: "v"
+                            valor: "Vespertino"
                         },
                         {
                             nome: 'Noturno',
                             id: 'a' + uuidv4(),
-                            valor: "n"
+                            valor: "Noturno"
                         }
                     ],
                     ajuda: 'Selecione uma das opções',
@@ -195,7 +195,7 @@ export default {
                         }
                     }
                 }
-                
+
             ]
         };
     },
@@ -296,6 +296,29 @@ export default {
                                             </option>
                                         </select>
                                     </template>
+
+                                    <template v-else-if="campo.tipo === 'select'">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                            <option value="" disabled selected>Selecione uma opção</option>
+                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
+                                    </template>
+
+                                    <template v-else-if="campo.tipo === 'select'">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                            <option value="" disabled selected>Selecione uma opção</option>
+                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
+                                    </template>
+
                                     <template v-else>
                                         <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             class="form-control" :id="campo.id" @keypress="campo.validar()"

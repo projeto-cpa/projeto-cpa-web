@@ -1,7 +1,11 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
+<<<<<<< HEAD
 import {Requisicao as apiCadastroUsuarios} from '../../../api/cadastro/usuarios.js';
 import listagemDisciplina from '../../../api/listagem/listagemDisciplina';
+=======
+//import {Requisicao as apiCadastroCargos} from '../../../api/cadastro/cadastroCargo.js'
+>>>>>>> feature/acesso
 import Swal from 'sweetalert2';
 
 export default {
@@ -157,7 +161,11 @@ export default {
             //console.log(output);
             this.enviando = true;
             this.$nuxt.$loading.start();
+<<<<<<< HEAD
             var resposta = await apiCadastroUsuarios(data);
+=======
+            //var resposta = await apiCadastroCargos(data);
+>>>>>>> feature/acesso
             setTimeout(function () {
                 this.$nuxt.$loading.finish()
             }, 750);;
