@@ -75,7 +75,7 @@ export default {
                                     class="form-control form-floating input-password" id="password"
                                     :type="showPassword ? 'text' : 'password'" placeholder="Senha:"
                                     aria-describedby="addon-wrapping" style="border-radius: 0px;">
-                                <label for="password">Insira o e-mail:</label>
+                                <label for="password">Insira a senha:</label>
                                 <span class="input-group-text" id="addon-wrapping"
                                     style="padding: 0px; border-radius: 0px;">
                                     <a class="icone-olho" v-on:click="mostraSenha"
@@ -94,7 +94,7 @@ export default {
                             <div class="div-esqueci-senha">
                                 <button class="col-12 btn btn-primary"
                                     @click="validarFormulario">Entrar</button>
-                                <a class="esqueci-senha" href="/recuperar"> Esqueceu a senha ?</a>
+                                <a class="esqueci-senha btn btn-link" href="/recuperar"> Esqueceu a senha ?</a>
                             </div>
                         </form>
                     </div>

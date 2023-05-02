@@ -10,7 +10,7 @@ export default {
         }
     },
     methods: {
-        validaEmail() {
+        validaEmail: function () {
             var that = this;
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!regex.test(this.email)) {
@@ -37,12 +37,12 @@ export default {
         <div class="row">
             <div class="conteudo-principal">
                 <div class="col-12 conteudo-divs">
-                    <div class="div-img-cpa col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                    <div class="div-img-cpa col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
                     </div>
 
-                    <div class="alinha-form-senha div-recuperar-senha col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
-                        <div class="w-80">
+                    <div class="alinha-form-senha div-recuperar-senha col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="w-60">
                             <div class="col-12 text-email">
                                 <h2 style="font-size: 25px;">Recuperação de senha</h2>
                             </div>
@@ -50,7 +50,8 @@ export default {
                             <div class="col-12">
                                 <div v-if="mostrando" class="col-12" style="margin: 30px 0px 0px 0px;">
                                     <div class="alert alert-success d-flex align-items-center" role="alert">
-                                        <i class="fa fa-check-circle" aria-hidden="true" style="margin: 0px 10px 0px 0px; color: #198754;"></i>
+                                        <i class="fa fa-check-circle" aria-hidden="true"
+                                            style="margin: 0px 10px 0px 0px; color: #198754;"></i>
                                         <div style="color: #198754;">E-mail enviado com sucesso!</div>
                                     </div>
                                 </div>
@@ -62,19 +63,22 @@ export default {
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <div class="col-12 mb-4 config-div-email" v-if="escondeDiv">
+                            <div class="col-12" v-if="escondeDiv">
+                                <div class="config-input-login mb-2">
                                     <i class="fa fa-envelope icon-email" aria-hidden="true"></i>
-                                    <input @blur="validaEmail" v-model="email" type="email"
-                                        class="form-control" id="email"
-                                        placeholder="E-mail:" required style="border-radius: 0px;">
+                                    <label style="color: #fff;">E-mail de Recuperação</label>
                                 </div>
-                                <button class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 btn btn-primary" v-if="escondeDiv" @click.prevent="validaEmail">Enviar</button>
+                                <div class="config-div-email form-floating mb-3 rounded-3 hidden-scroll">
+                                    <input v-model="email" type="email" class="form-control" id="email"
+                                        placeholder="E-mail:" required style="border-radius: 0px;">
+                                    <label for="email" style="color: #000;">Insira o e-mail:</label>
+                                </div>
+                                <button class="col-12 btn btn-primary" @click="validaEmail">Enviar</button>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
 
             <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -92,7 +96,6 @@ export default {
                 </div>
             </div>
         </div>
-
     </section>
 </template>
 
@@ -139,8 +142,9 @@ h2 {
 .icon-email {
     font-size: x-large;
     color: #fff;
-    padding: 0px 10px 0px 0px;
+    padding: 0px 6px 0px 0px;
 }
+
 .config-div-email {
     display: flex;
     flex-wrap: nowrap;
@@ -176,8 +180,12 @@ h2 {
     align-items: center;
 }
 
-.w-80 {
-    width: 80%;
+.w-60 {
+    width: 60%;
+}
+
+.hidden-scroll {
+    overflow: hidden;
 }
 </style>
 

@@ -94,21 +94,25 @@ export default {
             }
         },
         calculateStrength() {
-            let score = 0;
+            let score = 0;;
             if (this.password.length > 15) {
                 score++;
             }
-            if (/[a-z]/.test(this.password)) {
+            if (this.password.length > 0) {
                 score++;
             }
             if (/[A-Z]/.test(this.password) && this.password.length > 3) {
                 score++;
             }
-            if (/\d/.test(this.password) && this.password.length > 7 && score >= 1) {
+            if (/\d/.test(this.password) && this.password.length > 7) {
                 score++;
             }
-            if (/[@$!%*?&#¨()-_=+''""]/.test(this.password) && this.password.length > 12 && score > 2) {
+            if (/[\W_]/.test(this.password) && this.password.length > 7) {
                 score++;
+            }
+            if (this.password.length < 1) {
+                score = 0;
+                this.passwordStrength = "";
             }
             switch (score) {
                 case 1:
@@ -128,6 +132,7 @@ export default {
                     break;
 
                 default:
+                    break;
             }
         }
     },
@@ -143,11 +148,11 @@ export default {
         <div class="row">
             <div class="conteudo-principal">
                 <div class="col-12 conteudo-divs">
-                    <div class="div-img-cpa col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                    <div class="div-img-cpa col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
                     </div>
-                    <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 div-senhas">
-                        <div class="w-80" @submit.prevent="aoEnviarFormulario">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 div-senhas">
+                        <div class="w-60" @submit.prevent="aoEnviarFormulario">
                             <div class="col-md-12 text-email">
                                 <h2 style="font-size: 27px;">Alteração de senha</h2>
                             </div>
@@ -156,48 +161,56 @@ export default {
                                 <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
                             </div>
 
-                            <div class="config-input-login mb-3">
+                            <div class="config-input-login mb-2">
                                 <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
+                                <label style="color: #fff;">Senha</label>
+                            </div>
+                            <div class="config-input-login form-floating mb-3 rounded-3 hidden-scroll">
                                 <input v-model="password" type="password" class="form-control input-password" id="password"
-                                    :type="showPassword ? 'text' : 'password'" @input="checkPassword" placeholder="Senha:"
-                                    aria-describedby="addon-wrapping" style="border-radius: 0px;">
-                                <span class="input-group-text" id="addon-wrapping"
-                                    style="padding: 0px; border-radius: 0px;">
+                                    :type="showPassword ? 'text' : 'password'" @input="checkPassword"
+                                    placeholder="Digite a senha:" aria-describedby="mostra-senha"
+                                    style="border-radius: 0px; color: #000;">
+                                <label for="password">Digite a senha:</label>
+                                <span class="input-group-text" id="mostra-senha" style="padding: 0px; border-radius: 0px;">
                                     <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{
                                         showPassword ?
                                         '' : '' }}
                                         <span v-if="!liked">
-                                            <i class="fa fa-eye" style="padding: 5px;"></i>
+                                            <i class="fa fa-eye" style="height: 56px; padding: 15px;"></i>
                                         </span>
                                         <span v-else>
-                                            <i class="fa fa-eye-slash" style="padding: 5px;"></i>
+                                            <i class="fa fa-eye-slash" style="height: 56px; padding: 15px;"></i>
                                         </span>
                                     </a>
                                 </span>
                             </div>
 
-                            <div class="config-input-login mb-3">
+                            <div class="config-input-login mb-2">
                                 <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
+                                <label style="color: #fff;">Confirmar senha</label>
+                            </div>
+                            <div class="config-input-login form-floating mb-3 rounded-3 hidden-scroll">
                                 <input v-model="confirmaPassword" type="password" class="form-control input-password"
-                                    id="confirmaPassword" placeholder="Confirmar senha:"
+                                    id="confirmaPassword" aria-describedby="mostra-senha" placeholder="Confirmar senha:"
                                     :type="showConfirmPassword ? 'text' : 'password'" style="border-radius: 0px;">
-                                <span class="input-group-text" id="addon-wrapping"
-                                    style="padding: 0px; border-radius: 0px;">
+                                <label for="confirmaPassword">Confirme a senha:</label>
+                                <span class="input-group-text" id="mostra-senha"
+                                    style="padding: 0px; border-radius: 0px; color: #000;">
                                     <a class="icone-olho" v-on:click="mostraConfirmaSenha"
                                         @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ?
                                             '' : '' }}
                                         <span v-if="!likedConfirm">
-                                            <i class="fa fa-eye" style="padding: 5px;"></i>
+                                            <i class="fa fa-eye" style="height: 56px; padding: 15px;"></i>
                                         </span>
                                         <span v-else>
-                                            <i class="fa fa-eye-slash" style="padding: 5px;"></i>
+                                            <i class="fa fa-eye-slash" style="height: 56px; padding: 15px;"></i>
                                         </span>
                                     </a>
                                 </span>
                             </div>
 
                             <div class="col-12">
-                                <div class="col-12 config-cor-senha" v-if="this.password.length < 1 ">
+                                <div class="col-12 config-cor-senha" v-if="this.password.length < 1">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -209,8 +222,7 @@ export default {
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
                                 </div>
-                                <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Fraca'">
+                                <div class="col-12 config-cor-senha" v-else-if="passwordStrength == 'Fraca'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corFraca ? 'red' : 'white' }">
                                     </div>
@@ -223,8 +235,7 @@ export default {
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corFraca ? 'white' : 'white' }"></div>
                                 </div>
-                                <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Media'">
+                                <div class="col-12 config-cor-senha" v-else-if="passwordStrength == 'Media'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corMedia ? 'orange' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -236,8 +247,7 @@ export default {
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corMedia ? 'white' : 'white' }"></div>
                                 </div>
-                                <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Forte'">
+                                <div class="col-12 config-cor-senha" v-else-if="passwordStrength == 'Forte'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corForte ? 'yellow' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -249,8 +259,7 @@ export default {
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corForte ? 'white' : 'white' }"></div>
                                 </div>
-                                <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Muito forte'">
+                                <div class="col-12 config-cor-senha" v-else-if="passwordStrength == 'Muito forte'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corMuitoForte ? 'lightgreen' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -263,8 +272,7 @@ export default {
                                         v-bind:style="{ backgroundColor: corMuitoForte ? 'white' : 'white' }">
                                     </div>
                                 </div>
-                                <div class="col-12 config-cor-senha"
-                                    v-else-if="passwordStrength == 'Extremamente forte'">
+                                <div class="col-12 config-cor-senha" v-else-if="passwordStrength == 'Extremamente forte'">
                                     <div class="col-2 cor-senha"
                                         v-bind:style="{ backgroundColor: corExtremamenteForte ? 'green' : 'white' }"></div>
                                     <div class="col-2 cor-senha"
@@ -303,8 +311,7 @@ export default {
                                 </ul>
                             </div>
 
-                            <button @click="validaSenha" href="/"
-                                class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 btn btn-primary btn-senha">Enviar</button>
+                            <button @click="validaSenha" href="/" class="col-12 btn btn-primary btn-senha">Enviar</button>
 
                         </div>
                     </div>
@@ -348,11 +355,14 @@ export default {
     margin: 10px 0px 20px 0px;
 }
 
-div,
 p,
 h2 {
     font-family: sans-serif;
     color: #fff;
+}
+
+input {
+    color: #000;
 }
 
 .cor-senha {
@@ -427,8 +437,8 @@ h2 {
     min-height: -webkit-fill-available;
 }
 
-.w-80 {
-    width: 80%;
+.w-60 {
+    width: 60%;
 }
 
 .cor-azul {
@@ -463,5 +473,9 @@ h2 {
 .input-password::-ms-reveal,
 .input-password::-ms-clear {
     display: none !important;
+}
+
+.hidden-scroll {
+    overflow: hidden;
 }
 </style>
