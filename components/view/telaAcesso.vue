@@ -52,7 +52,7 @@ export default {
         <div class="row">
             <div class="conteudo-principal">
                 <div class="div-img-cpa col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <img class="img-cpa" loading="lazy" src="../../static/biopark_logo.png">
+                    <img class="img-cpa" loading="lazy" src="../../static/logo.png">
                 </div>
                 <div class="div-form-login col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div class="w-60">
@@ -154,7 +154,8 @@ export default {
 }
 
 .img-cpa {
-    width: auto;
+    width: 100%;
+    padding:15%;
 }
 
 .esqueci-senha {

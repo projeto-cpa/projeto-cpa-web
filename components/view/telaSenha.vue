@@ -154,18 +154,18 @@ export default {
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 div-senhas">
                         <div class="w-60" @submit.prevent="aoEnviarFormulario">
                             <div class="col-md-12 text-email">
-                                <h2 style="font-size: 27px;">Alteração de senha</h2>
+                                <h2 class="display-5">Alteração de senha</h2>
                             </div>
 
                             <div class="col-md-12 p-email">
                                 <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
                             </div>
 
-                            <div class="config-input-login mb-2">
+                            <div class="config-input-login text-white mb-2">
                                 <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
-                                <label style="color: #fff;">Senha</label>
+                                <h4 class="d-inline-block">Senha de acesso</h4>
                             </div>
-                            <div class="config-input-login form-floating mb-3 rounded-3 hidden-scroll">
+                            <div class="config-input-login form-floating mb-3 rounded-5 hidden-scroll">
                                 <input v-model="password" type="password" class="form-control input-password" id="password"
                                     :type="showPassword ? 'text' : 'password'" @input="checkPassword"
                                     placeholder="Digite a senha:" aria-describedby="mostra-senha"
@@ -185,11 +185,11 @@ export default {
                                 </span>
                             </div>
 
-                            <div class="config-input-login mb-2">
+                            <div class="config-input-login mb-2 text-white">
                                 <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
-                                <label style="color: #fff;">Confirmar senha</label>
+                                <h4 class="d-inline-block">Confirme a senha</h4>
                             </div>
-                            <div class="config-input-login form-floating mb-3 rounded-3 hidden-scroll">
+                            <div class="config-input-login form-floating mb-3 rounded-5 hidden-scroll">
                                 <input v-model="confirmaPassword" type="password" class="form-control input-password"
                                     id="confirmaPassword" aria-describedby="mostra-senha" placeholder="Confirmar senha:"
                                     :type="showConfirmPassword ? 'text' : 'password'" style="border-radius: 0px;">
@@ -302,16 +302,16 @@ export default {
 
                             <div class="col-md-12 alert alert-primary" role="alert">
                                 <p class="cor-azul" v-if="showRequirements">Status da senha: {{ passwordStrength }} </p>
-                                <p class="cor-azul" v-else>Status da senha: Vazia</p>
+                                <p class="cor-azul mb-0" v-else><b>Status da senha: Vazia</b></p>
                                 <ul class="config-ul cor-azul">
                                     <li>Inclua uma letra maiuscula</li>
                                     <li>Inclua um número</li>
                                     <li>Inclua um caractere especial</li>
-                                    <li>Inclua no minimo 8 letras</li>
+                                    <li>Inclua no minimo 8 caracteres</li>
                                 </ul>
                             </div>
 
-                            <button @click="validaSenha" href="/" class="col-12 btn btn-primary btn-senha">Enviar</button>
+                            <button @click="validaSenha" href="/" class="col-12 btn btn-lg rounded-5 btn-primary btn-senha">Enviar</button>
 
                         </div>
                     </div>
@@ -392,8 +392,8 @@ input {
 }
 
 .img-cpa {
-    width: 300px;
-    padding: 10px 0px 0px 0px;
+    width: 100%;
+    padding:15%;
 }
 
 .icone-olho {

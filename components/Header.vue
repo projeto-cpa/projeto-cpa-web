@@ -25,8 +25,8 @@ export default {
             <div class="container-fluid">
                 <div class="navbar-brand">
                     <a href="/" class="btn btn-link p-0">
-                        <img src="../static/biopark_logo.png" alt="Logo" height="40" class="d-inline-block align-text-top" />
-                        <span><b>CPA</b></span>
+                        <img src="../static/logo.png" alt="Logo" height="40" class="d-inline-block align-text-top" />
+                        <!-- <span><b>CPA</b></span> -->
                     </a>
                     <button @click="toggleMinBar" class="btn btn-primary rounded-5 btn-aside d-none d-lg-block">
                         <i v-if="show" class="fa fa-chevron-right"></i>
@@ -144,7 +144,7 @@ header nav {
     height: 59px;
     text-align: center;
     margin-right: 20px;
-    background-color: rgba(248, 249, 250, 1) !important;
+    background-color: #fff !important;
     border-right: 1px solid #ccc;
 }
 

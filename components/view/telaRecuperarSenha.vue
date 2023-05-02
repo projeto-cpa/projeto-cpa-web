@@ -44,7 +44,7 @@ export default {
                     <div class="alinha-form-senha div-recuperar-senha col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <div class="w-60">
                             <div class="col-12 text-email">
-                                <h2 style="font-size: 25px;">Recuperação de senha</h2>
+                                <h2 class="display-5">Recuperação de senha</h2>
                             </div>
 
                             <div class="col-12">
@@ -66,14 +66,14 @@ export default {
                             <div class="col-12" v-if="escondeDiv">
                                 <div class="config-input-login mb-2">
                                     <i class="fa fa-envelope icon-email" aria-hidden="true"></i>
-                                    <label style="color: #fff;">E-mail de Recuperação</label>
+                                    <h4 class="d-inline-block">E-mail de acesso</h4>
                                 </div>
                                 <div class="config-div-email form-floating mb-3 rounded-3 hidden-scroll">
-                                    <input v-model="email" type="email" class="form-control" id="email"
+                                    <input v-model="email" type="email" class="form-control rounded-5" id="email"
                                         placeholder="E-mail:" required style="border-radius: 0px;">
                                     <label for="email" style="color: #000;">Insira o e-mail:</label>
                                 </div>
-                                <button class="col-12 btn btn-primary" @click="validaEmail">Enviar</button>
+                                <button class="col-12 btn btn-lg btn-primary rounded-5" @click="validaEmail">Enviar</button>
                             </div>
                         </div>
                     </div>
@@ -168,8 +168,8 @@ h2 {
 }
 
 .img-cpa {
-    width: 300px;
-    padding: 10px 0px 0px 0px;
+    width: 100%;
+    padding:15%;
 }
 
 .div-recuperar-senha {
