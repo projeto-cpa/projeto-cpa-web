@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2';
-import globals from '../helpers/globals.js';
 import cookies from '../helpers/cookies.js';
 
 class Request {
@@ -12,6 +11,9 @@ class Request {
      * @param {String|Boolean} body 
      * Corpo da requisicao (string ou false)
      * 
+     * @param {Boolean} auth
+     * Usar credenciais
+     * 
      * @param {Object} headers 
      * Cabecalhos da requisicao
      * 
@@ -20,6 +22,8 @@ class Request {
     async use(url, body, auth, options) {
         try {
             var resposta = await new Promise(function (resolver) {
+
+                console.log('auth', auth);
 
                 //console.log(options);
                 var headers = new Headers();
@@ -39,13 +43,16 @@ class Request {
                 // headers.forEach(function (key, val) {
                 //     console.log(key, val);
                 // })
+                //cookies.set('test', 'sou um ttest');
+                //console.log(cookies.get('test'));
 
+                console.log('auth',auth)
                 if (auth) {
-                    console.log('usando credenciais', cookies.get('session_token'))
-                    headers.append('Authorization', cookies.get('session_token'));
+                    console.log('usando credenciais', 'Bearer' + cookies.get('session_token'))
+                    headers.append('Authorization', 'Bearer' + cookies.get('session_token'));
                     //console.log('usando credenciais')
                 } else {
-                    //console.log('sem credenciais')
+                    console.log('sem credenciais')
                 }
 
                 delete options.headers;
@@ -109,7 +116,7 @@ class Request {
                                     btn = 'Recarregar página'
                                     break;
                                 case '500':
-                                    title = 'Erro interno do servidor (500)';   
+                                    title = 'Erro interno do servidor (500)';
                                     footer = 'O servidor encontrou um erro inesperado'
                                     href = '/';
                                 default:
@@ -172,9 +179,11 @@ class Request {
      */
     post(url, body, auth, options) {
         body = body || false;
+        
         auth = auth || false;
         options = options || {};
         options.method = 'POST';
+        console.log('auth', auth);
         return this.use(url, body, auth, options);
     }
 

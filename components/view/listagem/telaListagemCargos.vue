@@ -224,9 +224,6 @@ export default {
             var selecionado = this.resultados[this.buscarIndexPeloId(item.id)].selecionado;
             this.resultados[this.buscarIndexPeloId(item.id)].selecionado = selecionado ? false : true;
         },
-        abrirEdicao: function () {
-            emmiter.emit('abrirEdicaoCargo', {});
-        },
         receberDados: async function () {
             this.recebendo = true;
 

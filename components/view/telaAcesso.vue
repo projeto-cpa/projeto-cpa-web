@@ -23,18 +23,18 @@ export default {
         }
     },
     methods: {
-        recupearSessao: async function () {
-            //console.log(cookies.get('session_token'))
-            if (cookies.get('session_token') != false) {
-                this.$router.push({ path: '/' });
-                return true;
-            } else {
-                return false;
-            }
-        },
         acessar: async function () {
             this.enviando = true;
             var resposta = await apiLoginUsuario(this.dados);
+
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
+            })
+
+            this.enviando = false;
+            
             console.log('resposta', resposta);
             if (resposta.sucesso) {
                 cookies.set('session_token', resposta.token);
@@ -70,9 +70,10 @@ export default {
         }
     },
     mounted: async function () {
-        if (!await this.recupearSessao()) {
-            this.recuperando = false;
+        if (cookies.get('session_token')) {
+            this.$router.push({ path: '/' });
         }
+        this.recuperando = false;
         const bootstrap = require('bootstrap')
         this.toast = new bootstrap.Toast(this.$refs.toast);
     }
@@ -116,7 +117,7 @@ export default {
                                     <input v-model="dados.senha" type="password"
                                         class="form-control form-floating input-password" id="password"
                                         :type="showPassword ? 'text' : 'password'" placeholder="Senha:"
-                                        aria-describedby="addon-wrapping" style="border-radius: 0px;">
+                                        aria-describedby="addon-wrapping" style="border-radius: 0px;" @keypress.enter="aoEnviarFormulario">
                                     <label for="password">Insira a senha:</label>
                                     <span class="input-group-text" id="addon-wrapping"
                                         style="padding: 0px; border-radius: 0px;">
