@@ -51,8 +51,8 @@ export default {
     port: 3005 // default: 3000
   },
 
-  // dev
-  target: 'static',
+  // server, static
+  target: 'server',
 
   // server generate
   ssr: false,

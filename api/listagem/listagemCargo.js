@@ -1,7 +1,8 @@
 import request from '../../helpers/request';
+import globals from '../../helpers/globals';
 
 /**
- * Retorna a listagem do cargo
+ * Retorna a requisicao de listagem do cargo
  * 
  * @param {Number} pagina 
  * Pagina atual
@@ -12,7 +13,6 @@ import request from '../../helpers/request';
  * @returns {Object}
  */
 async function listagemCargo(pagina, quantidade) {
-
     pagina = Number(pagina);
     quantidade = Number(quantidade);
 
@@ -24,16 +24,9 @@ async function listagemCargo(pagina, quantidade) {
         quantidade = 5;
     }
 
-    var headers = {
-        method: 'GET'
-    };
-
     var url = `${globals.server.url}/cargo?pagina=${pagina}&qtd=${quantidade}`;
-
-    var resposta = await request.use(url, false, headers);
-    
+    var resposta = await request.get(url, true);
     return resposta;
-
 }
 
 export default listagemCargo;

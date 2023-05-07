@@ -342,7 +342,7 @@ export default {
                                 </a>
                             </div>
                             <div class="col-4 align-items-center d-flex">
-                                <a href="/acesso" class="w-100 btn btn-sm btn-secondary rounded-5">Sair</a>
+                                <a href="/sair" class="w-100 btn btn-sm btn-secondary rounded-5">Sair</a>
                             </div>
                         </div>
                     </div>

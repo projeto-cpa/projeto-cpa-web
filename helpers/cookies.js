@@ -6,7 +6,7 @@ class Cookies {
      * @param {String} name 
      * Nome do cookie
      * 
-     * @returns {String}
+     * @returns {String|Boolean}
      */
     get(name) {
         let cname = name + "=";
@@ -39,11 +39,12 @@ class Cookies {
      * @returns {Boolean}
      */
     set(name, value, hours) {
+        hours = 2;
         const d = new Date();
         d.setTime(d.getTime() + (hours * 3600));
         let expires = "expires=" + d.toUTCString();
         document.cookie = name + "=" + value + ";" + expires + ";path=/";
-        return getCookie(name) === value;
+        return this.get(name) === value;
     }
 
     /**
@@ -59,7 +60,7 @@ class Cookies {
         d.setTime(d.getTime() - 1000);
         let expires = "expires=" + d.toUTCString();
         document.cookie = name + "=" + '' + ";" + expires + ";path=/";
-        return !getCookie(name);
+        return !this.get(name);
     }
 }
 
