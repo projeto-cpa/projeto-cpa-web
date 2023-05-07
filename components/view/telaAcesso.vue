@@ -1,4 +1,5 @@
 <script>
+import Swal from 'sweetalert2';
 import cookies from '../../helpers/cookies.js';
 import apiLoginUsuario from '../../api/sessao/loginUsuario.js';;
 ;

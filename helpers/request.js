@@ -41,7 +41,8 @@ class Request {
                 // })
 
                 if (auth) {
-                    headers.append('Authorization', 'Bearer' + cookies.get('session_token'));
+                    console.log('usando credenciais', cookies.get('session_token'))
+                    headers.append('Authorization', cookies.get('session_token'));
                     //console.log('usando credenciais')
                 } else {
                     //console.log('sem credenciais')
