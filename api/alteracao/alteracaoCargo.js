@@ -1,4 +1,4 @@
-import request from "../../helpers/request.js";
+import request from "../../helpers/requests.js";
 import formToJSON from "../../helpers/formToJSON.js";
 import globals from "../../helpers/globals.js";
 

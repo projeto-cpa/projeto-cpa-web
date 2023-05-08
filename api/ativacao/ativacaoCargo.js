@@ -1,5 +1,5 @@
 import globals from "../../helpers/globals.js";
-import request from "../../helpers/request.js";
+import request from "../../helpers/requests.js";
 
 /**
  * Envia uma requisicao para alternar o estado de ativacao

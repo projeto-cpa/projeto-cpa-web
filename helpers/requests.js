@@ -1,7 +1,10 @@
 import Swal from 'sweetalert2';
-import cookies from '../helpers/cookies.js';
+import cookies from './sessions.js';
 
-class Request {
+/**
+ * Uma classe que realiza requisicoes HTTP
+ */
+class Requests {
 
     /**
      * 
@@ -238,4 +241,4 @@ class Request {
     }
 }
 
-export default new Request;
+export default new Requests;

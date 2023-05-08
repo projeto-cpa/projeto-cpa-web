@@ -1,7 +1,10 @@
-class Cookies {
+/**
+ * Uma classe que guarda valores temporariamente na sessao
+ */
+class Sessions {
 
     /**
-     * Recupera um cookie
+     * Recupera um valor de sessao
      * 
      * @param {String} name 
      * Nome do cookie
@@ -13,7 +16,7 @@ class Cookies {
     }
 
     /**
-     * Inicia um novo cookie
+     * Inicia um novo item da sessao
      * 
      * @param {String} name 
      * Nome do cookie
@@ -28,7 +31,7 @@ class Cookies {
     }
 
     /**
-     * Remove um cookie
+     * Remove um item da sessao
      * 
      * @param {String} name
      * Nome do cokie
@@ -40,4 +43,4 @@ class Cookies {
     }
 }
 
-export default new Cookies;
+export default new Sessions;

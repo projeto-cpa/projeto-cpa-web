@@ -1,5 +1,5 @@
 import globals from "../../helpers/globals.js";
-import request from "../../helpers/request.js";
+import request from "../../helpers/requests.js";
 
 /**
  * Retorna a requisicao de login do usuario

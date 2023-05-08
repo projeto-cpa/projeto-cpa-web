@@ -1,3 +1,6 @@
+/**
+ * Uma classe que contem valores globais
+ */
 class Globals{
     constructor() {
         this.server = {

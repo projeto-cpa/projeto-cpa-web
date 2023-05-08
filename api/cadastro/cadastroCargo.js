@@ -1,6 +1,6 @@
 import globals from "../../helpers/globals.js";
 import formToJSON from "../../helpers/formToJSON.js";
-import request from "../../helpers/request.js";
+import request from "../../helpers/requests.js";
 
 /**
  * Retorna a requisicao de cadastro do cargo
