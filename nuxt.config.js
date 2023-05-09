@@ -51,7 +51,7 @@ export default {
     port: 3005 // default: 3000
   },
 
-  // dev
+  // server, static
   target: 'static',
 
   // server generate
