@@ -1,6 +1,6 @@
 <script>
 import Swal from 'sweetalert2';
-import cookies from '../../helpers/cookies.js';
+import sessions from '../../helpers/sessions.js';
 import apiLoginUsuario from '../../api/sessao/loginUsuario.js';;
 ;
 export default {
@@ -37,8 +37,8 @@ export default {
             
             console.log('resposta', resposta);
             if (resposta.sucesso) {
-                cookies.set('session_token', resposta.token);
-                console.log('Cookies setted', cookies.get('session_token'));
+                sessions.set('session_token', resposta.token);
+                console.log('Cookies setted', sessions.get('session_token'));
                 this.$router.push({ path: '/' });
             } else {
                 Swal.fire({
@@ -70,8 +70,9 @@ export default {
         }
     },
     mounted: async function () {
-        if (cookies.get('session_token')) {
+        if (sessions.get('session_token')) {
             this.$router.push({ path: '/' });
+            return;
         }
         this.recuperando = false;
         const bootstrap = require('bootstrap')
@@ -264,21 +265,7 @@ a {
     color: #fff;
     font-size: xx-large !important;
 }
-</style>
 
-<style>
-.input-password {
-    appearance: none !important;
-    -ms-appearance: none !important;
-    -moz-appearance: none !important;
-    -o-appearance: none !important;
-    -webkit-appearance: none !important;
-}
-
-.input-password::-ms-reveal,
-.input-password::-ms-clear {
-    display: none !important;
-}
 
 .hidden-scroll {
     overflow: hidden;
@@ -293,5 +280,20 @@ a {
 
 section{
     overflow: hidden;
+}
+</style>
+
+<style>
+.input-password {
+    appearance: none !important;
+    -ms-appearance: none !important;
+    -moz-appearance: none !important;
+    -o-appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+.input-password::-ms-reveal,
+.input-password::-ms-clear {
+    display: none !important;
 }
 </style>

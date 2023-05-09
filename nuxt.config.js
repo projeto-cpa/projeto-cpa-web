@@ -52,7 +52,7 @@ export default {
   },
 
   // server, static
-  target: 'server',
+  target: 'static',
 
   // server generate
   ssr: false,

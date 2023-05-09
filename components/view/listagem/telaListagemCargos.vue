@@ -1,5 +1,6 @@
 <script>
 import emmiter from '../../../helpers/emmiter';
+import paginations from '../../../helpers/paginations.js';
 import Swal from 'sweetalert2';
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
@@ -73,6 +74,11 @@ export default {
 
                 if (resposta.sucesso) {
                     this.resultados.splice(this.buscarIndexPeloId(item.id), 1);
+                    var that = this;
+                    console.log(that.resultados)
+                    if (this.resultados.length === 0) {
+                        paginations.set('0')
+                    }
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -224,39 +230,6 @@ export default {
             var selecionado = this.resultados[this.buscarIndexPeloId(item.id)].selecionado;
             this.resultados[this.buscarIndexPeloId(item.id)].selecionado = selecionado ? false : true;
         },
-        receberDados: async function () {
-            this.recebendo = true;
-
-            this.$nextTick(() => {
-                this.$nuxt.$loading.start()
-            })
-
-            var resposta = await listagemCargo(this.paginacao.pagina, this.paginacao.quantidade);
-            this.paginacao.paginas = resposta.totalPages;
-            this.paginacao.total = resposta.totalElements;
-
-            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
-                this.resultados = resposta.content.map(function (item) {
-                    item.selecionado = false;
-                    item.ativando = false;
-                    item.excluindo = false;
-                    return item;
-                });
-            }
-
-            await new Promise(function (solve) {
-                setTimeout(function () {
-                    solve();
-                }, 750);
-            })
-
-            this.recebendo = false;
-
-            this.$nextTick(() => {
-                this.$nuxt.$loading.finish()
-            })
-
-        },
         aoAlterarCargo: function (item) {
             this.editar = false;
             this.resultados[this.buscarIndexPeloId(item.id)].ativo = item.ativo;
@@ -265,6 +238,7 @@ export default {
             this.resultados[this.buscarIndexPeloId(item.id)].dataAtualizacao = item.dataAtualizacao;
         },
         aoListarCargo: function (resposta) {
+            console.log('resposta', resposta);
             this.selecaoTodos = false;
             this.paginacao.paginas = resposta.totalPages;
             this.paginacao.total = resposta.totalElements;
@@ -276,6 +250,8 @@ export default {
                     item.excluindo = false;
                     return item;
                 });
+            } else {
+                this.resultados = [];
             }
 
         },
@@ -289,7 +265,7 @@ export default {
         'alteracaoCargo': alteracaoCargo
     },
     mounted: function () {
-        this.receberDados()
+        this.recebendo = true;
         emmiter.on('aoListarCargo', this.aoListarCargo);
         emmiter.on('aoAlterarCargo', this.aoAlterarCargo);
         emmiter.on('aoIniciarCarregamento', this.aoAlterarCarregamento);
@@ -373,15 +349,6 @@ export default {
                             <h5 class="card-title">Nenhum resultado encontrado</h5>
                             <p class="card-text text-muted">Com problemas? tente remover os filtros ou recarregue a página.
                             </p>
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="!recebendo && resultados.length <= 0">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Nenhum resultado encontrado</h5>
-                            <p class="card-text text-muted">Com problemas? tente remover os filtros ou recarregue a página.</p>
-  
                         </div>
                     </div>
                 </template>
@@ -555,6 +522,7 @@ export default {
         max-width: 200px;
     }
 }
+
 .item-id {
     font-weight: bold;
 }
@@ -581,7 +549,7 @@ export default {
 .card-item.active:active,
 .card-item.active:focus {
     border-color: #9ec5ff !important;
-    background-color: var(--bs-primary-bg-subtle) !important;
+    background-color: #e5f0ff !important;
 }
 
 .card-list .card-item,
@@ -599,4 +567,5 @@ export default {
     .card-item .row .col-xl-auto:nth-of-type(5) {
         padding-right: 0;
     }
-}</style>
+}
+</style>

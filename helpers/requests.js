@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import cookies from './sessions.js';
+import sessions from '../helpers/sessions.js';
 
 /**
  * Uma classe que realiza requisicoes HTTP
@@ -42,17 +42,19 @@ class Requests {
 
                 headers.append('Content-Type', 'application/json');
                 headers.append('Accept', 'application/json');
+                headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
+                headers.append('Access-Control-Allow-Credentials', 'true');
 
                 // headers.forEach(function (key, val) {
                 //     console.log(key, val);
                 // })
-                //cookies.set('test', 'sou um ttest');
-                //console.log(cookies.get('test'));
+                //sessions.set('test', 'sou um ttest');
+                //console.log(sessions.get('test'));
 
-                console.log('auth',auth)
+                console.log('auth', auth)
                 if (auth) {
-                    console.log('usando credenciais', 'Bearer' + cookies.get('session_token'))
-                    headers.append('Authorization', 'Bearer' + cookies.get('session_token'));
+                    console.log('usando credenciais', 'Bearer' + sessions.get('session_token'))
+                    headers.append('Authorization', 'Bearer' + sessions.get('session_token'));
                     //console.log('usando credenciais')
                 } else {
                     console.log('sem credenciais')
@@ -66,7 +68,7 @@ class Requests {
                     mode: 'cors'
                 };
 
-                // console.log(fopt);
+                console.log('fopt', fopt);
 
                 if (body !== false) {
                     fopt.body = body;
@@ -182,7 +184,7 @@ class Requests {
      */
     post(url, body, auth, options) {
         body = body || false;
-        
+
         auth = auth || false;
         options = options || {};
         options.method = 'POST';

@@ -43,13 +43,15 @@ function formToJSON(formData) {
 
 class Forms{
     /**
+     * Transforma um objeto FormData em uma string json
      * 
      * @param {FormData} formData 
+     * FormData object
      * 
      * @returns {String}
      */
     json(formData) {
-        return formToJSON();
+        return formToJSON(formData);
     }
 }
 

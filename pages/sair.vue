@@ -1,10 +1,10 @@
 <script>
-import cookies from '../helpers/cookies.js';
+import sessions from '../helpers/sessions.js';
 
 export default {
     name: 'sair',
     mounted() {
-        cookies.remove('session_token');
+        sessions.remove('session_token');
         this.$router.push({ path: '/acesso' });
     }
 }

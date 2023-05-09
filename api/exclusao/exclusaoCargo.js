@@ -10,7 +10,7 @@ import request from "../../helpers/requests.js";
  * @returns {Object}
  */
 async function exclusaoCargo(idCargo) {
-    var url = `${globals.server.url}/cargo/exclusao`;
+    var url = `${globals.server.url}/cargo`;
     var json = JSON.stringify({
         idCargo: idCargo
     });
