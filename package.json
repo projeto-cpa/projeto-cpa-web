@@ -22,5 +22,8 @@
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
     "vue-toasted": "^1.1.28"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.33.0"
   }
 }
