@@ -1,22 +1,34 @@
 <script>
 import emmiter from '../helpers/emmiter.js';
+import sessions from '../helpers/sessions.js'
 
 export default {
   data: function () {
     return {
-      scroll: true
+      scroll: true,
+      show: false
     };
+  },
+  methods: {
+    usuarioLogado: function () {
+      if (!sessions.get('session_token')) {
+        this.$router.push({ path: '/sair' });
+        return;
+      }
+      this.show = true;
+    }
   },
   mounted: function () {
     emmiter.on('bodyScroll', function (value) {
       document.body.style.overflow = value ? 'auto' : 'hidden'
     });
+    this.usuarioLogado();
   }
 };
 </script>
 
 <template>
-  <div class="container-fluid p-0 super">
+  <div class="container-fluid p-0 super" v-if="show">
     <div class="row m-0">
       <slot></slot>
     </div>
@@ -97,6 +109,9 @@ select.form-control {
 }
 </style>
 
-<style>.form-footer {
+<style>
+.form-footer {
   box-shadow: 3px 3px 9px var(--bs-gray-400);
-}</style>
+}
+
+</style>
