@@ -318,7 +318,7 @@ export default {
 <template>
     <aside class="col p-0 d-none d-lg-block" :class="classeAside" id="aside">
         <div class="main list-group rounded-0 ">
-            <div v-for="link in links" :key="link.id" :data-item="link.texto.toLocaleLowerCase()" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
+            <div v-for="link in links" :key="link.id" :data-link="link.texto.toLocaleLowerCase()" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0"
                 @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
@@ -330,7 +330,7 @@ export default {
                 </div>
                 <div :class="classeMostrar(link)" class="list-group collapse ms-2"
                     v-if="link.items && link.items.length > 0" :id="link.id">
-                    <a :title="item.texto" :class="classeItemAtivo(item)" @click.prevent="aoClicarItem(item)"
+                    <a :title="item.texto" :class="classeItemAtivo(item)" :data-item="item.texto.toLocaleLowerCase()" @click.prevent="aoClicarItem(item)"
                         v-for="(item, index2) in link.items" :key="index2"
                         class="list-group-item list-group-item-action btn mb-2 rounded-4">
                         <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
