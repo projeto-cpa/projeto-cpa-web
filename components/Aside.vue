@@ -316,9 +316,9 @@ export default {
 </script>
 
 <template>
-    <aside class="col p-0 d-none d-lg-block" :class="classeAside">
+    <aside class="col p-0 d-none d-lg-block" :class="classeAside" id="aside">
         <div class="main list-group rounded-0 ">
-            <div v-for="link in links" :key="link.id" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
+            <div v-for="link in links" :key="link.id" :data-item="link.texto.toLocaleLowerCase()" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0"
                 @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">

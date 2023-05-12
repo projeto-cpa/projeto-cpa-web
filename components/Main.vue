@@ -1,6 +1,9 @@
 <script>
 export default {
-    props:['titulo']
+    props: ['titulo'],
+    mounted: function () {
+        window.document.title = 'CPA - ' + this.titulo;
+    }
 }
 </script>
 
