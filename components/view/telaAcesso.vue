@@ -16,7 +16,6 @@ export default {
                 meuEmail: 'admin',
                 minhaSenha: 'admin'
             },
-            toast: null,
             mensagem: '',
             showPassword: false,
             liked: false
@@ -34,7 +33,7 @@ export default {
             })
 
             this.enviando = false;
-            
+
             console.log('resposta', resposta);
             if (resposta.sucesso) {
                 sessions.set('session_token', resposta.token);
@@ -57,16 +56,42 @@ export default {
             }
         },
         validarFormulario: function () {
-            return true;
-        },
-        abrirToast: function () {
-            this.toast.show();
+            var check = true;
+            var msg = "";
+            if (this.dados.email.length < 5) {
+                msg = "E-mail muito curto, verifique novamente"
+                if (!this.validateEmail()) {
+                    msg = "E-mail inválido, verifique novamente"
+                }
+                check = false;
+            }
+            if (this.dados.senha.length < 5) {
+                msg = "Senha muito curta, verifique novamente"
+                check = false;
+            }
+            if (!check) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Verifique os dados',
+                    text: msg,
+                    confirmButtonText: 'Entendido'
+                });
+            }
+            return check;
         },
         redirecionarParaHome() {
             this.$router.push({ path: '/' })
         },
         mostraSenha() {
             this.liked = !this.liked
+        },
+        validateEmail: function () {
+            var email = this.dados.email;
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
         }
     },
     mounted: async function () {
@@ -75,8 +100,6 @@ export default {
             return;
         }
         this.recuperando = false;
-        const bootstrap = require('bootstrap')
-        this.toast = new bootstrap.Toast(this.$refs.toast);
     }
 }
 </script>
@@ -104,8 +127,8 @@ export default {
                                     </div>
                                 </div>
                                 <div class="config-input-login form-floating mb-3 rounded-5 hidden-scroll">
-                                    <input v-model="dados.email" class="form-control" id="email" placeholder="E-mail:"
-                                        style="border-radius: 0px;">
+                                    <input v-model="dados.email" class="form-control" name="email" id="email"
+                                        placeholder="E-mail:" style="border-radius: 0px;">
                                     <label for="email">Insira o e-mail:</label>
                                 </div>
                                 <div class="config-input-login mb-2">
@@ -115,10 +138,11 @@ export default {
                                     </div>
                                 </div>
                                 <div class="config-input-login form-floating mb-3 rounded-5 hidden-scroll">
-                                    <input v-model="dados.senha" type="password"
+                                    <input v-model="dados.senha" name="password" type="password"
                                         class="form-control form-floating input-password" id="password"
                                         :type="showPassword ? 'text' : 'password'" placeholder="Senha:"
-                                        aria-describedby="addon-wrapping" style="border-radius: 0px;" @keypress.enter="aoEnviarFormulario">
+                                        aria-describedby="addon-wrapping" style="border-radius: 0px;"
+                                        @keypress.enter="aoEnviarFormulario">
                                     <label for="password">Insira a senha:</label>
                                     <span class="input-group-text" id="addon-wrapping"
                                         style="padding: 0px; border-radius: 0px;">
@@ -137,31 +161,18 @@ export default {
                                     </span>
                                 </div>
                                 <div class="div-esqueci-senha">
-                                    <a @click="aoEnviarFormulario" class="col-12 btn btn-lg btn-primary rounded-5">
+                                    <button name="submit" id="submit" @click.prevent="aoEnviarFormulario"
+                                        class="col-12 btn btn-lg btn-primary rounded-5">
                                         <span v-if="enviando"><span v-if="enviando"><i
                                                     class="fa fa-spinner fa-spin fa-fw"></i></span></span>
                                         <span>Entrar</span>
-                                    </a>
+                                    </button>
                                     <p class="text-center w-100">
                                         <a class="esqueci-senha btn btn-link" href="/recuperar">Esqueceu a senha? Clique
                                             aqui para recuperar</a>
                                     </p>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                    <div class="col-6 toast-container position-fixed top-0 end-0 p-3">
-                        <div class="toast align-items-center text-white bg-warning border-0" role="alert"
-                            aria-live="assertive" aria-atomic="true" ref="toast">
-                            <div class="d-flex">
-                                <div id="mensagem" class="toast-body" style="display: -webkit-inline-box;">
-                                    <i style="margin: 0px 10px 0px 0px; font-size: x-large;"
-                                        class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                    <p style="font-size: 18px;" v-if="mensagem">{{ mensagem }}</p>
-                                </div>
-                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                                    aria-label="Close"></button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -278,7 +289,7 @@ a {
     transform: translate(-50%, -50%);
 }
 
-section{
+section {
     overflow: hidden;
 }
 </style>

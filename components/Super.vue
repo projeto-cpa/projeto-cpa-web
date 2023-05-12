@@ -28,7 +28,7 @@ export default {
 </script>
 
 <template>
-  <div class="container-fluid p-0 super" v-if="show">
+  <div class="container-fluid p-0 super" v-show="show">
     <div class="row m-0">
       <slot></slot>
     </div>
