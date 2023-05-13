@@ -52,7 +52,6 @@ test('expandir cargos',  async ({ page }) => {
     // click on 'cargos'
     await page.click(expandCargoSelector);
 
-    await page.locator(expandCargoCadastrarSelector);
     await page.click(expandCargoCadastrarSelector);
 });
 
@@ -76,7 +75,6 @@ test('expandir disciplinas',  async ({ page }) => {
     // click on 'disciplinas'
     await page.click(expandDisciplinaSelector);
 
-    await page.locator(expandDisciplinaCadastrarSelector);
     await page.click(expandDisciplinaCadastrarSelector);
 });
 
@@ -100,7 +98,6 @@ test('expandir turmas',  async ({ page }) => {
     // click on 'turmas'
     await page.click(expandTurmaSelector);
 
-    await page.locator(expandTurmaCadastrarSelector);
     await page.click(expandTurmaCadastrarSelector);
 });
 
@@ -124,7 +121,6 @@ test('expandir cursos',  async ({ page }) => {
     // click on 'cursos'
     await page.click(expandCursoSelector);
 
-    await page.locator(expandCursoCadastrarSelector);
     await page.click(expandCursoCadastrarSelector);
 });
 
@@ -148,7 +144,6 @@ test('expandir perguntas',  async ({ page }) => {
     // click on 'perguntas'
     await page.click(expandPerguntaSelector);
 
-    await page.locator(expandPerguntaCadastrarSelector);
     await page.click(expandPerguntaCadastrarSelector);
 });
 
@@ -172,7 +167,6 @@ test('expandir respostas',  async ({ page }) => {
     // click on 'respostas'
     await page.click(expandRespostaSelector);
 
-    await page.locator(expandRespostaCadastrarSelector);
     await page.click(expandRespostaCadastrarSelector);
 });
 
@@ -195,7 +189,6 @@ test('expandir usuarios',  async ({ page }) => {
     // click on 'usuarios'
     await page.click(expandUsuariotaSelector);
 
-    await page.locator(expandUsuarioCadastrarSelector);
     await page.click(expandUsuarioCadastrarSelector);
 });
 
@@ -219,6 +212,5 @@ test('expandir eixos',  async ({ page }) => {
     // click on 'eixos'
     await page.click(expandEixoSelector);
 
-    await page.locator(expandEixoCadastrarSelector);
     await page.click(expandEixoCadastrarSelector);
 });

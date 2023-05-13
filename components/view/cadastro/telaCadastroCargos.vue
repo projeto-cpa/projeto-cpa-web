@@ -177,7 +177,7 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <form class="row m-0" ref="formularioCadastro">
+                <form class="row m-0" ref="formularioCadastro" id="cadastro-cargo">
                     <div class="card p-0 card-register">
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
@@ -216,7 +216,7 @@ export default {
             </article>
         </section>
         <footer class="form-footer bg-white text-end">
-            <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando">
+            <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando" id="enviar-cargo">
                 <span>Cadastrar</span>
                 <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
             </button>
