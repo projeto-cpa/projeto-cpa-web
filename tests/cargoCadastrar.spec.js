@@ -60,3 +60,129 @@ test('cadastro passa ativo',  async ({ page }) => {
     await page.click(clickConfirmSelector);    
     await expect(page).toHaveTitle(/CPA - Tela de listagem de cargos/);
 });
+
+test('cadastro passa desativo',  async ({ page }) => {
+
+    await page.goto(serverURL);
+
+    await page.fill(emailSelector, email);
+    await page.fill(passwordSelector, password);
+  
+    // chec if the email is equals to the value filled
+    await expect(page.locator(emailSelector)).toHaveValue(email);
+    await expect(page.locator(passwordSelector)).toHaveValue(password);
+
+    // click on the button
+    await page.click(submitSelector);
+
+    // home verify
+    await expect(page).toHaveTitle(/cpa/);
+
+    // click on 'cargos' + 'cadastrar'
+    await page.click(expandCargoSelector);
+    await page.click(expandCargoCadastrarSelector);
+
+    // input
+    await page.fill(insertNomeSelector, nomeCargo);
+    await page.fill(insertDescricaoSeletor, descricaoCargo);
+    await page.selectOption(ativoSelector, "false");
+    await expect(page.locator(ativoSelector)).toHaveValue("false");
+
+    await page.click(sendSelector);
+    await expect(page.locator(alertSelector)).toHaveText(alertText);
+
+    await page.click(clickConfirmSelector);    
+    await expect(page).toHaveTitle(/CPA - Tela de listagem de cargos/);
+});
+
+test('cadastro sem nome',  async ({ page }) => {
+
+    await page.goto(serverURL);
+
+    await page.fill(emailSelector, email);
+    await page.fill(passwordSelector, password);
+  
+    // chec if the email is equals to the value filled
+    await expect(page.locator(emailSelector)).toHaveValue(email);
+    await expect(page.locator(passwordSelector)).toHaveValue(password);
+
+    // click on the button
+    await page.click(submitSelector);
+
+    // home verify
+    await expect(page).toHaveTitle(/cpa/);
+
+    // click on 'cargos' + 'cadastrar'
+    await page.click(expandCargoSelector);
+    await page.click(expandCargoCadastrarSelector);
+
+    // input
+    await page.fill(insertDescricaoSeletor, descricaoCargo);
+    await page.selectOption(ativoSelector, "true");
+    await expect(page.locator(ativoSelector)).toHaveValue("true");
+
+    await page.click(sendSelector);
+  
+    await expect(page).toHaveTitle(/CPA - Tela de cadastro de cargos/);
+});
+
+test('cadastro sem descricao',  async ({ page }) => {
+
+    await page.goto(serverURL);
+
+    await page.fill(emailSelector, email);
+    await page.fill(passwordSelector, password);
+  
+    // chec if the email is equals to the value filled
+    await expect(page.locator(emailSelector)).toHaveValue(email);
+    await expect(page.locator(passwordSelector)).toHaveValue(password);
+
+    // click on the button
+    await page.click(submitSelector);
+
+    // home verify
+    await expect(page).toHaveTitle(/cpa/);
+
+    // click on 'cargos' + 'cadastrar'
+    await page.click(expandCargoSelector);
+    await page.click(expandCargoCadastrarSelector);
+
+    // input
+    await page.fill(insertNomeSelector, nomeCargo);
+    await page.selectOption(ativoSelector, "true");
+    await expect(page.locator(ativoSelector)).toHaveValue("true");
+
+    await page.click(sendSelector);
+ 
+    await expect(page).toHaveTitle(/CPA - Tela de cadastro de cargos/);
+});
+
+test('cadastro sem ativo/desativo',  async ({ page }) => {
+
+    await page.goto(serverURL);
+
+    await page.fill(emailSelector, email);
+    await page.fill(passwordSelector, password);
+  
+    // chec if the email is equals to the value filled
+    await expect(page.locator(emailSelector)).toHaveValue(email);
+    await expect(page.locator(passwordSelector)).toHaveValue(password);
+
+    // click on the button
+    await page.click(submitSelector);
+
+    // home verify
+    await expect(page).toHaveTitle(/cpa/);
+
+    // click on 'cargos' + 'cadastrar'
+    await page.click(expandCargoSelector);
+    await page.click(expandCargoCadastrarSelector);
+
+    // input
+    await page.fill(insertNomeSelector, nomeCargo);
+    await page.fill(insertDescricaoSeletor, descricaoCargo);
+
+    await page.click(sendSelector);
+  
+    await expect(page).toHaveTitle(/CPA - Tela de cadastro de cargos/);
+});
