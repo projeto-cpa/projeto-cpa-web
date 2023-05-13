@@ -320,7 +320,7 @@ export default {
         <div class="main list-group rounded-0 ">
             <div v-for="link in links" :key="link.id" :data-link="link.texto.toLocaleLowerCase()" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0"
-                @click.stop.prevent="aoClicarPrincipal(link)">
+                @click.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>

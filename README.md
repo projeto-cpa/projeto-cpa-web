@@ -36,6 +36,10 @@ Ainda não definido.
 - Instale todas as dependências `npm install`
 - Execute o projeto utilizando o comando `npm run dev`
 
+## Executando testes
+
+- Execute os testes utilizando o comando `npm run test`
+
 ## Lista de comandos
 
 ```bash
@@ -44,6 +48,15 @@ $ npm install
 
 # Inicia o servidor localmente (usar esse comando para desenvolver)
 $ npm run dev
+
+# Inicia os scripts de testes com o playwright sem interface
+$ npm run test
+
+# Inicia a interface do playwright
+$ npm run test-ui
+
+# Instala os navegadores do playwright
+$ npx playwright install
 
 # compilar e rodar
 $ npm run build
