@@ -3,7 +3,8 @@
 Projeto CPA Biopark
 
 ## Padrão de código
-Visitar a [documetação](./PADRAO.md) de padrão de código 
+
+Visitar a [documetação](./PADRAO.md) de padrão de código
 
 ## Dependencias
 
@@ -14,7 +15,7 @@ Visitar a [documetação](./PADRAO.md) de padrão de código
 
 ## Ferramentas de testes
 
-Ainda não definido.
+- Playwright v1.33
 
 ## Requisitos do sistema
 
