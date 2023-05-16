@@ -6,7 +6,7 @@ Projeto CPA Biopark
 
 Visitar a [documetação](./PADRAO.md) de padrão de código
 
-## Dependencias
+## Dependencias e frameworks
 
 - Vue v3.0.0: componentes dinâmicos em HTML [documentação](https://vuejs.org/guide/introduction.html)
 - Bootstrap v5.3.0: classes de estilos HTML [documentação](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
