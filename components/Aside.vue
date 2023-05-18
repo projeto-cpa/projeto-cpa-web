@@ -1,6 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import emitter from '../helpers/emmiter';
+import emitter from '../helpers/emmiter.js';
+import locals from '../helpers/locals.js';
 
 export default {
     data: function () {
@@ -211,12 +212,14 @@ export default {
             }
         },
         classeItemAtivo: function (item) {
+            var cls = '';
             if (this.$nuxt.$route.path === item.caminho) {
-                return 'active bg-primary';
-            } else {
-                return '';
+                cls += 'active bg-secondary';
             }
-
+            if (this.minimizado) {
+                cls += ' minimized'
+            }
+            return cls;
         },
         classeFlexa: function (link) {
             if (link.ativo) {
@@ -238,18 +241,25 @@ export default {
             }
         },
         corTexto: function (link) {
+            var cls = ''
             if (link.ativo) {
-                return 'text-primary';
+                cls +='text-primary';
             } else {
-                return 'text-secondary'
+                cls += 'text-secondary'
             }
+            if (this.minimizado) {
+                cls += ' minimized'
+            }
+            return cls;
         },
         corItemTexto: function (item) {
+            var cls = '';
             if (this.$nuxt.$route.path === item.caminho) {
-                return 'text-white';
+                cls += 'text-white';
             } else {
-                return 'text-dark'
+                cls += 'text-dark'
             }
+            return cls;
         },
         classeTemItem: function (link) {
             //console.log(link);
@@ -267,6 +277,11 @@ export default {
             console.log('min')
             this.minimizado = state;
         },
+        recuperarEstadoMinimizado() {
+            if (locals.get('toggleMinBar') === 'true') {
+                this.minimizado = true;
+            }
+        }
     },
     computed: {
         classeAside: function () {
@@ -294,17 +309,18 @@ export default {
         emitter.on('toggleSideBar', this.aoAbrirSideBar);
         emitter.on('toggleMinBar', this.aoMinimizar);
         this.recuperarEstado();
+        this.recuperarEstadoMinimizado();
         require('bootstrap');
     }
 }
 </script>
 
 <template>
-    <aside class="col p-0 d-none d-lg-block" :class="classeAside">
+    <aside class="col p-0 d-none d-lg-block" :class="classeAside" id="aside">
         <div class="main list-group rounded-0 ">
-            <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
+            <div v-for="link in links" :key="link.id" :data-link="link.texto.toLocaleLowerCase()" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
                 class="principal list-group-item list-group-item-action btn rounded-0"
-                @click.stop.prevent="aoClicarPrincipal(link)">
+                @click.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
                     <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
@@ -314,7 +330,7 @@ export default {
                 </div>
                 <div :class="classeMostrar(link)" class="list-group collapse ms-2"
                     v-if="link.items && link.items.length > 0" :id="link.id">
-                    <a :class="classeItemAtivo(item)" @click.prevent="aoClicarItem(item)"
+                    <a :title="item.texto" :class="classeItemAtivo(item)" :data-item="item.texto.toLocaleLowerCase()" @click.prevent="aoClicarItem(item)"
                         v-for="(item, index2) in link.items" :key="index2"
                         class="list-group-item list-group-item-action btn mb-2 rounded-4">
                         <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
@@ -330,8 +346,9 @@ export default {
                         <div class="row m-0">
                             <div class="col-8">
                                 <a href="/conta" class="dropdown-header btn btn-link d-flex align-items-center">
-                                    <img src="/_nuxt/static/user.png" class="dropdown-user-img avatar me-2">
-                                    <div class="dropdown-user-details text-start">
+                                    <img :class="minimizado ? 'minimized' : ''" src="/_nuxt/static/user.png"
+                                        class="dropdown-user-img avatar me-2">
+                                    <div class="dropdown-user-details text-start" v-if="!minimizado || aside">
                                         <div class="dropdown-user-details-name">
                                             <b>Administrador</b>
                                         </div>
@@ -341,8 +358,8 @@ export default {
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-4 align-items-center d-flex">
-                                <a href="/acesso" class="w-100 btn btn-sm btn-secondary rounded-5">Sair</a>
+                            <div class="col-4 align-items-center d-flex" v-if="!minimizado || aside">
+                                <a href="/sair" class="w-100 btn btn-sm btn-secondary rounded-5">Sair</a>
                             </div>
                         </div>
                     </div>
@@ -437,6 +454,11 @@ footer .card {
     object-fit: contain;
 }
 
+.avatar.minimized{
+    width: 42px;
+    height: 42px;
+}
+
 @media (max-width: 991.98px) {
     .aside-opened {
         display: block !important;
@@ -446,18 +468,32 @@ footer .card {
     }
 }
 
-@media (min-width: 992px){
+@media (min-width: 992px) {
     aside.aside-min {
-    width: auto !important;
-    max-width: 95px !important;
+        width: auto !important;
+        max-width: 95px !important;
+    }
+
+    aside.aside-min .link-text,
+    aside.aside-min .list-text,
+    aside.aside-min .icon-arrow {
+        display: none;
+    }
+
+    aside.aside-min .link-header {
+        text-align: center;
+    }
+}
+.link-icon.minimized {
+    font-size: 24px;
 }
 
-aside.aside-min .link-text, aside.aside-min .list-text, aside.aside-min .icon-arrow {
-    display: none;
-}
-
-aside.aside-min .link-header{
-    text-align:center;
-}
+.list-group-item.minimized {
+    border-radius: 50% !important;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 !important;
+    text-align: center;
 }
 </style>

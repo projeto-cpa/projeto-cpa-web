@@ -1,10 +1,12 @@
 <script>
-import emitter from '~/helpers/emmiter';
+import emitter from '../helpers/emmiter.js';
+import locals from '../helpers/locals.js';
 
 export default {
     data: function () {
         return {
-            show: false
+            show: false,
+            menu: null
         };
     },
     mounted: function () {
@@ -13,7 +15,32 @@ export default {
     methods: {
         toggleMinBar: function () {
             this.show = !this.show;
+            var value = this.show ? 'true' : 'false';
+            locals.set('toggleMinBar', value);
             emitter.emit('toggleMinBar', this.show)
+        },
+        aoAbrirMenu: function (value) {
+            console.log('abri', value)
+            this.menu = value;
+        },
+        toggleSideBar() {
+            var that = this;
+            console.log(that.menu)
+            var menu = this.menu = this.menu === null || this.menu === false ? true : false;;
+            console.log('emit', menu);
+            emitter.emit('toggleSideBar', menu);
+            emitter.emit('bodyScroll', !menu);
+        },
+        recuperarEstadoMinimizado() {
+            if (locals.get('toggleMinBar') === 'true') {
+                this.minimizado = true;
+            }
+        }
+    },
+    mounted: function () {
+        emitter.on('toggleSideBar', this.aoAbrirMenu);
+        if (locals.get('toggleMinBar') === 'true') {
+            this.show = true;
         }
     }
 };
@@ -23,27 +50,41 @@ export default {
     <header class="col-12 p-0">
         <nav class="navbar navbar-expand-lg bg-white py-0" data-bs-theme="light">
             <div class="container-fluid">
-                <div class="navbar-brand">
-                    <a href="" class="btn btn-link p-0">
-                        <img src="../static/biopark_logo.png" alt="Logo" height="40" class="d-inline-block align-text-top" />
-                        <span><b>CPA</b></span>
+                <div :class="show ? 'minimized' : ''" class="navbar-brand">
+                    <a href="/" class="btn btn-link p-0">
+                        <template v-if="!show">
+                            <img src="../static/logo.png" alt="Logo" height="40"
+                                class="d-inline-block align-text-top" />
+                        </template>
+                        <template v-else>
+                            <img src="../static/logo.png" alt="Logo" height="40"
+                                class="d-inline-block align-text-top d-inline-block d-lg-none" />
+                            <img src="../static/logo-symbol.png" alt="Logo" height="40"
+                            class="d-inline-block align-text-top d-none d-lg-inline-block" />
+                        </template>
+                        <!-- <span><b>CPA</b></span> -->
                     </a>
-                    <button @click="toggleMinBar" class="btn btn-primary rounded-5 btn-aside d-none d-lg-block">
+                    <button :class="show ? 'minimized' : ''" @click="toggleMinBar"
+                        class="btn btn-primary btn-toggle rounded-5 btn-aside d-none d-lg-block">
                         <i v-if="show" class="fa fa-chevron-right"></i>
                         <i v-else class="fa fa-chevron-left"></i>
                     </button>
                 </div>
                 <div>
-                    <button class="navbar-toggler rounded-5 border-secondary btn" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars"></i>
+                    <button class="navbar-toggler rounded-5 border-secondary btn" @click="toggleSideBar">
+                        <template v-if="!menu || menu === null">
+                            <i class="fa fa-bars"></i>
+                        </template>
+                        <template v-else-if="menu">
+                            <i class="fa fa-times"></i>
+                        </template>
                     </button>
-                    <button type="button" class="btn btn-primary btn-notification position-relative rounded-5  d-inline-block d-lg-none">
-                            <span><i class="fa fa-bell-o"></i></span>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                99+</span>
-                        </button>
+                    <button type="button"
+                        class="btn btn-primary btn-notification position-relative rounded-5  d-inline-block d-lg-none">
+                        <span><i class="fa fa-bell-o"></i></span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            99+</span>
+                    </button>
                     <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle d-inline-block d-lg-none"
                         id="navbarDropdownUserImageMobile" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
@@ -138,17 +179,17 @@ header nav {
 }
 
 .navbar-brand {
-    position:relative;
+    position: relative;
     margin: 0px;
     width: 320px;
     height: 59px;
     text-align: center;
     margin-right: 20px;
-    background-color: rgba(248, 249, 250, 1) !important;
+    background-color: #fff !important;
     border-right: 1px solid #ccc;
 }
 
-.navbar-brand *{
+.navbar-brand * {
     text-decoration: none;
 }
 
@@ -157,10 +198,11 @@ header nav {
     padding-left: 0px;
 }
 
-.navbar-toggler, .btn-notification{
-    width:46px;
+.navbar-toggler,
+.btn-notification {
+    width: 46px;
     height: 46px;
-    text-align:center;
+    text-align: center;
 }
 
 .avatar {
@@ -180,7 +222,8 @@ header nav {
         text-align: left !important;
         padding-left: 20px !important;
         width: auto !important;
-        margin-right: 0px !important;;
+        margin-right: 0px !important;
+        ;
     }
 
     .navbar-collapse {
@@ -200,11 +243,19 @@ header nav {
     }
 }
 
-.btn-aside{
+.btn-aside {
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translate(0%, -50%);
 }
 
+.navbar-brand.minimized {
+    max-width: 95px;
+    width: 95px;
+}
+
+.btn-aside.minimized {
+    right: -18px;
+}
 </style>

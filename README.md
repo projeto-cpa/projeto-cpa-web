@@ -3,9 +3,10 @@
 Projeto CPA Biopark
 
 ## Padrão de código
-Visitar a [documetação](./PADRAO.md) de padrão de código 
 
-## Dependencias
+Visitar a [documetação](./PADRAO.md) de padrão de código
+
+## Dependencias e frameworks
 
 - Vue v3.0.0: componentes dinâmicos em HTML [documentação](https://vuejs.org/guide/introduction.html)
 - Bootstrap v5.3.0: classes de estilos HTML [documentação](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
@@ -14,7 +15,7 @@ Visitar a [documetação](./PADRAO.md) de padrão de código
 
 ## Ferramentas de testes
 
-Ainda não definido.
+- Playwright v1.33
 
 ## Requisitos do sistema
 
@@ -36,6 +37,10 @@ Ainda não definido.
 - Instale todas as dependências `npm install`
 - Execute o projeto utilizando o comando `npm run dev`
 
+## Executando testes
+
+- Execute os testes utilizando o comando `npm run test`
+
 ## Lista de comandos
 
 ```bash
@@ -44,6 +49,15 @@ $ npm install
 
 # Inicia o servidor localmente (usar esse comando para desenvolver)
 $ npm run dev
+
+# Inicia os scripts de testes com o playwright sem interface
+$ npm run test
+
+# Inicia a interface do playwright
+$ npm run test-ui
+
+# Instala os navegadores do playwright
+$ npx playwright install
 
 # compilar e rodar
 $ npm run build

@@ -1,18 +1,15 @@
-
-async function apiSessaoAcesso(data) {
-    var cabecalho = new Headers();
+async function listagemPergunta() {
 
     var opcoes = {
-        /*body:data,
-        method: 'POST',*/
         method: 'GET',
-        headers: cabecalho,
-        mode: 'no-cors',
-        cache: 'default'
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        mode: "cors"
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('/sessao/acesso.json', opcoes).then(function (response) {
+        fetch('http://localhost:8080/pergunta', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -23,9 +20,8 @@ async function apiSessaoAcesso(data) {
         });
     });
 
-    //console.log('resposta aguardada', resposta);
     return resposta;
 
 }
 
-export default apiSessaoAcesso;
+export default listagemPergunta;

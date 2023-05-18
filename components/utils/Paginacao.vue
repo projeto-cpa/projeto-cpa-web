@@ -1,5 +1,6 @@
 <script>
 import emmiter from '../../helpers/emmiter.js';
+import paginations from '../../helpers/paginations.js';
 
 export default {
     props: ['estado', 'requisicao', 'retorno'],
@@ -31,9 +32,7 @@ export default {
         }
     },
     methods: {
-        proximaPagina: async function () {
-            this.estado.pagina++;
-
+        atualizarPaginacao: async function () {
             emmiter.emit('aoIniciarCarregamento', true);
 
             this.$nextTick(() => {
@@ -56,42 +55,40 @@ export default {
 
             emmiter.emit('aoFinalizarCarregamento', false);
         },
+        proximaPagina: async function () {
+            this.estado.pagina++;
+            paginations.set(this.estado.pagina);
+        },
         paginaAnterior: async function () {
             this.estado.pagina--;
-
-            emmiter.emit('aoIniciarCarregamento', true);
-
-            this.$nextTick(() => {
-                this.$nuxt.$loading.start()
-            });
-
-            var resposta = await this.requisicao(this.estado.pagina, this.estado.quantidade);
-
-            this.retorno(resposta);
-
-            await new Promise(function (solve) {
-                setTimeout(function () {
-                    solve();
-                }, 750);
-            });
-
-            this.$nextTick(() => {
-                this.$nuxt.$loading.finish()
-            });
-
-            emmiter.emit('aoFinalizarCarregamento', false);
+            paginations.set(this.estado.pagina)
         }
     },
     mounted: function () {
 
-    }
+    },
+    created() {
+        var that = this;
+
+        window.addEventListener('hashchange', function() {
+            that.estado.pagina = Number(paginations.get());
+            that.atualizarPaginacao();
+        });
+
+        if (!paginations.get()) {
+            paginations.set('0');
+        } else {
+            that.estado.pagina = Number(paginations.get());
+        }
+        that.atualizarPaginacao();
+    },
 };
 </script>
 
 <template>
     <div class="row justify-content-center">
         <div class="col m-auto d-flex justify-content-start">
-            <a href="#" :class="classeBotaoAnterior" class="btn btn-secondary rounded-5" @click="paginaAnterior"
+            <a :class="classeBotaoAnterior" class="btn btn-secondary rounded-5" @click="paginaAnterior"
                 :disabled="botaoAnteriorDesativado">
                 <span><i class="fa fa-arrow-left"></i></span>
                 <span class="d-none d-md-inline-block">Anterior</span>
@@ -106,7 +103,7 @@ export default {
             </div>
         </div>
         <div class="col m-auto d-flex justify-content-end">
-            <a href="#" :class="classeBotaoProximo" class="btn btn-secondary rounded-5" @click="proximaPagina"
+            <a :class="classeBotaoProximo" class="btn btn-secondary rounded-5" @click="proximaPagina"
                 :disabled="botaoProximoDesativado">
                 <span class="d-none d-md-inline-block">Próximo</span>
                 <span><i class="fa fa-arrow-right"></i></span>

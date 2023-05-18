@@ -1,0 +1,146 @@
+{
+    "sucesso": true,
+    "paginas": 2,
+    "resultados": [
+        {
+            "id": 0,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 1,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 2,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 3,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 4,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 5,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 6,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 7,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 8,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 9,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 10,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 11,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 12,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 13,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 14,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 15,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 16,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 17,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 18,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        },
+        {
+            "id": 19,
+            "nome": "Nome da turma",
+            "descricao": "Descrição da turma",
+            "perido": "Periodo da turma",
+            "curso": "Curso referente a turma"
+        }
+    ]
+}

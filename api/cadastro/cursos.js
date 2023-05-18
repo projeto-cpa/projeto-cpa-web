@@ -7,7 +7,7 @@ async function Requisicao(data) {
 
     var opcoes = {
         body: json,
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },
