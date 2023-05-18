@@ -1,7 +1,7 @@
 <script>
 import Filtro from '../../utils/Filtro.vue';
-import Paginacao from '../../utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/disciplinas.js';
+// import Paginacao from '../../utils/Paginacao.vue'
+import listagemDisciplina from '../../../api/listagem/listagemDisciplina.js';
 
 export default {
     loading: {
@@ -9,7 +9,6 @@ export default {
     },
     data: function () {
         return {
-            Filtros: Filtros,
             recebendo: false,
             resultados: []
         };
@@ -65,7 +64,8 @@ export default {
                 this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao();
+            var resposta = await listagemDisciplina();
+            console.log('resposta', resposta);
             this.resultados = resposta;
 
             setTimeout(function () {
@@ -78,7 +78,7 @@ export default {
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        // 'Paginacao': Paginacao
     },
     mounted: function () {
         this.receberDados()
@@ -90,7 +90,7 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <Filtro :filtros="Filtros"></Filtro>
+                <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
                 <div class="card bg-light">
                     <div class="card-body">
@@ -186,7 +186,7 @@ export default {
                         </div>
                     </div>
                 </template>
-                <Paginacao></Paginacao>
+                <!-- <Paginacao></Paginacao> -->
             </article>
         </section>
         <footer class="form-footer bg-white">

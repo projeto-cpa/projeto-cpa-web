@@ -1,13 +1,7 @@
-import formToJSON from "../../helpers/formToJSON.js";
-
-async function Requisicao(data) {
-    console.log('data', data);
-    var json = formToJSON(data);
-    console.log('json', json);
+async function listagemResposta() {
 
     var opcoes = {
-        body: json,
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -15,7 +9,7 @@ async function Requisicao(data) {
     };
 
     var resposta = await new Promise(function (resolver) {
-        fetch('http://localhost:8080/cadastro/cargos', opcoes).then(function (response) {
+        fetch('http://localhost:8080/resposta', opcoes).then(function (response) {
             if (response.ok) {
                 return response.json();
             } else {
@@ -30,6 +24,4 @@ async function Requisicao(data) {
 
 }
 
-export {
-    Requisicao
-};
+export default listagemResposta;

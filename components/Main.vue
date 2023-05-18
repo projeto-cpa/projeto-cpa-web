@@ -6,7 +6,7 @@ export default {
 
 <template>
     <main class="col p-0 bg-light">
-        <header class="bg-primary">
+        <header class="bg-secondary">
             <h1 class="text-white">{{ titulo }}</h1>
         </header>
         <div class="content-frame">
@@ -41,6 +41,7 @@ export default {
     padding: 0 20px !important;
     height: 60px !important;
     line-height: 60px !important;
+    z-index: 100;
 }
 </style>
 
@@ -53,6 +54,7 @@ header{
     width:100%;
     height: 60px;
     /*background-color: #273c4f;*/
+    box-shadow: 3px 3px 9px var(--bs-gray-400);
 }
 
 header h1{
@@ -67,6 +69,7 @@ header h1{
     position:relative;
     height:calc(100vh - 120px) !important;
     z-index: 2;
+    box-shadow: inset 3px 3px 9px var(--bs-gray-400);
 }
 
 main{

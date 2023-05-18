@@ -1,6 +1,6 @@
 <script>
 import Filtro from '../../../components/utils/Filtro.vue';
-import Paginacao from '../../../components/utils/Paginacao.vue'
+// import Paginacao from '../../../components/utils/Paginacao.vue'
 import { Filtros, Requisicao } from '../../../api/listagem/turmas.js';
 
 export default {
@@ -78,7 +78,7 @@ export default {
     },
     components: {
         'Filtro': Filtro,
-        'Paginacao': Paginacao
+        // 'Paginacao': Paginacao
     },
     mounted: function () {
         this.receberDados()
@@ -186,7 +186,7 @@ export default {
                         </div>
                     </div>
                 </template>
-                <Paginacao></Paginacao>
+                <!-- <Paginacao></Paginacao> -->
             </article>
         </section>
         <footer class="form-footer bg-white">

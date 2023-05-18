@@ -1,9 +1,12 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import emitter from '../helpers/emmiter';
 
 export default {
     data: function () {
         return {
+            aside: false,
+            minimizado: false,
             links: [
                 {
                     caminho: '/',
@@ -15,14 +18,14 @@ export default {
                 {
                     caminho: '/conta',
                     texto: 'Conta',
-                    icone: 'fa fa-user',
+                    icone: 'fa fa-user-circle',
                     id: uuidv4(),
                     ativo: false
                 },
                 {
                     caminho: '/cargos',
                     texto: 'Cargos',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-id-card',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -41,7 +44,7 @@ export default {
                 {
                     caminho: '/disciplinas',
                     texto: 'Disciplinas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-book',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -60,7 +63,7 @@ export default {
                 {
                     caminho: '/turmas',
                     texto: 'Turmas',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-users',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -79,7 +82,7 @@ export default {
                 {
                     caminho: '/cursos',
                     texto: 'Cursos',
-                    icone: 'fa fa-bars',
+                    icone: 'fa fa-graduation-cap',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -98,7 +101,7 @@ export default {
                 {
                     caminho: '/perguntas',
                     texto: 'Perguntas',
-                    icone: 'fa fa-question-circle',
+                    icone: 'fa fa-commenting',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -117,7 +120,7 @@ export default {
                 {
                     caminho: '/respostas',
                     texto: 'Respostas',
-                    icone: 'fa fa-pencil',
+                    icone: 'fa fa-comments',
                     id: 'a' + uuidv4().replace('-', ''),
                     ativo: false,
                     items: [
@@ -176,7 +179,6 @@ export default {
     },
     methods: {
         aoClicarPrincipal: function (link) {
-            console.log('clicou')
             if (!link.items) {
                 this.$router.push({ path: link.caminho });
             }
@@ -196,8 +198,11 @@ export default {
             this.$router.push({ path: item.caminho });
         },
         classeAtiva: function (link) {
+            //console.log(link);
             if (link.ativo) {
-                return 'active';
+                return 'active bg-light border-light';
+            } else {
+                return ''
             }
         },
         classeMostrar: function (link) {
@@ -207,7 +212,7 @@ export default {
         },
         classeItemAtivo: function (item) {
             if (this.$nuxt.$route.path === item.caminho) {
-                return 'active';
+                return 'active bg-primary';
             } else {
                 return '';
             }
@@ -234,9 +239,9 @@ export default {
         },
         corTexto: function (link) {
             if (link.ativo) {
-                return 'text-white';
+                return 'text-primary';
             } else {
-                return 'text-dark'
+                return 'text-secondary'
             }
         },
         corItemTexto: function (item) {
@@ -247,14 +252,47 @@ export default {
             }
         },
         classeTemItem: function (link) {
+            //console.log(link);
             if (link.items) {
                 return 'has-items';
             } else {
                 return '';
             }
+        },
+        aoAbrirSideBar: function (state) {
+            console.log('aqui', state)
+            this.aside = state;
+        },
+        aoMinimizar: function (state) {
+            console.log('min')
+            this.minimizado = state;
+        },
+    },
+    computed: {
+        classeAside: function () {
+            var cls = '';
+
+            if (this.aside) {
+                console.log('1')
+                cls += 'aside-opened';
+            } else {
+                console.log('2')
+                cls += 'aside-closed';
+            }
+
+            if (this.minimizado) {
+                cls += ' aside-min';
+            } else {
+                cls += ' aside-max'
+            }
+
+            return cls;
+
         }
     },
     mounted: function () {
+        emitter.on('toggleSideBar', this.aoAbrirSideBar);
+        emitter.on('toggleMinBar', this.aoMinimizar);
         this.recuperarEstado();
         require('bootstrap');
     }
@@ -262,21 +300,23 @@ export default {
 </script>
 
 <template>
-    <aside class="col p-0">
-        <div class="list-group rounded-0">
+    <aside class="col p-0 d-none d-lg-block" :class="classeAside">
+        <div class="main list-group rounded-0 ">
             <div v-for="link in links" :key="link.id" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
-                class="principal list-group-item list-group-item-action btn rounded-0" @click="aoClicarPrincipal(link)">
+                class="principal list-group-item list-group-item-action btn rounded-0"
+                @click.stop.prevent="aoClicarPrincipal(link)">
                 <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
                     <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
-                    <span :class="corTexto(link)" class="link-text">{{ link.texto }}</span>
-                    <span v-if="link.items" class="link-arrow">
-                        <i :class="classeFlexa(link)"></i>
+                    <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
+                    <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
+                        <i :class="classeFlexa(link)" class="icon-arrow"></i>
                     </span>
                 </div>
                 <div :class="classeMostrar(link)" class="list-group collapse ms-2"
                     v-if="link.items && link.items.length > 0" :id="link.id">
-                    <a :class="classeItemAtivo(item)" @click="aoClicarItem(item)" v-for="(item, index2) in link.items"
-                        :key="index2" class="list-group-item list-group-item-action btn mb-2 rounded-4">
+                    <a :class="classeItemAtivo(item)" @click.prevent="aoClicarItem(item)"
+                        v-for="(item, index2) in link.items" :key="index2"
+                        class="list-group-item list-group-item-action btn mb-2 rounded-4">
                         <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
                         <span :class="corItemTexto(item)" class="list-text">{{ item.texto }}</span>
                     </a>
@@ -289,12 +329,15 @@ export default {
                     <div class="container-fluid p-0">
                         <div class="row m-0">
                             <div class="col-8">
-                                <a href="/conta" class="dropdown-header d-flex align-items-center" data-v-1a9bb128=""><img
-                                        src="/_nuxt/static/user.png" class="dropdown-user-img avatar" data-v-1a9bb128="">
-                                    <div class="dropdown-user-details" data-v-1a9bb128="">
-                                        <div class="dropdown-user-details-name" data-v-1a9bb128="">Administrador</div>
-                                        <div class="dropdown-user-details-email small" data-v-1a9bb128="">
-                                            admin@admin</div>
+                                <a href="/conta" class="dropdown-header btn btn-link d-flex align-items-center">
+                                    <img src="/_nuxt/static/user.png" class="dropdown-user-img avatar me-2">
+                                    <div class="dropdown-user-details text-start">
+                                        <div class="dropdown-user-details-name">
+                                            <b>Administrador</b>
+                                        </div>
+                                        <div class="dropdown-user-details-email small">
+                                            <span>admin@admin</span>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
@@ -327,6 +370,11 @@ aside footer {
     height: 60px;
 }
 
+aside .main.list-group {
+    height: calc(100% - 60px);
+    overflow-y: auto;
+}
+
 footer .card {
     height: 60px;
     padding: 0 !important;
@@ -349,6 +397,10 @@ footer .card {
     /*border-color: #273c4f !important;*/
 }
 
+.list-group-item:active {
+    border: 1px solid #ccc !important;
+}
+
 .list-group-item .list-group-item {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -366,6 +418,7 @@ footer .card {
 
 .principal.list-group-item.active {
     height: auto !important;
+    box-shadow: inset 0px 3px 3px var(--bs-gray-400);
 }
 
 .list-group.collapse {
@@ -376,5 +429,35 @@ footer .card {
 .list-group-item:active .list-group-item:active * {
     color: #0d6efd !important;
     border-color: #0d6efd !important;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+@media (max-width: 991.98px) {
+    .aside-opened {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+}
+
+@media (min-width: 992px){
+    aside.aside-min {
+    width: auto !important;
+    max-width: 95px !important;
+}
+
+aside.aside-min .link-text, aside.aside-min .list-text, aside.aside-min .icon-arrow {
+    display: none;
+}
+
+aside.aside-min .link-header{
+    text-align:center;
+}
 }
 </style>

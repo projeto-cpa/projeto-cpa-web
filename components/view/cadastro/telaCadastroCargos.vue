@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/cargos.js'
+import cadastroCargo from '../../../api/cadastro/cadastroCargo.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -119,43 +119,48 @@ export default {
             if (!this.validarFormulario()) {
                 return;
             }
-            var that = this;
 
             var data = new FormData(this.$refs.formularioCadastro);
-            that.enviando = true;
+            this.enviando = true;
 
-            that.$nextTick(() => {
-                that.$nuxt.$loading.start()
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao(data);
+            var resposta = await cadastroCargo(data);
 
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
+            });
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            });
+
+            this.enviando = false;
+            if (resposta.sucesso) {
+                
+                var modal = await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao cadastrar',
+                    text: 'O cadastro obteve sucesso',
+                    confirmButtonText: 'Entendido'
                 });
-            }, 750);
 
-            setTimeout(function () {
-                that.enviando = false;
-                if (resposta.sucesso) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso ao cadastrar',
-                        text: 'O cadastro obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ocorreu uma falha',
-                        text: 'O cadastro não obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    });
+                if (modal) {
+                    this.$router.push({ path: '/listagem/cargos' });
                 }
-            }, 1000);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ocorreu uma falha',
+                    text: 'O cadastro não obteve sucesso',
+                    confirmButtonText: 'Entendido'
+                });
+            }
         }
     },
     mounted: async function () {
@@ -173,7 +178,7 @@ export default {
         <section>
             <article>
                 <form class="row m-0" ref="formularioCadastro">
-                    <div class="card p-0">
+                    <div class="card p-0 card-register">
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
@@ -183,8 +188,9 @@ export default {
                                             @keypress="campo.validar()" :class="inputClass(campo.valido)">
                                     </template>
                                     <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor" class="form-control"
-                                            :id="campo.id" @change="campo.validar()" :class="inputClass(campo.valido)">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
                                             <option value="" disabled selected>Selecione uma opção</option>
                                             <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
                                                 {{ valor.nome }}
@@ -230,8 +236,7 @@ textarea {
     min-height: 58px !important
 }
 
-textarea,
-input {
-    background-position: calc(100% - 40px) 20px !important;
+.card-register{
+    box-shadow: 0px 0px 9px var(--bs-gray-400);
 }
 </style>
