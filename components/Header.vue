@@ -1,18 +1,33 @@
 <script>
 import emitter from '../helpers/emmiter.js';
 import locals from '../helpers/locals.js';
+import listagemUsuario from '~/api/listagem/listagemUsuario';
+import sessions from '~/helpers/sessions';
 
 export default {
     data: function () {
         return {
+            dados: {
+                email: null,
+                nome: null,
+                sobrenome: null
+            },
             show: false,
-            menu: null
+            menu: null,
         };
+
     },
-    mounted: function () {
-        const bootstrap = require('bootstrap');
+    computed: {
+        idUsuario: function () {
+            return sessions.get("session_id");
+        },
     },
     methods: {
+        pegarDados: async function () {
+            var dados = await listagemUsuario(this.idUsuario);
+            console.log('dados', dados)
+            this.dados = dados;
+        },
         toggleMinBar: function () {
             this.show = !this.show;
             var value = this.show ? 'true' : 'false';
@@ -38,119 +53,121 @@ export default {
         }
     },
     mounted: function () {
+        const bootstrap = require('bootstrap');
         emitter.on('toggleSideBar', this.aoAbrirMenu);
         if (locals.get('toggleMinBar') === 'true') {
             this.show = true;
         }
+        this.pegarDados();
     }
 };
 </script>
 
 <template>
-    <header class="col-12 p-0">
-        <nav class="navbar navbar-expand-lg bg-white py-0" data-bs-theme="light">
-            <div class="container-fluid">
-                <div :class="show ? 'minimized' : ''" class="navbar-brand">
-                    <a href="/" class="btn btn-link p-0">
-                        <template v-if="!show">
-                            <img src="../static/logo.png" alt="Logo" height="40"
-                                class="d-inline-block align-text-top" />
-                        </template>
-                        <template v-else>
-                            <img src="../static/logo.png" alt="Logo" height="40"
-                                class="d-inline-block align-text-top d-inline-block d-lg-none" />
-                            <img src="../static/logo-symbol.png" alt="Logo" height="40"
-                            class="d-inline-block align-text-top d-none d-lg-inline-block" />
-                        </template>
-                        <!-- <span><b>CPA</b></span> -->
-                    </a>
-                    <button :class="show ? 'minimized' : ''" @click="toggleMinBar"
-                        class="btn btn-primary btn-toggle rounded-5 btn-aside d-none d-lg-block">
-                        <i v-if="show" class="fa fa-chevron-right"></i>
-                        <i v-else class="fa fa-chevron-left"></i>
-                    </button>
-                </div>
-                <div>
-                    <button class="navbar-toggler rounded-5 border-secondary btn" @click="toggleSideBar">
-                        <template v-if="!menu || menu === null">
-                            <i class="fa fa-bars"></i>
-                        </template>
-                        <template v-else-if="menu">
-                            <i class="fa fa-times"></i>
-                        </template>
-                    </button>
-                    <button type="button"
-                        class="btn btn-primary btn-notification position-relative rounded-5  d-inline-block d-lg-none">
-                        <span><i class="fa fa-bell-o"></i></span>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            99+</span>
-                    </button>
-                    <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle d-inline-block d-lg-none"
-                        id="navbarDropdownUserImageMobile" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
-                    <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up user-dropdown"
-                        aria-labelledby="navbarDropdownUserImageMobile">
-                        <h6 class="dropdown-header d-flex align-items-center">
-                            <img class="dropdown-user-img avatar" src="../static/user.png">
-                            <div class="dropdown-user-details">
-                                <div class="dropdown-user-details-name">Administrador</div>
-                                <div class="dropdown-user-details-email small">admin@admin</div>
-                            </div>
-                        </h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/conta">
-                            <i class="fa fa-user"></i> Minha conta </a>
-                        <a class="dropdown-item" href="/acesso">
-                            <i class="fa fa-sign-out"></i> Sair </a>
-                    </div>
-                </div>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Informativos</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">Links úteis</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item">Portal do aluno</a></li>
-                                <li><a class="dropdown-item">Portal do professor</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="d-flex me-2" role="search">
-                        <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..."
-                            aria-label="Search" />
-                        <button class="btn btn-secondary position-relative rounded-5" type="submit">
-                            <span><i class="fa fa-search"></i></span>
-                        </button>
-                    </form>
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-primary position-relative rounded-5 d-none d-lg-block">
-                            <span class="d-xl-inline d-md-none d-inline">Notificações</span>
-                            <span><i class="fa fa-bell-o"></i></span>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                99+</span>
-                        </button>
-                    </div>
-                    <ul class="navbar-nav ms-2 d-none d-lg-flex">
-                        <li class="nav-item dropdown no-caret dropdown-user">
-                            <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle"
-                                id="navbarDropdownUserImage" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
-                            <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up user-dropdown"
-                                aria-labelledby="navbarDropdownUserImage">
-                                <h6 class="dropdown-header d-flex align-items-center">
-                                    <img class="dropdown-user-img avatar" src="../static/user.png">
-                                    <div class="dropdown-user-details">
-                                        <div class="dropdown-user-details-name">Administrador</div>
-                                        <div class="dropdown-user-details-email small">admin@admin</div>
+                                <header class="col-12 p-0">
+                                    <nav class="navbar navbar-expand-lg bg-white py-0" data-bs-theme="light">
+                                        <div class="container-fluid">
+                                            <div :class="show ? 'minimized' : ''" class="navbar-brand">
+                                                <a href="/" class="btn btn-link p-0">
+                                                    <template v-if="!show">
+                                                        <img src="../static/logo.png" alt="Logo" height="40"
+                                                            class="d-inline-block align-text-top" />
+                                                    </template>
+                                                    <template v-else>
+                                                        <img src="../static/logo.png" alt="Logo" height="40"
+                                                            class="d-inline-block align-text-top d-inline-block d-lg-none" />
+                                                        <img src="../static/logo-symbol.png" alt="Logo" height="40"
+                                                        class="d-inline-block align-text-top d-none d-lg-inline-block" />
+                                                    </template>
+                                                    <!-- <span><b>CPA</b></span> -->
+                                                </a>
+                                                <button :class="show ? 'minimized' : ''" @click="toggleMinBar"
+                                                    class="btn btn-primary btn-toggle rounded-5 btn-aside d-none d-lg-block">
+                                                    <i v-if="show" class="fa fa-chevron-right"></i>
+                                                    <i v-else class="fa fa-chevron-left"></i>
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="navbar-toggler rounded-5 border-secondary btn" @click="toggleSideBar">
+                                                    <template v-if="!menu || menu === null">
+                                                        <i class="fa fa-bars"></i>
+                                                    </template>
+                                                    <template v-else-if="menu">
+                                                        <i class="fa fa-times"></i>
+                                                    </template>
+                                                </button>
+                                                <button type="button"
+                                                    class="btn btn-primary btn-notification position-relative rounded-5  d-inline-block d-lg-none">
+                                                    <span><i class="fa fa-bell-o"></i></span>
+                                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                        99+</span>
+                                                </button>
+                                                <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle d-inline-block d-lg-none"
+                                                    id="navbarDropdownUserImageMobile" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
+                                                <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up user-dropdown"
+                                                    aria-labelledby="navbarDropdownUserImageMobile">
+                                                    <h6 class="dropdown-header d-flex align-items-center">
+                                                        <img class="dropdown-user-img avatar" src="../static/user.png">
+                                                        <div class="dropdown-user-details">
+                                                            <div class="dropdown-user-details-name">{{ dados.nome }}</div>
+                                                            <div class="dropdown-user-details-email small">{{ dados.email }}</div>
+                                                </div>
+                                            </h6>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="/conta">
+                                                <i class="fa fa-user"></i> Minha conta </a>
+                                            <a class="dropdown-item" href="/sair">
+                                                <i class="fa fa-sign-out"></i> Sair </a>
+                                        </div>
                                     </div>
-                                </h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/conta">
-                                    <i class="fa fa-user"></i> Minha conta </a>
-                                <a class="dropdown-item" href="/acesso">
+                                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">Informativos</a>
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">Links úteis</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item">Portal do aluno</a></li>
+                                                    <li><a class="dropdown-item">Portal do professor</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <form class="d-flex me-2" role="search">
+                                            <input class="form-control me-2 rounded-5" type="search" placeholder="Pesquisar..."
+                                                aria-label="Search" />
+                                            <button class="btn btn-secondary position-relative rounded-5" type="submit">
+                                                <span><i class="fa fa-search"></i></span>
+                                            </button>
+                                        </form>
+                                        <div class="d-flex">
+                                            <button type="button" class="btn btn-primary position-relative rounded-5 d-none d-lg-block">
+                                                <span class="d-xl-inline d-md-none d-inline">Notificações</span>
+                                                <span><i class="fa fa-bell-o"></i></span>
+                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                    99+</span>
+                                            </button>
+                                        </div>
+                                        <ul class="navbar-nav ms-2 d-none d-lg-flex">
+                                            <li class="nav-item dropdown no-caret dropdown-user">
+                                                <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle"
+                                                    id="navbarDropdownUserImage" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
+                                                <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up user-dropdown"
+                                                    aria-labelledby="navbarDropdownUserImage">
+                                                    <h6 class="dropdown-header d-flex align-items-center">
+                                                        <img class="dropdown-user-img avatar" src="../static/user.png">
+                                                        <div class="dropdown-user-details">
+                                                            <div class="dropdown-user-details-name">{{ dados.nome }}</div>
+                                                            <div class="dropdown-user-details-email small">{{ dados.email }}</div>
+                                        </div>
+                                    </h6>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/conta">
+                                        <i class="fa fa-user"></i> Minha conta </a>
+                                    <a class="dropdown-item" href="/sair">
                                     <i class="fa fa-sign-out"></i> Sair </a>
                             </div>
                         </li>

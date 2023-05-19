@@ -2,10 +2,18 @@
 import { v4 as uuidv4 } from 'uuid';
 import emitter from '../helpers/emmiter.js';
 import locals from '../helpers/locals.js';
+import listagemUsuario from "~/api/listagem/listagemUsuario";
+import sessions from '~/helpers/sessions';
 
 export default {
     data: function () {
         return {
+            dados: {
+                email: null,
+                nome: null,
+                sobrenome: null
+            },
+
             aside: false,
             minimizado: false,
             links: [
@@ -179,6 +187,12 @@ export default {
         };
     },
     methods: {
+        pegarDados: async function () {
+            var dados = await listagemUsuario(this.idUsuario);
+            console.log('dados', dados)
+            this.dados = dados;
+        },
+
         aoClicarPrincipal: function (link) {
             if (!link.items) {
                 this.$router.push({ path: link.caminho });
@@ -243,7 +257,7 @@ export default {
         corTexto: function (link) {
             var cls = ''
             if (link.ativo) {
-                cls +='text-primary';
+                cls += 'text-primary';
             } else {
                 cls += 'text-secondary'
             }
@@ -303,6 +317,10 @@ export default {
 
             return cls;
 
+        },
+
+        idUsuario: function () {
+            return sessions.get("session_id");
         }
     },
     mounted: function () {
@@ -311,49 +329,50 @@ export default {
         this.recuperarEstado();
         this.recuperarEstadoMinimizado();
         require('bootstrap');
+        this.pegarDados();
     }
 }
 </script>
 
 <template>
-    <aside class="col p-0 d-none d-lg-block" :class="classeAside" id="aside">
-        <div class="main list-group rounded-0 ">
-            <div v-for="link in links" :key="link.id" :data-link="link.texto.toLocaleLowerCase()" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
-                class="principal list-group-item list-group-item-action btn rounded-0"
-                @click.prevent="aoClicarPrincipal(link)">
-                <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
-                    <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
-                    <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
-                    <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
-                        <i :class="classeFlexa(link)" class="icon-arrow"></i>
-                    </span>
-                </div>
-                <div :class="classeMostrar(link)" class="list-group collapse ms-2"
-                    v-if="link.items && link.items.length > 0" :id="link.id">
-                    <a :title="item.texto" :class="classeItemAtivo(item)" :data-item="item.texto.toLocaleLowerCase()" @click.prevent="aoClicarItem(item)"
-                        v-for="(item, index2) in link.items" :key="index2"
-                        class="list-group-item list-group-item-action btn mb-2 rounded-4">
-                        <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
-                        <span :class="corItemTexto(item)" class="list-text">{{ item.texto }}</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <footer class="aside-footer">
-            <div class="card rounded-0">
-                <div class="card-body py-2 bg-light">
-                    <div class="container-fluid p-0">
-                        <div class="row m-0">
-                            <div class="col-8">
-                                <a href="/conta" class="dropdown-header btn btn-link d-flex align-items-center">
-                                    <img :class="minimizado ? 'minimized' : ''" src="/_nuxt/static/user.png"
-                                        class="dropdown-user-img avatar me-2">
-                                    <div class="dropdown-user-details text-start" v-if="!minimizado || aside">
-                                        <div class="dropdown-user-details-name">
-                                            <b>Administrador</b>
+                            <aside class="col p-0 d-none d-lg-block" :class="classeAside" id="aside">
+                                <div class="main list-group rounded-0 ">
+                                    <div v-for="link in links" :key="link.id" :data-link="link.texto.toLocaleLowerCase()" :title="link.texto" :class="classeAtiva(link) + ' ' + classeTemItem(link)"
+                                        class="principal list-group-item list-group-item-action btn rounded-0"
+                                        @click.prevent="aoClicarPrincipal(link)">
+                                        <div class="link-header" data-bs-toggle="collapse" :data-bs-target="'#' + link.id">
+                                            <i class="link-icon" :class="link.icone + ' ' + corTexto(link)"></i>
+                                            <span :class="corTexto(link)" class="link-text"><b>{{ link.texto }}</b></span>
+                                            <span v-if="link.items" :class="corTexto(link)" class="link-arrow">
+                                                <i :class="classeFlexa(link)" class="icon-arrow"></i>
+                                            </span>
                                         </div>
-                                        <div class="dropdown-user-details-email small">
-                                            <span>admin@admin</span>
+                                        <div :class="classeMostrar(link)" class="list-group collapse ms-2"
+                                            v-if="link.items && link.items.length > 0" :id="link.id">
+                                            <a :title="item.texto" :class="classeItemAtivo(item)" :data-item="item.texto.toLocaleLowerCase()" @click.prevent="aoClicarItem(item)"
+                                                v-for="(item, index2) in link.items" :key="index2"
+                                                class="list-group-item list-group-item-action btn mb-2 rounded-4">
+                                                <i class="list-icon" :class="item.icone + ' ' + corItemTexto(item)"></i>
+                                                <span :class="corItemTexto(item)" class="list-text">{{ item.texto }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <footer class="aside-footer">
+                                    <div class="card rounded-0">
+                                        <div class="card-body py-2 bg-light">
+                                            <div class="container-fluid p-0">
+                                                <div class="row m-0">
+                                                    <div class="col-8">
+                                                        <a href="/conta" class="dropdown-header btn btn-link d-flex align-items-center">
+                                                            <img :class="minimizado ? 'minimized' : ''" src="/_nuxt/static/user.png"
+                                                                class="dropdown-user-img avatar me-2">
+                                                            <div class="dropdown-user-details text-start" v-if="!minimizado || aside">
+                                                                <div class="dropdown-user-details-name">
+                                                                    <b>{{ dados.nome }}</b>
+                                                                </div>
+                                                                <div class="dropdown-user-details-email small">
+                                                                    <span>{{ dados.email }}</span>
                                         </div>
                                     </div>
                                 </a>
