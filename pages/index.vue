@@ -41,7 +41,7 @@ export default {
   <Super v-if="show">
     <Header></Header>
     <Aside></Aside>
-    <Main titulo="Tela inícial">
+    <Main titulo="Tela inícial" :expand="true">
       <telaInicial></telaInicial>
     </Main>
     <Footer></Footer>
