@@ -37,6 +37,7 @@ export default {
             console.log('resposta', resposta);
             if (resposta.sucesso) {
                 sessions.set('session_token', resposta.token);
+                sessions.set('session_id', resposta.idUsuario);
                 console.log('Cookies setted', sessions.get('session_token'));
                 this.$router.push({ path: '/' });
             } else {
