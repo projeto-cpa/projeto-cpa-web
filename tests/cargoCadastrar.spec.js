@@ -23,10 +23,6 @@ const alertSelector = '#swal2-title.swal2-title';
 const alertText = 'Sucesso ao cadastrar';
 const clickConfirmSelector = '.swal2-container .swal2-actions .swal2-confirm';
 
-//CPA - Tela de listagem de cargos
-//.swal2-container .swal2-actions .swal2-confirm
-
-
 test('cadastro passa ativo',  async ({ page }) => {
 
     await page.goto(serverURL);
@@ -59,6 +55,7 @@ test('cadastro passa ativo',  async ({ page }) => {
 
     await page.click(clickConfirmSelector);    
     await expect(page).toHaveTitle(/CPA - Tela de listagem de cargos/);
+    await page.close();
 });
 
 test('cadastro passa desativo',  async ({ page }) => {
@@ -93,6 +90,7 @@ test('cadastro passa desativo',  async ({ page }) => {
 
     await page.click(clickConfirmSelector);    
     await expect(page).toHaveTitle(/CPA - Tela de listagem de cargos/);
+    await page.close();
 });
 
 test('cadastro sem nome',  async ({ page }) => {
@@ -124,6 +122,7 @@ test('cadastro sem nome',  async ({ page }) => {
     await page.click(sendSelector);
   
     await expect(page).toHaveTitle(/CPA - Tela de cadastro de cargos/);
+    await page.close();
 });
 
 test('cadastro sem descricao',  async ({ page }) => {
@@ -155,6 +154,7 @@ test('cadastro sem descricao',  async ({ page }) => {
     await page.click(sendSelector);
  
     await expect(page).toHaveTitle(/CPA - Tela de cadastro de cargos/);
+    await page.close();
 });
 
 test('cadastro sem ativo/desativo',  async ({ page }) => {
@@ -185,4 +185,5 @@ test('cadastro sem ativo/desativo',  async ({ page }) => {
     await page.click(sendSelector);
   
     await expect(page).toHaveTitle(/CPA - Tela de cadastro de cargos/);
+    await page.close();
 });

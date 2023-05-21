@@ -91,7 +91,7 @@ export default {
             <a :class="classeBotaoAnterior" class="btn btn-secondary rounded-5" @click="paginaAnterior"
                 :disabled="botaoAnteriorDesativado">
                 <span><i class="fa fa-arrow-left"></i></span>
-                <span class="d-none d-md-inline-block">Anterior</span>
+                <span class="d-none d-md-inline-block" nome="anterior">Anterior</span>
             </a>
         </div>
         <div class="col-auto m-auto">
@@ -105,7 +105,7 @@ export default {
         <div class="col m-auto d-flex justify-content-end">
             <a :class="classeBotaoProximo" class="btn btn-secondary rounded-5" @click="proximaPagina"
                 :disabled="botaoProximoDesativado">
-                <span class="d-none d-md-inline-block">Próximo</span>
+                <span class="d-none d-md-inline-block" nome="proximo">Próximo</span>
                 <span><i class="fa fa-arrow-right"></i></span>
             </a>
         </div>

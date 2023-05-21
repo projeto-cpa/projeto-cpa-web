@@ -53,6 +53,7 @@ test('expandir cargos',  async ({ page }) => {
     await page.click(expandCargoSelector);
 
     await page.click(expandCargoCadastrarSelector);
+    await page.close();
 });
 
 test('expandir disciplinas',  async ({ page }) => {
@@ -76,6 +77,7 @@ test('expandir disciplinas',  async ({ page }) => {
     await page.click(expandDisciplinaSelector);
 
     await page.click(expandDisciplinaCadastrarSelector);
+    await page.close();
 });
 
 test('expandir turmas',  async ({ page }) => {
@@ -99,6 +101,7 @@ test('expandir turmas',  async ({ page }) => {
     await page.click(expandTurmaSelector);
 
     await page.click(expandTurmaCadastrarSelector);
+    await page.close();
 });
 
 test('expandir cursos',  async ({ page }) => {
@@ -122,6 +125,7 @@ test('expandir cursos',  async ({ page }) => {
     await page.click(expandCursoSelector);
 
     await page.click(expandCursoCadastrarSelector);
+    await page.close();
 });
 
 test('expandir perguntas',  async ({ page }) => {
@@ -145,6 +149,7 @@ test('expandir perguntas',  async ({ page }) => {
     await page.click(expandPerguntaSelector);
 
     await page.click(expandPerguntaCadastrarSelector);
+    await page.close();
 });
 
 test('expandir respostas',  async ({ page }) => {
@@ -168,6 +173,7 @@ test('expandir respostas',  async ({ page }) => {
     await page.click(expandRespostaSelector);
 
     await page.click(expandRespostaCadastrarSelector);
+    await page.close();
 });
 
 test('expandir usuarios',  async ({ page }) => {
@@ -190,6 +196,7 @@ test('expandir usuarios',  async ({ page }) => {
     await page.click(expandUsuariotaSelector);
 
     await page.click(expandUsuarioCadastrarSelector);
+    await page.close();
 });
 
 test('expandir eixos',  async ({ page }) => {
@@ -213,4 +220,5 @@ test('expandir eixos',  async ({ page }) => {
     await page.click(expandEixoSelector);
 
     await page.click(expandEixoCadastrarSelector);
+    await page.close();
 });
