@@ -6,7 +6,7 @@ import globals from "../../helpers/globals.js";
  * Retorna a requisicao de alteracao de turma
  * 
  * @param {FormData} data 
- * Dados do cargo
+ * Dados do turma
  * 
  * @returns {Object}
  */

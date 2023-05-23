@@ -3,10 +3,10 @@ import formToJSON from "../../helpers/formToJSON.js";
 import request from "../../helpers/requests.js";
 
 /**
- * Retorna a requisicao de cadastro do cargo
+ * Retorna a requisicao de cadastro da turma
  * 
  * @param {FormData} data 
- * Dados do cargo
+ * Dados do turma
  * 
  * @returns {Object}
  */

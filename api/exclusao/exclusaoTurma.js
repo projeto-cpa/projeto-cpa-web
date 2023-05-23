@@ -2,10 +2,10 @@ import globals from "../../helpers/globals.js";
 import request from "../../helpers/requests.js";
 
 /**
- * Envia uma requisicao para excluir o cargo
+ * Envia uma requisicao para excluir o turma
  * 
  * @param {Number} idTurma 
- * Identificacao do cargo
+ * Identificacao do turma
  * 
  * @returns {Object}
  */
