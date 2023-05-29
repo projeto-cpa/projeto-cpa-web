@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/eixos.js'
+import cadastroEixo  from '../../../api/cadastro/eixos.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -12,7 +12,7 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Nome do cargo',
+                    etiqueta: 'Nome do eixo',
                     nome: 'nome',
                     valor: '',
                     valido: null,
@@ -35,7 +35,7 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Descrição do cargo',
+                    etiqueta: 'Descrição do eixo',
                     nome: 'descricao',
                     valor: '',
                     valido: null,
@@ -119,43 +119,48 @@ export default {
             if (!this.validarFormulario()) {
                 return;
             }
-            var that = this;
 
             var data = new FormData(this.$refs.formularioCadastro);
-            that.enviando = true;
+            this.enviando = true;
 
-            that.$nextTick(() => {
-                that.$nuxt.$loading.start()
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao(data);
+            var resposta = await cadastroEixo(data);
 
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
+            });
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            });
+
+            this.enviando = false;
+            if (resposta.sucesso) {
+                
+                var modal = await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao cadastrar',
+                    text: 'O cadastro obteve sucesso',
+                    confirmButtonText: 'Entendido'
                 });
-            }, 750);
 
-            setTimeout(function () {
-                that.enviando = false;
-                if (resposta.sucesso) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso ao cadastrar',
-                        text: 'O cadastro obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ocorreu uma falha',
-                        text: 'O cadastro não obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    });
+                if (modal) {
+                    this.$router.push({ path: '/listagem/eixos' });
                 }
-            }, 1000);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ocorreu uma falha',
+                    text: 'O cadastro não obteve sucesso',
+                    confirmButtonText: 'Entendido'
+                });
+            }
         }
     },
     mounted: async function () {
