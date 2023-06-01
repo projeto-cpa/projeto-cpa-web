@@ -6,12 +6,9 @@ import globals from '../../helpers/globals';
  *@param {Number}  idUsuario
  * @returns {Object}
  */
-async function alteracaoUsuario(senha, idUsuario) {
-    var url = `${globals.server.url}/usuario?id=${idUsuario}`;
-    var json = JSON.stringify({
-        senha: senha,
-        idUsuario: idUsuario
-    });
+async function alteracaoUsuario(usuario) {
+    var url = `${globals.server.url}/usuario/${usuario.id}`;
+    var json = JSON.stringify(usuario);
     var resposta = await request.put(url, json, true);
     return resposta;
 }

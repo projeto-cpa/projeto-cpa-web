@@ -1,13 +1,21 @@
 <script>
 import emmiter from '../helpers/emmiter.js';
 import sessions from '../helpers/sessions.js'
+import listagemUsuario from "~/api/listagem/listagemUsuario";
+import emitter from '../helpers/emmiter.js';
 
 export default {
   data: function () {
     return {
       scroll: true,
-      show: false
+      show: false,
+      dadosUsuario: {}
     };
+  },
+  computed: {
+    idUsuario: function () {
+      return sessions.get("session_id");
+    },
   },
   methods: {
     usuarioLogado: function () {
@@ -16,13 +24,20 @@ export default {
         return;
       }
       this.show = true;
-    }
+    },
+    pegarDados: async function () {
+      var dados = await listagemUsuario(this.idUsuario);
+      console.log('dados', dados)
+      emitter.emit('dadosUsuario', dados)
+      this.dadosUsuario = dados;
+    },
   },
   mounted: function () {
     emmiter.on('bodyScroll', function (value) {
       document.body.style.overflow = value ? 'auto' : 'hidden'
     });
     this.usuarioLogado();
+    this.pegarDados();
   }
 };
 </script>
@@ -113,5 +128,4 @@ select.form-control {
 .form-footer {
   box-shadow: 3px 3px 9px var(--bs-gray-400);
 }
-
 </style>
