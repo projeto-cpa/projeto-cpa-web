@@ -1,7 +1,7 @@
 <script>
 import Filtro from '../../utils/Filtro.vue';
 // import Paginacao from '../../utils/Paginacao.vue'
-import { Filtros, Requisicao } from '../../../api/listagem/eixos.js';
+import listagemEixo  from '../../../api/listagem/eixos.js';
 
 export default {
     loading: {
@@ -9,7 +9,6 @@ export default {
     },
     data: function () {
         return {
-            Filtros: Filtros,
             recebendo: false,
             resultados: []
         };
@@ -65,7 +64,7 @@ export default {
                 this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao();
+            var resposta = await listagemEixo(0, 10);
             this.resultados = resposta;
 
             setTimeout(function () {
