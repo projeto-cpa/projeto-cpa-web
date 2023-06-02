@@ -15,6 +15,7 @@ test('possui titulo', async ({ page }) => {
   await page.goto(serverURL);
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/cpa/);
+  await page.close();
 });
 
 test('login sucesso', async ({ page }) => {
@@ -33,6 +34,7 @@ test('login sucesso', async ({ page }) => {
 
   // verify if the user was redirected to "/" 
   await expect(page).toHaveURL(serverURL + '/');
+  await page.close();
 });
 
 test('login senha errada', async ({ page }) => {
@@ -51,6 +53,7 @@ test('login senha errada', async ({ page }) => {
 
     // verifica s
     await expect(page.locator(alertSelector)).toHaveText(alertText)
+    await page.close();
 
 });
 
@@ -69,6 +72,7 @@ test('login senha vazia', async ({ page }) => {
     await page.click(submitSelector);
 
     // verifica s
-    await expect(page.locator(alertSelector)).toHaveText(alertText2)
+    await expect(page.locator(alertSelector)).toHaveText(alertText2);
+    await page.close();
 
 });

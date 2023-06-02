@@ -356,7 +356,7 @@ export default {
                     <!-- Aqui fica o resultado da requisição -->
                     <div class="card-list">
                         <div v-for="(item, index) in resultados" :key="index" :class="classeItem(item, index)"
-                            class="card card-item mb-4 mb-lg-2" aria-hidden="true">
+                            class="card card-item mb-4 mb-lg-2" aria-hidden="true" data-item="cargo">
                             <div class="card-body">
                                 <div class="row m-0">
                                     <div
@@ -377,7 +377,7 @@ export default {
                                     <div
                                         class="col-xl col-12 col-md-6 activations my-xl-auto mx-xl-3 mx-xl-auto mb-2 mb-xl-auto mt-0 mt-xl-auto">
                                         <div class="col-box">
-                                            <div class="item text-center">
+                                            <div class="item text-center" data-campo="ativo">
                                                 <template v-if="item.ativo">
                                                     <a
                                                         class="btn rounded-5 d-block mb-1 btn-sm btn-outline-primary disabled">Ativado</a>
@@ -400,7 +400,7 @@ export default {
                                             <div class="d-block d-xl-none">
                                                 <div class="title text-center"><b>Nome do cargo</b></div>
                                             </div>
-                                            <div class="item text-center">{{ item.nome }}</div>
+                                            <div class="item text-center" data-campo="nome">{{ item.nome }}</div>
                                         </div>
                                     </div>
                                     <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
@@ -408,7 +408,7 @@ export default {
                                             <div class="d-block d-xl-none">
                                                 <div class="title text-center"><b>Descrição do cargo</b></div>
                                             </div>
-                                            <div class="item text-center">{{ item.descricao }}</div>
+                                            <div class="item text-center" data-campo="descricao">{{ item.descricao }}</div>
                                         </div>
                                     </div>
                                     <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
@@ -416,7 +416,7 @@ export default {
                                             <div class="d-block d-xl-none">
                                                 <div class="title text-center"><b>Data da criação</b></div>
                                             </div>
-                                            <div class="item text-center">
+                                            <div class="item text-center" data-campo="data-criacao">
                                                 <div>{{ formatarData(item.dataCriacao).data }}</div>
                                                 <div>{{ formatarData(item.dataCriacao).hora }}</div>
                                             </div>
@@ -427,7 +427,7 @@ export default {
                                             <div class="d-block d-xl-none">
                                                 <div class="title text-center"><b>Data da alteração</b></div>
                                             </div>
-                                            <div class="item text-center">
+                                            <div class="item text-center" data-campo="data-alteracao">
                                                 <div>{{ formatarData(item.dataAtualizacao).data }}</div>
                                                 <div>{{ formatarData(item.dataAtualizacao).hora }}</div>
                                             </div>
