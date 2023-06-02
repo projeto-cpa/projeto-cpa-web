@@ -7,10 +7,12 @@ import sessions from '~/helpers/sessions';
 export default {
     data: function () {
         return {
+            imagemPadrao: require('../static/user.png'),
             dados: {
                 email: null,
                 nome: null,
-                sobrenome: null
+                sobrenome: null,
+                imagem: null
             },
             show: false,
             menu: null,
@@ -18,6 +20,9 @@ export default {
 
     },
     computed: {
+        fotoPerfil: function () {
+            return this.dados.imagem !== null ? this.dados.imagem : this.imagemPadrao;
+        }
         // idUsuario: function () {
         //     return sessions.get("session_id");
         // },
@@ -108,11 +113,11 @@ export default {
                     </button>
                     <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle d-inline-block d-lg-none"
                         id="navbarDropdownUserImageMobile" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
+                        aria-expanded="false"><img class="img-fluid avatar rounded-circle" :src="fotoPerfil"></a>
                     <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up user-dropdown"
                         aria-labelledby="navbarDropdownUserImageMobile">
                         <h6 class="dropdown-header d-flex align-items-center">
-                            <img class="dropdown-user-img avatar" src="../static/user.png">
+                            <img class="dropdown-user-img avatar rounded-circle" :src="fotoPerfil">
                             <div class="dropdown-user-details">
                                 <div class="dropdown-user-details-name">{{ dados.nome }}</div>
                                 <div class="dropdown-user-details-email small">{{ dados.email }}</div>
@@ -158,11 +163,11 @@ export default {
                         <li class="nav-item dropdown no-caret dropdown-user">
                             <a class="btn text-secondary border-secondary rounded-5 btn-icon btn-outline-light dropdown-toggle"
                                 id="navbarDropdownUserImage" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false"><img class="img-fluid avatar" src="../static/user.png"></a>
+                                aria-expanded="false"><img class="img-fluid avatar rounded-circle" :src="fotoPerfil"></a>
                             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up user-dropdown"
                                 aria-labelledby="navbarDropdownUserImage">
                                 <h6 class="dropdown-header d-flex align-items-center">
-                                    <img class="dropdown-user-img avatar" src="../static/user.png">
+                                    <img class="dropdown-user-img avatar rounded-circle" :src="fotoPerfil">
                                     <div class="dropdown-user-details">
                                         <div class="dropdown-user-details-name">{{ dados.nome }}</div>
                                         <div class="dropdown-user-details-email small">{{ dados.email }}</div>

@@ -8,24 +8,28 @@ import emitter from "~/helpers/emmiter";
 export default {
     data: function () {
         return {
+            imagemPadrao: require('../../static/user.png'),
             enviando: false,
             dados: {
                 email: null,
                 nome: null,
                 sobrenome: null,
                 nomeCargo: null,
+                imagem: null
             },
             modal: null,
             validado: true,
             senha: '',
             confirmarSenha: '',
-            mensagem: null,
-            image: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+            mensagem: null
         };
     },
     computed: {
         idUsuario: function () {
             return sessions.get("session_id");
+        },
+        fotoPerfil: function () {
+            return this.dados.imagem !== null ? this.dados.imagem : this.imagemPadrao;
         },
     },
     methods: {
@@ -314,7 +318,7 @@ export default {
                                     <div class="col-12">
                                         <div class="bg-white card">
                                             <div class="card-body">
-                                                <img :src="image" class="d-block mx-auto mb-4 user-profile" />
+                                                <img :src="fotoPerfil" class="d-block mx-auto mb-4 user-profile" />
                                                 <!-- Default bootstrap file upload-->
                                                 <h6 class="text-center mb-4 text-muted"> Envie uma imagem para seu perfil
                                                 </h6>

@@ -8,10 +8,12 @@ import sessions from '~/helpers/sessions';
 export default {
     data: function () {
         return {
+            imagemPadrao: require('../static/user.png'),
             dados: {
                 email: null,
                 nome: null,
-                sobrenome: null
+                sobrenome: null,
+                imagem: null
             },
             aside: false,
             minimizado: false,
@@ -295,14 +297,16 @@ export default {
             }
         },
         dadosUsuario: function (dados) {
-            console.log('recebi')
+            console.log('recebi', dados)
             this.dados = dados;
         }
     },
     computed: {
+        fotoPerfil: function () {
+            return this.dados.imagem !== null ? this.dados.imagem : this.imagemPadrao;
+        },
         classeAside: function () {
             var cls = '';
-
             if (this.aside) {
                 console.log('1')
                 cls += 'aside-opened';
@@ -370,7 +374,7 @@ export default {
                         <div class="row m-0">
                             <div class="col-8">
                                 <a href="/conta" class="dropdown-header btn btn-link d-flex align-items-center">
-                                    <img :class="minimizado ? 'minimized' : ''" src="/_nuxt/static/user.png"
+                                    <img :class="minimizado ? 'rounded-circle minimized' : 'rounded-circle'" :src="fotoPerfil"
                                         class="dropdown-user-img avatar me-2">
                                     <div class="dropdown-user-details text-start" v-if="!minimizado || aside">
                                         <div class="dropdown-user-details-name">
