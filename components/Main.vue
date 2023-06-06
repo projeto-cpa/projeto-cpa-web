@@ -1,6 +1,19 @@
 <script>
 export default {
-    props: ['titulo', 'expand'],
+    props: ['titulo', 'expand', 'footer'],
+    computed: {
+        contentFrameClass: function () {
+            var cls = '';
+            if (this.expand) {
+                cls = 'expand ';
+            }
+            var footer = this.footer ? this.footer : false;
+            if (!footer) {
+                cls = 'pad-footer '
+            }
+            return cls;
+        }
+    },
     mounted: function () {
         window.document.title = 'CPA - ' + this.titulo;
     }
@@ -12,7 +25,7 @@ export default {
         <header class="bg-secondary">
             <h1 class="text-white">{{ titulo }}</h1>
         </header>
-        <div class="content-frame" :class="expand ? 'expand' : ''">
+        <div class="content-frame" :class="contentFrameClass">
             <slot></slot>
         </div>
     </main>
@@ -83,7 +96,7 @@ header h1 {
 }
 
 .content-frame.expand .container-fluid{
-    height: 100%;;
+    height: 100%;
 }
 
 main {
