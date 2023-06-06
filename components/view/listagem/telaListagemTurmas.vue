@@ -292,10 +292,10 @@ export default {
                                 <div class="item header text-center"><b>Ativação</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Nome da turma</b></div>
+                                <div class="item header text-center"><b>Turma/Periodo</b></div>
                             </div>
                             <div class="col m-auto">
-                                <div class="item header text-center"><b>Descrição do turma</b></div>
+                                <div class="item header text-center"><b>Nome do curso</b></div>
                             </div>
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Data da criação</b></div>
@@ -398,17 +398,17 @@ export default {
                                     <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
                                         <div class="col-box">
                                             <div class="d-block d-xl-none">
-                                                <div class="title text-center"><b>Nome da turma</b></div>
+                                                <div class="title text-center"><b>Turma/Periodo</b></div>
                                             </div>
-                                            <div class="item text-center">{{ item.nome }}</div>
+                                            <div class="item text-center">{{ item.nome }} - {{ item.periodo }}</div>
                                         </div>
                                     </div>
                                     <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
                                         <div class="col-box">
                                             <div class="d-block d-xl-none">
-                                                <div class="title text-center"><b>Descrição da turma</b></div>
+                                                <div class="title text-center"><b>Nome do curso</b></div>
                                             </div>
-                                            <div class="item text-center">{{ item.descricao }}</div>
+                                            <div class="item text-center">{{ item.curso }}</div>
                                         </div>
                                     </div>
                                     <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
@@ -569,42 +569,3 @@ export default {
     }
 }
 </style>
-
-
-
-
-
-
-/*<div class="card bg-light">
-    <div class="card-body">
-        <div class="row m-0">
-            <div class="col id m-auto">
-                <div class="item header text-center"><b>Id.</b></div>
-            </div>
-            <div class="col activations m-auto">
-                <div class="item header text-center"><b>Ativar/Desativar</b></div>
-            </div>
-            <div class="col m-auto">
-                <div class="item header text-center"><b>Nome da turma</b></div>
-            </div>
-            <div class="col m-auto">
-                <div class="item header text-center"><b>Descrição da turma</b></div>
-            </div>
-            <div class="col m-auto">
-                <div class="item header text-center"><b>Periodo da turma</b></div>
-            </div>
-            <div class="col m-auto">
-                <div class="item header text-center"><b>Curso da turma</b></div>
-            </div>
-            <div class="col date m-auto">
-                <div class="item header text-center"><b>Criado em</b></div>
-            </div>
-            <div class="col date m-auto">
-                <div class="item header text-center"><b>Alterado em</b></div>
-            </div>
-            <div class="col options m-auto text-center">
-                <div class="item header text-center"><b>Opções</b></div>
-            </div>
-        </div>
-    </div>
-</div>*/

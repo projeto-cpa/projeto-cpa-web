@@ -1,6 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import cadastroTurma from '../../../api/cadastro/cadastroTurma.js'
+import listagemCurso from '../../../api/listagem/listagemCurso';
 import Swal from 'sweetalert2';
 
 export default {
@@ -102,10 +103,11 @@ export default {
                     etiqueta: 'Curso relacionado a turma',
                     nome: 'curso',
                     valor: '',
+                    valores: [],
                     valido: null,
                     id: 'a' + uuidv4(),
                     tipo: 'select',
-                    valores: [
+                    /*valores: [
                         {
                             nome: 'Análise e Desenvolvimento De Sistemas',
                             id: 'a' + uuidv4(),
@@ -142,7 +144,7 @@ export default {
                             valor: "ct"
                         }
 
-                    ],
+                    ],*/
                     ajuda: 'Selecione uma das opções',
                     classe: {
                         coluna: 'col-12 col-md-12 mb-4'
@@ -266,9 +268,23 @@ export default {
                 });
             }
 
+        },
+        listarCurso: async function () {
+            var lista = await listagemCurso();
+            var valores = [];
+            lista.forEach(function (item) {
+                valores.push({
+                    nome: item.nome,
+                    id: 'a' + uuidv4(),
+                    valor: item.id
+                });
+            });
+            this.formulario[this.buscarIndexPeloNome('curso')].valores = valores;
+            console.log(lista,valores);
         }
     },
     mounted: async function () {
+        this.listarCurso();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
