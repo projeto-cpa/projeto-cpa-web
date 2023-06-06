@@ -94,8 +94,8 @@ export default {
     <div class="container-fluid conteudo-principal">
         <section>
             <article>
-                <div class="row m-0">
-                    <div class="col-xl-8 d-flex flex-wrap">
+                <div class="row">
+                    <div class="col-xl-8 d-flex flex-wrap p-0">
                         <div class="col-12 col-xl-6 col-md-6 mb-3 pe-2 ps-2">
                             <div class="card shadow h-100 py-2"
                                 style="border-left: 0.25rem solid rgba(25,135,84,1)!important;">
@@ -142,7 +142,7 @@ export default {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-12 pe-2 ps-2">
+                        <div class="col col-xl-12 pe-2 ps-2">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="font-weight-bold text-primary text-uppercase m-0">Métricas</h6>
@@ -156,7 +156,7 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 pe-2 ps-2">
+                    <div class="col col-xl-4">
                         <div class="col-xl-12 mb-3">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">

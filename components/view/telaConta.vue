@@ -280,40 +280,40 @@ export default {
     <div>
       <div class="container-fluid conteudo-principal">
         <section>
-          <div class="row m-0">
+          <div class="row">
             <div class="col-12 col-md-6 col-lg">
               <article>
                 <div class="card">
                   <div class="card-body row mx-0">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-xl-6">
                       <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">E-mail </label>
                         <input class="form-control" type="text" v-model="dados.email" aria-label="Disabled input example"
                           disabled />
                       </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Nome </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" v-model="dados.nome" aria-label="Recipient's username"
                           aria-describedby="button-addon2" disabled />
                       </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Sobrenome </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" v-model="dados.sobrenome"
                           aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
                       </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Cargo </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" v-model="dados.nomeCargo"
                           aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
                       </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Senha </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" value="Altere sua senha" aria-label="Recipient's username"
