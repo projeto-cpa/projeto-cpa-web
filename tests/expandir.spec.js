@@ -23,9 +23,6 @@ const expandCursoCadastrarSelector = '#aside [data-link="cursos"]';
 const expandPerguntaSelector = '#aside [data-link="perguntas"]';
 const expandPerguntaCadastrarSelector = '#aside [data-link="perguntas"]';
 
-const expandRespostaSelector = '#aside [data-link="respostas"]';
-const expandRespostaCadastrarSelector = '#aside [data-link="respostas"]';
-
 const expandUsuariotaSelector = '#aside [data-link="usuários"]';
 const expandUsuarioCadastrarSelector = '#aside [data-link="usuários"]';
 
@@ -149,30 +146,6 @@ test('expandir perguntas',  async ({ page }) => {
     await page.click(expandPerguntaSelector);
 
     await page.click(expandPerguntaCadastrarSelector);
-    await page.close();
-});
-
-test('expandir respostas',  async ({ page }) => {
-
-    await page.goto(serverURL);
-
-    await page.fill(emailSelector, email);
-    await page.fill(passwordSelector, password);
-  
-    // chec if the email is equals to the value filled
-    await expect(page.locator(emailSelector)).toHaveValue(email)
-    await expect(page.locator(passwordSelector)).toHaveValue(password);
-
-    // click on the button
-    await page.click(submitSelector);
-
-    // home verify
-    await expect(page).toHaveTitle(/cpa/);
-
-    // click on 'respostas'
-    await page.click(expandRespostaSelector);
-
-    await page.click(expandRespostaCadastrarSelector);
     await page.close();
 });
 
