@@ -143,7 +143,7 @@ export default {
                             </div>
                         </div>
                         <div class="col col-xl-12 pe-2 ps-2">
-                            <div class="card shadow mb-4">
+                            <div class="card shadow">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="font-weight-bold text-primary text-uppercase m-0">Métricas</h6>
                                 </div>
