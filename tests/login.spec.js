@@ -26,7 +26,7 @@ test('login sucesso', async ({ page }) => {
   await page.fill(passwordSelector, password);
 
   // chec if the email is equals to the value filled
-  await expect(page.locator(emailSelector)).toHaveValue(email)
+  await expect(page.locator(emailSelector)).toHaveValue(email);
   await expect(page.locator(passwordSelector)).toHaveValue(password);
 
   // click on the button

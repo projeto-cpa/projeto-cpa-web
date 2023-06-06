@@ -16,6 +16,7 @@ const descricaoCargo = 'Teste teste teste';
 const ativoSelector = '#cadastro-cargo [name="ativo"]';
 
 const insertNomeSelector = '[name="nome"]';
+
 const insertDescricaoSeletor = '[name="descricao"]';
 
 const sendSelector = '#enviar-cargo';

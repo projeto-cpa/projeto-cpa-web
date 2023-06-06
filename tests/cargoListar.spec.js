@@ -10,8 +10,12 @@ const submitSelector = '[name="submit"][id="submit"]';
 
 const expandCargoSelector = '#aside [data-link="cargos"]';
 const expandCargoListarSelector = '[data-item="listagem"]';
-const clickAtivar = '[data-item="cargo"]:nth-of-type(1) [class="btn d-block rounded-5 btn-sm btn-primary"]';
-const clickDesativar = '[class="btn d-block rounded-5 btn-sm btn-secondary"]';
+// ativar 
+// [data-item="cargo"]:nth-of-type(1) .btn.active-btn
+// desativar
+// [data-item="cargo"]:nth-of-type(1) .btn.deactive-btn
+const clickAtivar = '[data-item="cargo"]:nth-of-type(1) .btn.deactive-btn';
+const clickDesativar = '[data-item="cargo"]:nth-of-type(1) .btn.active-btn';
 const clickPopUp = '[class="swal2-confirm swal2-styled"]';
 
 const nome = "ADM não toma banho";
@@ -104,7 +108,7 @@ test('listagem desativo',  async ({ page }) => {
     await expect(page).toHaveTitle(/CPA - Tela de listagem de cargos/);
 
     // switch to disable
-    await page.click(clickAtivar);
+    await page.click(clickDesativar);
     await page.click(clickPopUp);
     await page.click(clickDesativar);
     await page.click(clickPopUp);
