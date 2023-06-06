@@ -65,8 +65,13 @@ body{
 </style> -->
 
 <style type="text/css">
+
+body{
+  overflow: hidden;
+}
+
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 4px;
   height: 2px;
 }
 
@@ -76,7 +81,7 @@ body{
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e1e1e1;
+  background: var(--bs-primary);
   border: 0px none #ffffff;
   border-radius: 50px;
 }
@@ -90,17 +95,17 @@ body{
 }
 
 ::-webkit-scrollbar-track {
-  background: #666666;
+  background: var(--bs-secondary);
   border: 0px none #ffffff;
   border-radius: 50px;
 }
 
 ::-webkit-scrollbar-track:hover {
-  background: #666666;
+  background: var(--bs-secondary);
 }
 
 ::-webkit-scrollbar-track:active {
-  background: #333333;
+  background: var(--bs-secondary);
 }
 
 ::-webkit-scrollbar-corner {
