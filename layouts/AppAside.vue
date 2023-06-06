@@ -128,25 +128,6 @@ export default {
                     ]
                 },
                 {
-                    caminho: '/respostas',
-                    texto: 'Respostas',
-                    icone: 'fa fa-comments',
-                    id: unique.generate(),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/respostas',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/respostas',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
-                {
                     caminho: '/usuarios',
                     texto: 'Usuários',
                     icone: 'fa fa-user',
@@ -188,11 +169,6 @@ export default {
         };
     },
     methods: {
-        // pegarDados: async function () {
-        //     var dados = await listagemUsuario(this.idUsuario);
-        //     console.log('dados', dados)
-        //     this.dados = dados;
-        // },
         aoClicarPrincipal: function (link) {
             if (!link.items) {
                 this.$router.push({ path: link.caminho });
@@ -324,10 +300,6 @@ export default {
             return cls;
 
         },
-
-        // idUsuario: function () {
-        //     return sessions.get("session_id");
-        // }
     },
     mounted: function () {
         require('bootstrap');
@@ -335,8 +307,6 @@ export default {
         emitter.on('toggleMinBar', this.aoMinimizar);
         this.recuperarEstado();
         this.recuperarEstadoMinimizado();
-
-        // this.pegarDados();
         emitter.on('dadosUsuario', this.dadosUsuario)
     }
 }
