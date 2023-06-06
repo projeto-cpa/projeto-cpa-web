@@ -1,5 +1,5 @@
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import unique from '~/helpers/unique';
 import { Requisicao } from '../../../api/cadastro/cursos.js'
 import Swal from 'sweetalert2';
 
@@ -16,7 +16,7 @@ export default {
                     nome: 'nome',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'text',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -39,7 +39,7 @@ export default {
                     nome: 'descricao',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'textarea',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -62,17 +62,17 @@ export default {
                     nome: 'ativo',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Ativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "true"
                         },
                         {
                             nome: 'Desativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "false"
                         },
                     ],

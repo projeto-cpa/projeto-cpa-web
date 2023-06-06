@@ -1,5 +1,5 @@
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import unique from '~/helpers/unique';
 import { Requisicao } from '../../../api/cadastro/turmas.js'
 import Swal from 'sweetalert2';
 
@@ -16,7 +16,7 @@ export default {
                     nome: 'nome',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'text',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -39,7 +39,7 @@ export default {
                     nome: 'descricao',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'textarea',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -62,22 +62,22 @@ export default {
                     nome: 'periodo',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Matutino',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "Matutino"
                         },
                         {
                             nome: 'Vespertino',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "Vespertino"
                         },
                         {
                             nome: 'Noturno',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "Noturno"
                         }
                     ],
@@ -103,42 +103,42 @@ export default {
                     nome: 'curso',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Análise e Desenvolvimento De Sistemas',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "ads"
                         },
                         {
                             nome: 'Administração',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "adm"
                         },
                         {
                             nome: 'Farmácia',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "far"
                         },
                         {
                             nome: 'Engenharia de Software',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "eds"
                         },
                         {
                             nome: 'Ciência de Dados',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "cdd"
                         },
                         {
                             nome: 'Engenharia de Bioprocessos e Biotecnologia',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "edbb"
                         },
                         {
                             nome: 'Ciência e Tecnologia',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "ct"
                         }
 
@@ -165,17 +165,17 @@ export default {
                     nome: 'ativo',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Ativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "true"
                         },
                         {
                             nome: 'Desativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "false"
                         },
                     ],

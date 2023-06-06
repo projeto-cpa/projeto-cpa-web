@@ -1,5 +1,5 @@
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import unique from '~/helpers/unique';
 import Swal from 'sweetalert2';
 import listagemPergunta from '../../../api/listagem/listagemPergunta.js';
 import cadastroResposta from '../../../api/cadastro/cadastroResposta.js';
@@ -20,12 +20,12 @@ export default {
                     nome: 'idPergunta',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: this.resposta,
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "true"
                         },
                     ],
@@ -52,7 +52,7 @@ export default {
                     nome: 'texto',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'text',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -72,7 +72,7 @@ export default {
                     nome: 'nota',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'range',
                     ajuda: 'Até 150 caracteres',
                     classe: {

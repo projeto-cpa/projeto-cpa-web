@@ -1,7 +1,11 @@
 <script>
 import Chart from 'chart.js'
+import Copyright from "../misc/Copyright.vue";
 
 export default {
+    components: {
+      'Copyright': Copyright  
+    },
     data: function () {
         return {
             data: {
@@ -187,6 +191,9 @@ export default {
                 </div>
             </article>
         </section>
+        <footer class="form-footer bg-white text-end">
+          <Copyright></Copyright>
+        </footer>
     </div>
 </template>
 

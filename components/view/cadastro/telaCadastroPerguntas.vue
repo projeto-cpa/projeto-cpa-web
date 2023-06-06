@@ -1,5 +1,5 @@
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import unique from '~/helpers/unique';
 import cadastroPergunta from '../../../api/cadastro/cadastroPergunta.js'
 import Swal from 'sweetalert2';
 
@@ -16,7 +16,7 @@ export default {
                     nome: 'texto',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'text',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -39,17 +39,17 @@ export default {
                     nome: 'tipo',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Descritiva',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: 'descritiva'
                         },
                         {
                             nome: 'Avaliativa',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: 'avaliativa'
                         },
                     ],
@@ -74,17 +74,17 @@ export default {
                     nome: 'ativo',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Ativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "true"
                         },
                         {
                             nome: 'Desativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "false"
                         },
                     ],

@@ -1,5 +1,5 @@
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import unique from '~/helpers/unique';
 //import {Requisicao as apiCadastroCargos} from '../../../api/cadastro/cadastroCargo.js'
 import Swal from 'sweetalert2';
 
@@ -18,7 +18,7 @@ export default {
                     nome: 'nome_usuario',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'text',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -41,7 +41,7 @@ export default {
                     nome: 'senha',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'password',
                     ajuda: 'Maior que 5 caracteres',
                     classe: {
@@ -64,32 +64,32 @@ export default {
                     nome: 'tipo-usuario',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Aluno',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: 0
                         },
                         {
                             nome: 'Coordenador',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: 1
                         },
                         {
                             nome: 'Diretor',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: 2
                         },
                         {
                             nome: 'Membro da CPA',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: 2
                         },
                         {
                             nome: 'Professor',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: 2
                         }
                     ],
@@ -114,7 +114,7 @@ export default {
                     nome: 'email',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'email',
                     ajuda: 'Deve ser email valido',
                     classe: {

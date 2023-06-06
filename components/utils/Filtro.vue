@@ -18,7 +18,7 @@ export default {
             <div class="row m-0">
                 <div class="col-12 col-lg-8 mb-2 mb-lg-0">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="" placeholder="Termo de pesquisa">
+                        <input type="text" class="form-control" id="" placeholder="Termo de pesquisa" disabled>
                         <label for="">Termo de pesquisa</label>
                     </div>
                 </div>

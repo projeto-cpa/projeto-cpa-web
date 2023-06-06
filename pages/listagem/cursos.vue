@@ -1,34 +1,33 @@
 <script>
-import Main from '../../components/Main.vue';
-import Header from '../../components/Header.vue';
-import Aside from '../../components/Aside.vue';
-import Footer from '../../components/Footer.vue';
-import Super from '../../components/Super.vue';
-
+import AppMain from '~/layouts/AppMain.vue';
+import AppHeader from '~/layouts/AppHeader.vue';
+import AppAside from '~/layouts/AppAside.vue';
+import AppFooter from '~/layouts/AppFooter.vue';
+import AppSuper from '~/layouts/AppSuper.vue';
 import telaCursos from '../../components/view/listagem/telaListagemCursos.vue';
 
 export default {
   name: 'listagem-cursos',
   components: {
-    'Aside': Aside,
-    'Main': Main,
-    'Footer': Footer,
-    'Header': Header,
-    'Super': Super,
+    'AppAside': AppAside,
+    'AppMain': AppMain,
+    'AppFooter': AppFooter,
+    'AppHeader': AppHeader,
+    'AppSuper': AppSuper,
     'telaCursos': telaCursos
   }
 }
 </script>
 
 <template>
-  <Super>
-    <Header></Header>
-    <Aside></Aside>
-    <Main titulo="Tela cursos">
+  <AppSuper>
+    <AppHeader></AppHeader>
+    <AppAside></AppAside>
+    <AppMain titulo="Tela cursos">
       <telaCursos></telaCursos>
-    </Main>
-    <Footer></Footer>
-  </Super>
+    </AppMain>
+    <AppFooter></AppFooter>
+  </AppSuper>
 </template>
 
 <style>

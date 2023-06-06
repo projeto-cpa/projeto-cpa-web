@@ -9,6 +9,9 @@ import emitter from "~/helpers/emmiter";
 const supportedMimeTypes = ["image/jpeg", "image/png"];
 
 export default {
+  components: {
+    Copyright: Copyright
+  },
   data: function () {
     return {
       enviando: false,
@@ -207,9 +210,6 @@ export default {
       console.log(dados);
       console.log("recebi");
     },
-  },
-  components: {
-    Copyright: Copyright
   },
   mounted: function () {
     const bootstrap = require("bootstrap");

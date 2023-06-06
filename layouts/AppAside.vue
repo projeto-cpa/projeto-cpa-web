@@ -1,5 +1,5 @@
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import unique from '~/helpers/unique';
 import emitter from '../helpers/emmiter.js';
 import locals from '../helpers/locals.js';
 import listagemUsuario from "~/api/listagem/listagemUsuario";
@@ -22,21 +22,21 @@ export default {
                     caminho: '/',
                     texto: 'Página inícial',
                     icone: 'fa fa-home',
-                    id: uuidv4(),
+                    id: unique.generate(),
                     ativo: false
                 },
                 {
                     caminho: '/conta',
                     texto: 'Conta',
                     icone: 'fa fa-user-circle',
-                    id: uuidv4(),
+                    id: unique.generate(),
                     ativo: false
                 },
                 {
                     caminho: '/cargos',
                     texto: 'Cargos',
                     icone: 'fa fa-id-card',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {
@@ -55,7 +55,7 @@ export default {
                     caminho: '/disciplinas',
                     texto: 'Disciplinas',
                     icone: 'fa fa-book',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {
@@ -74,7 +74,7 @@ export default {
                     caminho: '/turmas',
                     texto: 'Turmas',
                     icone: 'fa fa-users',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {
@@ -93,7 +93,7 @@ export default {
                     caminho: '/cursos',
                     texto: 'Cursos',
                     icone: 'fa fa-graduation-cap',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {
@@ -112,7 +112,7 @@ export default {
                     caminho: '/perguntas',
                     texto: 'Perguntas',
                     icone: 'fa fa-commenting',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {
@@ -131,7 +131,7 @@ export default {
                     caminho: '/respostas',
                     texto: 'Respostas',
                     icone: 'fa fa-comments',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {
@@ -149,8 +149,8 @@ export default {
                 {
                     caminho: '/usuarios',
                     texto: 'Usuários',
-                    icone: 'fa fa-bars',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    icone: 'fa fa-user',
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {
@@ -169,7 +169,7 @@ export default {
                     caminho: '/eixos',
                     texto: 'Eixos',
                     icone: 'fa fa-bars',
-                    id: 'a' + uuidv4().replace('-', ''),
+                    id: unique.generate(),
                     ativo: false,
                     items: [
                         {

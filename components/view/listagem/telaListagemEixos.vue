@@ -4,7 +4,7 @@ import Paginacao from '../../utils/Paginacao.vue'
 import alteracaoEixo from '~/components/offcanvas/alteracao/alteracaoEixo';
 
 // *APIS
-import listagemEixos from '../../../api/listagem/listagemEixos.js';
+import listagemEixo from '../../../api/listagem/listagemEixo.js';
 import ativacaoEixo from '../../../api/ativacao/ativacaoEixo.js';
 import exclusaoEixo from '../../../api/exclusao/exclusaoEixo.js'
 
@@ -19,7 +19,7 @@ export default {
         return {
             recebendo: false,
             resultados: [],
-            requisicao: listagemEixos,
+            requisicao: listagemEixo,
             retorno: function (resposta) {
                 emmiter.emit('aoListarEixos', resposta);
             },

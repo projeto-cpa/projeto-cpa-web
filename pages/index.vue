@@ -1,20 +1,20 @@
 <script>
-import Main from '../components/Main.vue';
-import Header from '../components/Header.vue';
-import Aside from '../components/Aside.vue';
-import Footer from '../components/Footer.vue';
-import Super from '../components/Super.vue';
+import AppMain from '~/layouts/AppMain.vue';
+import AppHeader from '~/layouts/AppHeader.vue';
+import AppAside from '~/layouts/AppAside.vue';
+import AppFooter from '~/layouts/AppFooter.vue';
+import AppSuper from '~/layouts/AppSuper.vue';
 import sessions from '../helpers/sessions';
 import telaInicial from '../components/view/telaInicial.vue';
 
 export default {
   name: 'index',
   components: {
-    'Aside': Aside,
-    'Main': Main,
-    'Footer': Footer,
-    'Header': Header,
-    'Super': Super,
+    'AppAside': AppAside,
+    'AppMain': AppMain,
+    'AppFooter': AppFooter,
+    'AppHeader': AppHeader,
+    'AppSuper': AppSuper,
     'telaInicial': telaInicial
   },
   data: function () {
@@ -38,14 +38,14 @@ export default {
 </script>
 
 <template>
-  <Super v-if="show">
-    <Header></Header>
-    <Aside></Aside>
-    <Main titulo="Tela inícial" :expand="true">
+  <AppSuper v-if="show">
+    <AppHeader></AppHeader>
+    <AppAside></AppAside>
+    <AppMain titulo="Tela inícial" :expand="true">
       <telaInicial></telaInicial>
-    </Main>
-    <Footer></Footer>
-  </Super>
+    </AppMain>
+    <AppFooter></AppFooter>
+  </AppSuper>
 </template>
 
 <style>

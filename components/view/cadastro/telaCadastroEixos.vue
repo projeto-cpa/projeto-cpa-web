@@ -1,6 +1,6 @@
 <script>
-import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/eixos.js'
+import unique from '~/helpers/unique';
+import cadastroEixo from '../../../api/cadastro/CadastroEixo.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -12,11 +12,11 @@ export default {
             enviando: false,
             formulario: [
                 {
-                    etiqueta: 'Nome do cargo',
+                    etiqueta: 'Nome do eixo',
                     nome: 'nome',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'text',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -35,11 +35,11 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Descrição do cargo',
+                    etiqueta: 'Descrição do eixo',
                     nome: 'descricao',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'textarea',
                     ajuda: 'Até 150 caracteres',
                     classe: {
@@ -62,17 +62,17 @@ export default {
                     nome: 'ativo',
                     valor: '',
                     valido: null,
-                    id: 'a' + uuidv4(),
+                    id: unique.generate(),
                     tipo: 'select',
                     valores: [
                         {
                             nome: 'Ativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "true"
                         },
                         {
                             nome: 'Desativado',
-                            id: 'a' + uuidv4(),
+                            id: unique.generate(),
                             valor: "false"
                         },
                     ],
@@ -128,7 +128,7 @@ export default {
                 that.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao(data);
+            var resposta = await cadastroEixo(data);
 
             setTimeout(function () {
                 that.$nextTick(() => {
@@ -145,7 +145,7 @@ export default {
                         text: 'O cadastro obteve sucesso',
                         confirmButtonText: 'Entendido'
                     }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
+                        that.$router.push({ path: '/listagem/eixos' });
                     });
                 } else {
                     Swal.fire({
