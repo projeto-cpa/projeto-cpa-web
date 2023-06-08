@@ -33,6 +33,7 @@ export default {
       modal: null,
       validado: true,
       senha: "",
+      senhaAtual: "",
       confirmarSenha: "",
       mensagem: null,
     };
@@ -64,7 +65,16 @@ export default {
     editarSenha: async function () {
       var that = this;
 
-      if (this.validarFormulario()) {
+      var modal = await Swal.fire({
+        icon: "error",
+        title: "Confirmar alteração",
+        html: `Deseja alterar sua senha?`,
+        confirmButtonText: "Confirmar",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+      });
+
+      if (this.validarFormulario() && modal.isConfirmed) {
         this.modal.hide();
 
         this.enviando = true;
@@ -74,6 +84,7 @@ export default {
         });
 
         var usuario = this.dados;
+        usuario.senhaAtual = this.senhaAtual;
         usuario.senha = this.senha;
         var resposta = await alteracaoUsuario(usuario);
 
@@ -110,6 +121,7 @@ export default {
     },
     editarFoto: async function (imagem) {
       var that = this;
+
       if (this.validarFormularioFoto()) {
         this.enviando = true;
 
@@ -196,7 +208,7 @@ export default {
 
       if (base64) {
         this.image = base64;
-        
+
         var modal = await Swal.fire({
           icon: "info",
           title: "Confirmar alteração",
@@ -209,7 +221,7 @@ export default {
         if (modal.isConfirmed) {
           this.editarFoto(base64);
         }
-        
+
         this.$refs.form.reset();
       }
     },
@@ -264,7 +276,8 @@ export default {
                     <label for="InputName" class="col-form-label">Senha atual</label>
                   </div>
                   <div class="col">
-                    <input type="password" v-model="senha" id="InputName" class="form-control" aria-describedby="ajuda" />
+                    <input type="password" v-model="senhaAtual" id="InputName" class="form-control"
+                      aria-describedby="ajuda" />
                   </div>
                 </div>
                 <div class="row g-3 align-items-center mt-1">
