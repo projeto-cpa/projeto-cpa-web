@@ -99,7 +99,7 @@ export default {
             var modal = await Swal.fire({
                 icon: icon,
                 title: `Confirmar ${term}`,
-                html: `Deseja ${text} o item <b>Id.${item.id}</b>, ${item.curso}?`,
+                html: `Deseja ${text} o item <b>Id.${item.id}</b>, ${item.nome}?`,
                 confirmButtonText: buttonText,
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar'

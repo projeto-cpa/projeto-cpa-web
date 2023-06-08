@@ -1,6 +1,6 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import { Requisicao } from '../../../api/cadastro/cursos.js'
+import cadastroCurso from '../../../api/cadastro/cadastroCurso.js'
 import Swal from 'sweetalert2';
 
 export default {
@@ -119,71 +119,48 @@ export default {
             if (!this.validarFormulario()) {
                 return;
             }
-            var that = this;
 
             var data = new FormData(this.$refs.formularioCadastro);
-            that.enviando = true;
-
-            that.$nextTick(() => {
-                that.$nuxt.$loading.start()
-            })
-
-            var resposta = await Requisicao(data);
-
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
-                });
-            }, 750);
-
-            setTimeout(function () {
-                that.enviando = false;
-                if (resposta.sucesso) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso ao cadastrar',
-                        text: 'O cadastro obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cursos' });
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ocorreu uma falha',
-                        text: 'O cadastro não obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    });
-                }
-            }, 1000);
-        },
-        receberDados: async function () {
-            var that = this;
-            this.recebendo = true;
+            this.enviando = true;
 
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
+            })
+
+            var resposta = await cadastroCurso(data);
+
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
             });
 
-            var resposta = await Disciplinas();
-            this.formulario[this.buscarIndexPeloNome('tipo_materia')].valores = this.passarSelecionado(resposta);
-            console.log(that.formulario[this.buscarIndexPeloNome('tipo_materia')].valores)
-            console.log(resposta)
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            });
 
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
+            this.enviando = false;
+            if (resposta.sucesso) {
+                
+                var modal = await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao cadastrar',
+                    text: 'O cadastro obteve sucesso',
+                    confirmButtonText: 'Entendido'
                 });
-            }, 750);
 
-            console.log('hmmm', resposta)
-            this.resultados = resposta;
-        },
-        passarSelecionado: function (dados){
-            for (let index = 0; index < dados.length; index++) {
-                dados[index].selecionado = false;
+                if (modal) {
+                    this.$router.push({ path: '/listagem/cursos' });
+                }
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ocorreu uma falha',
+                    text: 'O cadastro não obteve sucesso',
+                    confirmButtonText: 'Entendido'
+                });
             }
-            return dados;
         }
     },
     mounted: async function () {
@@ -192,7 +169,6 @@ export default {
         tooltips.forEach(function (item) {
             new bootstrap.Tooltip(item);
         });
-        this.receberDados();
     }
 };
 </script>
