@@ -48,12 +48,16 @@ export default {
   },
   methods: {
     validarSenha: function () {
-      if (this.senha !== this.confirmarSenha) {
-        this.mensagem = "As senhas devem ser iguais!";
+      if (this.senhaAtual.length < 5) {
+        this.mensagem = "Informe a senha atual, ao menos 5 caracteres!";
         return false;
       }
       if (this.senha.length < 5) {
-        this.mensagem = "A senha deve conter mais de 5 caracteres!";
+        this.mensagem = "A nova senha deve conter mais de 5 caracteres!";
+        return false;
+      }
+      if (this.senha !== this.confirmarSenha) {
+        this.mensagem = "As senhas devem ser iguais!";
         return false;
       }
       return true;
@@ -65,17 +69,22 @@ export default {
     editarSenha: async function () {
       var that = this;
 
-      var modal = await Swal.fire({
-        icon: "error",
-        title: "Confirmar alteração",
-        html: `Deseja alterar sua senha?`,
-        confirmButtonText: "Confirmar",
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-      });
+      if (this.validarFormulario()) {
 
-      if (this.validarFormulario() && modal.isConfirmed) {
         this.modal.hide();
+
+        var modal = await Swal.fire({
+          icon: "error",
+          title: "Confirmar alteração",
+          html: `Deseja alterar sua senha?`,
+          confirmButtonText: "Confirmar",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+        });
+
+        if (modal.isConfirmed) {
+
+        }
 
         this.enviando = true;
 
@@ -117,6 +126,8 @@ export default {
             confirmButtonText: "Entendido",
           });
         }
+      } else {
+        this.modal.show()
       }
     },
     editarFoto: async function (imagem) {
@@ -334,6 +345,13 @@ export default {
                       </div>
                     </div>
                     <div class="col-12 col-xl-6">
+                      <label for="formGroupExampleInput" class="form-label">Cargo </label>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" v-model="dados.nomeCargo"
+                          aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Nome </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" v-model="dados.nome" aria-label="Recipient's username"
@@ -344,13 +362,6 @@ export default {
                       <label for="formGroupExampleInput" class="form-label">Sobrenome </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" v-model="dados.sobrenome"
-                          aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
-                      </div>
-                    </div>
-                    <div class="col-12 col-xl-6">
-                      <label for="formGroupExampleInput" class="form-label">Cargo </label>
-                      <div class="input-group mb-3">
-                        <input type="text" class="form-control" v-model="dados.nomeCargo"
                           aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
                       </div>
                     </div>
