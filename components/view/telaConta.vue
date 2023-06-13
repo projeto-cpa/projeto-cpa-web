@@ -8,6 +8,11 @@ import emitter from "~/helpers/emmiter";
 
 const supportedMimeTypes = ["image/jpeg", "image/png"];
 
+const uploadException = function (message, code) {
+  this.code = code;
+  this.message = message;
+}
+
 export default {
   components: {
     Copyright: Copyright
@@ -28,6 +33,7 @@ export default {
       modal: null,
       validado: true,
       senha: "",
+      senhaAtual: "",
       confirmarSenha: "",
       mensagem: null,
     };
@@ -42,12 +48,16 @@ export default {
   },
   methods: {
     validarSenha: function () {
-      if (this.senha !== this.confirmarSenha) {
-        this.mensagem = "As senhas devem ser iguais!";
+      if (this.senhaAtual.length < 5) {
+        this.mensagem = "Informe a senha atual, ao menos 5 caracteres!";
         return false;
       }
       if (this.senha.length < 5) {
-        this.mensagem = "A senha deve conter mais de 5 caracteres!";
+        this.mensagem = "A nova senha deve conter mais de 5 caracteres!";
+        return false;
+      }
+      if (this.senha !== this.confirmarSenha) {
+        this.mensagem = "As senhas devem ser iguais!";
         return false;
       }
       return true;
@@ -60,7 +70,21 @@ export default {
       var that = this;
 
       if (this.validarFormulario()) {
+
         this.modal.hide();
+
+        var modal = await Swal.fire({
+          icon: "error",
+          title: "Confirmar alteração",
+          html: `Deseja alterar sua senha?`,
+          confirmButtonText: "Confirmar",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+        });
+
+        if (modal.isConfirmed) {
+
+        }
 
         this.enviando = true;
 
@@ -69,6 +93,7 @@ export default {
         });
 
         var usuario = this.dados;
+        usuario.senhaAtual = this.senhaAtual;
         usuario.senha = this.senha;
         var resposta = await alteracaoUsuario(usuario);
 
@@ -101,10 +126,13 @@ export default {
             confirmButtonText: "Entendido",
           });
         }
+      } else {
+        this.modal.show()
       }
     },
     editarFoto: async function (imagem) {
       var that = this;
+
       if (this.validarFormularioFoto()) {
         this.enviando = true;
 
@@ -146,6 +174,7 @@ export default {
       }
     },
     readImage: async function (params) {
+      var that = this;
       console.log("reading");
 
       const input = this.$refs.input;
@@ -157,8 +186,14 @@ export default {
         }
 
         if (!supportedMimeTypes.includes(input.files[0].type)) {
-          console.error("not supported mime type");
+
+          throw new uploadException("Formato de arquivo não suportado", 0)
+
+
+          // console.table(that.$refs.form)
           return;
+          // console.error("not supported mime type");
+          // return;
         }
 
         console.log("files", input.files);
@@ -170,21 +205,35 @@ export default {
         });
 
         FR.readAsDataURL(input.files[0]);
+      }).catch(function (e) {
+        // console.log('e', e)
+        Swal.fire({
+          icon: "error",
+          title: "Ocorreu uma falha",
+          text: e.message,
+          confirmButtonText: "Entendido",
+        })
       });
 
-      this.image = base64;
+      console.log('aaa', base64)
 
-      var modal = await Swal.fire({
-        icon: "info",
-        title: "Confirmar alteração",
-        html: `Deseja alterar sua foto de perfil?`,
-        confirmButtonText: "Confirmar",
-        showCancelButton: true,
-        cancelButtonText: "Cancelar",
-      });
+      if (base64) {
+        this.image = base64;
 
-      if (modal.isConfirmed) {
-        this.editarFoto(base64);
+        var modal = await Swal.fire({
+          icon: "info",
+          title: "Confirmar alteração",
+          html: `Deseja alterar sua foto de perfil?`,
+          confirmButtonText: "Confirmar",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+        });
+
+        if (modal.isConfirmed) {
+          this.editarFoto(base64);
+        }
+
+        this.$refs.form.reset();
       }
     },
     validarFormularioFoto: function () {
@@ -234,26 +283,29 @@ export default {
             <div class="modal-body">
               <form>
                 <div class="row g-3 align-items-center">
-                  <div class="col-auto">
-                    <label for="InputName" class="col-form-label">Senha</label>
+                  <div class="col-4">
+                    <label for="InputName" class="col-form-label">Senha atual</label>
                   </div>
-                  <div class="col-auto">
-                    <input type="password" v-model="senha" id="InputName" class="form-control" aria-describedby="ajuda" />
-                  </div>
-                  <div class="col-auto">
-                    <span id="ajuda" class="form-text"> Atualize sua senha. </span>
+                  <div class="col">
+                    <input type="password" v-model="senhaAtual" id="InputName" class="form-control"
+                      aria-describedby="ajuda" />
                   </div>
                 </div>
-                <div style="margin-top: 10px" container-fluid class="row g-3 align-items-center">
-                  <div class="col-auto">
-                    <label for="inputPassword6" class="col-form-label">Senha</label>
+                <div class="row g-3 align-items-center mt-1">
+                  <div class="col-4">
+                    <label for="InputName" class="col-form-label">Nova senha</label>
                   </div>
-                  <div class="col-auto">
+                  <div class="col">
+                    <input type="password" v-model="senha" id="InputName" class="form-control" aria-describedby="ajuda" />
+                  </div>
+                </div>
+                <div class="row g-3 align-items-center mt-1">
+                  <div class="col-4">
+                    <label for="inputPassword6" class="col-form-label">Confirmar senha</label>
+                  </div>
+                  <div class="col">
                     <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline"
                       v-model="confirmarSenha" />
-                  </div>
-                  <div class="col-auto">
-                    <span id="passwordHelpInline" class="form-text"> confirme sua senha. </span>
                   </div>
                 </div>
                 <div class="row mt-3" v-if="!validado">
@@ -293,6 +345,13 @@ export default {
                       </div>
                     </div>
                     <div class="col-12 col-xl-6">
+                      <label for="formGroupExampleInput" class="form-label">Cargo </label>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" v-model="dados.nomeCargo"
+                          aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Nome </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" v-model="dados.nome" aria-label="Recipient's username"
@@ -303,13 +362,6 @@ export default {
                       <label for="formGroupExampleInput" class="form-label">Sobrenome </label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" v-model="dados.sobrenome"
-                          aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
-                      </div>
-                    </div>
-                    <div class="col-12 col-xl-6">
-                      <label for="formGroupExampleInput" class="form-label">Cargo </label>
-                      <div class="input-group mb-3">
-                        <input type="text" class="form-control" v-model="dados.nomeCargo"
                           aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
                       </div>
                     </div>
@@ -336,10 +388,10 @@ export default {
                         <img :src="fotoPerfil" class="d-block mx-auto mb-4 user-profile" />
                         <!-- Default bootstrap file upload-->
                         <h6 class="text-center mb-4 text-muted"> Envie uma imagem para seu perfil</h6>
-                        <div class="custom-file overflow-hidden mb-4">
+                        <form class="custom-file overflow-hidden mb-4" ref="form">
                           <input id="customFile" :accept="supportedMimeTypes.join(', ').trim()" type="file"
                             class="form-control" ref="input" @change="readImage" />
-                        </div>
+                        </form>
                       </div>
                     </div>
                   </div>
