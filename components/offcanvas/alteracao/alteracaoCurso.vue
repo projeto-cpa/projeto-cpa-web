@@ -98,16 +98,12 @@ export default {
     methods: {
         buscarIndexPeloNome: function (nome) {
             var i = 0;
-            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
-            // no forEach traz o item e a posicao do item atual
             this.formulario.forEach(function (item, index) {
                 console.log(item)
-                // a gente compara o nome dado com o nome que existe no formulario....
                 if (item.nome === nome) {
                     i = index;
                 }
             });
-            // retorna a posicao encontrada
             return i;
         },
         abrirCanvas: function (item) {

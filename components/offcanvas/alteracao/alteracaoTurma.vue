@@ -2,6 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import emmiter from '../../../helpers/emmiter';
 import alteracaoTurma from '../../../api/alteracao/alteracaoTurma.js';
+import listagemCurso from '../../../api/listagem/listagemCurso';
 import Swal from 'sweetalert2';
 
 export default {
@@ -100,49 +101,12 @@ export default {
                 },
                 {
                     etiqueta: 'Curso relacionado a turma',
-                    nome: 'curso',
+                    nome: 'idCurso',
                     valor: '',
                     valido: null,
                     id: 'a' + uuidv4(),
                     tipo: 'select',
-                    valores: [
-                        {
-                            nome: 'Análise e Desenvolvimento De Sistemas',
-                            id: 'a' + uuidv4(),
-                            valor: "ads"
-                        },
-                        {
-                            nome: 'Administração',
-                            id: 'a' + uuidv4(),
-                            valor: "adm"
-                        },
-                        {
-                            nome: 'Farmácia',
-                            id: 'a' + uuidv4(),
-                            valor: "far"
-                        },
-                        {
-                            nome: 'Engenharia de Software',
-                            id: 'a' + uuidv4(),
-                            valor: "eds"
-                        },
-                        {
-                            nome: 'Ciência de Dados',
-                            id: 'a' + uuidv4(),
-                            valor: "cdd"
-                        },
-                        {
-                            nome: 'Engenharia de Bioprocessos e Biotecnologia',
-                            id: 'a' + uuidv4(),
-                            valor: "edbb"
-                        },
-                        {
-                            nome: 'Ciência e Tecnologia',
-                            id: 'a' + uuidv4(),
-                            valor: "ct"
-                        }
-
-                    ],
+                    valores: [],
                     ajuda: 'Selecione uma das opções',
                     classe: {
                         coluna: 'col-12 col-md-12 mb-4'
@@ -199,18 +163,28 @@ export default {
         };
     },
     methods: {
+        listarCursos: async function () {
+            var resposta = await listagemCurso(0, 5);
+            var valores = [];
+            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                valores = resposta.content.map(function (item) {
+                    item.valor = item.id;
+                    return item;
+                });
+            } else {
+                valores = [];
+            }
+            this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
+            console.log("RESPOSTAAAAAAAAAAAA: ", resposta, valores);
+        },
         buscarIndexPeloNome: function (nome) {
             var i = 0;
-            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
-            // no forEach traz o item e a posicao do item atual
             this.formulario.forEach(function (item, index) {
                 console.log(item)
-                // a gente compara o nome dado com o nome que existe no formulario....
                 if (item.nome === nome) {
                     i = index;
                 }
             });
-            // retorna a posicao encontrada
             return i;
         },
         abrirCanvas: function (item) {
@@ -221,10 +195,12 @@ export default {
             this.Offcanvas.hide();
         },
         recuperarEstado: function (item) {
+            console.log("AQUIIIIIIIIII", item);
+            console.log('test',this.buscarIndexPeloNome('nome'));
             this.formulario[this.buscarIndexPeloNome('nome')].valor = item.nome;
             this.formulario[this.buscarIndexPeloNome('descricao')].valor = item.descricao;
             this.formulario[this.buscarIndexPeloNome('periodo')].valor = item.periodo;
-            this.formulario[this.buscarIndexPeloNome('curso')].valor = item.curso;
+            this.formulario[this.buscarIndexPeloNome('curso')].valor = item.nome;
             this.formulario[this.buscarIndexPeloNome('ativo')].valor = item.ativo;
             this.identificacao = item.id;
             for (var x = 0; x < this.formulario.length; x++){
@@ -307,6 +283,7 @@ export default {
         }
     },
     mounted: function () {
+        this.listarCursos();
         emmiter.on('abrirEdicaoTurma', this.abrirCanvas)
         const bootstrap = require('bootstrap')
         this.Offcanvas = new bootstrap.Offcanvas(this.$refs.offcanvas);
@@ -340,7 +317,7 @@ export default {
                                         :class="inputClass(campo.valido)">
                                 </template>
 
-                                <template v-else-if="campo.tipo == 'textarea'">
+                                <template v-else-if="campo.nome == 'descricao'">
                                     <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                         class="form-control" :id="campo.id" @keypress="campo.validar()"
                                         :class="inputClass(campo.valido)"></textarea>
@@ -357,7 +334,7 @@ export default {
                                     </select>
                                 </template>
 
-                                <template v-else-if="campo.nome == 'curso'">
+                                <template v-else-if="campo.nome == 'idCurso'">
                                     <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                         class="form-control" :id="campo.id" @change="campo.validar()"
                                         :class="inputClass(campo.valido)">

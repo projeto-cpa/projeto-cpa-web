@@ -10,7 +10,7 @@ export default {
     methods: {
         abrirCanvas: function () {
             this.Offcanvas.show();
-        }
+        },
     },
     computed: {
         nomeCompleto: function () {
@@ -28,7 +28,7 @@ export default {
 <template>
     <div class="offcanvas offcanvas-end" ref="offcanvas" data-bs-backdrop="false" data-bs-scroll="true">
         <div class="offcanvas-header bg-light text-dark">
-            <h5 class="offcanvas-title">Alteração de cargo</h5>
+            <h5 class="offcanvas-title">Alteração de turma</h5>
             <button type="button" class="btn" data-bs-dismiss="offcanvas" aria-label="Close">
                 <i class="fa fa-close"></i>
             </button>

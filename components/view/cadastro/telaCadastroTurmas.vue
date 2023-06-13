@@ -101,50 +101,12 @@ export default {
                 },
                 {
                     etiqueta: 'Curso relacionado a turma',
-                    nome: 'curso',
+                    nome: 'idCurso',
                     valor: '',
                     valores: [],
                     valido: null,
                     id: 'a' + uuidv4(),
                     tipo: 'select',
-                    /*valores: [
-                        {
-                            nome: 'Análise e Desenvolvimento De Sistemas',
-                            id: 'a' + uuidv4(),
-                            valor: "ads"
-                        },
-                        {
-                            nome: 'Administração',
-                            id: 'a' + uuidv4(),
-                            valor: "adm"
-                        },
-                        {
-                            nome: 'Farmácia',
-                            id: 'a' + uuidv4(),
-                            valor: "far"
-                        },
-                        {
-                            nome: 'Engenharia de Software',
-                            id: 'a' + uuidv4(),
-                            valor: "eds"
-                        },
-                        {
-                            nome: 'Ciência de Dados',
-                            id: 'a' + uuidv4(),
-                            valor: "cdd"
-                        },
-                        {
-                            nome: 'Engenharia de Bioprocessos e Biotecnologia',
-                            id: 'a' + uuidv4(),
-                            valor: "edbb"
-                        },
-                        {
-                            nome: 'Ciência e Tecnologia',
-                            id: 'a' + uuidv4(),
-                            valor: "ct"
-                        }
-
-                    ],*/
                     ajuda: 'Selecione uma das opções',
                     classe: {
                         coluna: 'col-12 col-md-12 mb-4'
@@ -269,22 +231,35 @@ export default {
             }
 
         },
-        listarCurso: async function () {
-            var lista = await listagemCurso();
+        listarCursos: async function () {
+            var resposta = await listagemCurso(0, 5);
             var valores = [];
-            lista.forEach(function (item) {
-                valores.push({
-                    nome: item.nome,
-                    id: 'a' + uuidv4(),
-                    valor: item.id
+            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                valores = resposta.content.map(function (item) {
+                    item.valor = item.id;
+                    return item;
                 });
+            } else {
+                valores = [];
+            }
+            this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
+            console.log("RESPOSTAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", resposta, valores);
+        },
+        buscarIndexPeloNome: function (nome) {
+            console.log("valores123", this.valores);
+            console.log("formuuu", this.formulario);
+            var i = 0;
+            this.formulario.forEach(function (item, index) {
+                console.log(item)
+                if (item.nome === nome) {
+                    i = index;
+                }
             });
-            this.formulario[this.buscarIndexPeloNome('curso')].valores = valores;
-            console.log(lista,valores);
-        }
+            return i;
+        },
     },
     mounted: async function () {
-        this.listarCurso();
+        this.listarCursos();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
@@ -327,7 +302,7 @@ export default {
                                         </select>
                                     </template>
 
-                                    <template v-else-if="campo.nome == 'curso'">
+                                    <template v-else-if="campo.nome == 'idCurso'">
                                         <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             class="form-control" :id="campo.id" @change="campo.validar()"
                                             :class="inputClass(campo.valido)">

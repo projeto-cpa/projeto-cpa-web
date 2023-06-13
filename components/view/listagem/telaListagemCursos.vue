@@ -45,7 +45,7 @@ export default {
             var modal = await Swal.fire({
                 icon: 'error',
                 title: 'Confirmar exclusão',
-                html: `Deseja excluir o item <b>Id.${item.id}</b>, ${item.curso}?`,
+                html: `Deseja excluir o item <b>Id.${item.id}</b>, ${item.nome}?`,
                 confirmButtonText: 'Confirmar',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar'
@@ -74,8 +74,6 @@ export default {
 
                 if (resposta.sucesso) {
                     this.resultados.splice(this.buscarIndexPeloId(item.id), 1);
-                    var that = this;
-                    console.log(that.resultados)
                     if (this.resultados.length === 0) {
                         paginations.set('0')
                     }

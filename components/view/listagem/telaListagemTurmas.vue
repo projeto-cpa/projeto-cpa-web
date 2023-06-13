@@ -74,8 +74,6 @@ export default {
 
                 if (resposta.sucesso) {
                     this.resultados.splice(this.buscarIndexPeloId(item.id), 1);
-                    var that = this;
-                    console.log(that.resultados)
                     if (this.resultados.length === 0) {
                         paginations.set('0')
                     }
@@ -236,6 +234,7 @@ export default {
             this.resultados[this.buscarIndexPeloId(item.id)].nome = item.nome;
             this.resultados[this.buscarIndexPeloId(item.id)].descricao = item.descricao;
             this.resultados[this.buscarIndexPeloId(item.id)].dataAtualizacao = item.dataAtualizacao;
+            this.resultados[this.buscarIndexPeloId(item.id)].curso = item.nome;
         },
         aoListarTurma: function (resposta) {
             console.log('resposta', resposta);
