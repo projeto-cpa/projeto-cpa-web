@@ -175,7 +175,7 @@ export default {
                 valores = [];
             }
             this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
-            console.log("RESPOSTAAAAAAAAAAAA: ", resposta, valores);
+            console.log("RESPOSTAAAAAAAAAAAA BBBBBBBBBBBB: ", resposta, valores);
         },
         buscarIndexPeloNome: function (nome) {
             var i = 0;
@@ -195,12 +195,10 @@ export default {
             this.Offcanvas.hide();
         },
         recuperarEstado: function (item) {
-            console.log("AQUIIIIIIIIII", item);
-            console.log('test',this.buscarIndexPeloNome('nome'));
             this.formulario[this.buscarIndexPeloNome('nome')].valor = item.nome;
             this.formulario[this.buscarIndexPeloNome('descricao')].valor = item.descricao;
             this.formulario[this.buscarIndexPeloNome('periodo')].valor = item.periodo;
-            this.formulario[this.buscarIndexPeloNome('curso')].valor = item.nome;
+            this.formulario[this.buscarIndexPeloNome('idCurso')].valor = item.idCurso;
             this.formulario[this.buscarIndexPeloNome('ativo')].valor = item.ativo;
             this.identificacao = item.id;
             for (var x = 0; x < this.formulario.length; x++){
@@ -282,8 +280,8 @@ export default {
             return this.nome + ' ' + this.sobrenome;
         }
     },
-    mounted: function () {
-        this.listarCursos();
+    mounted: async function () {
+        await this.listarCursos();
         emmiter.on('abrirEdicaoTurma', this.abrirCanvas)
         const bootstrap = require('bootstrap')
         this.Offcanvas = new bootstrap.Offcanvas(this.$refs.offcanvas);

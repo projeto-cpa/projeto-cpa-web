@@ -234,7 +234,7 @@ export default {
             this.resultados[this.buscarIndexPeloId(item.id)].nome = item.nome;
             this.resultados[this.buscarIndexPeloId(item.id)].descricao = item.descricao;
             this.resultados[this.buscarIndexPeloId(item.id)].dataAtualizacao = item.dataAtualizacao;
-            this.resultados[this.buscarIndexPeloId(item.id)].curso = item.nome;
+            this.resultados[this.buscarIndexPeloId(item.id)].idCurso = item.nome;
         },
         aoListarTurma: function (resposta) {
             console.log('resposta', resposta);
