@@ -23,7 +23,7 @@ export default {
   <AppSuper>
     <AppHeader></AppHeader>
     <AppAside></AppAside>
-    <AppMain titulo="Tela de listagem de usuários">
+    <AppMain titulo="Tela de listagem de usuários" :importar="'usuarios'">
       <telaListagemUsuarios></telaListagemUsuarios>
     </AppMain>
     <AppFooter></AppFooter>
