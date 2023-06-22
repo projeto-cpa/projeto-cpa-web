@@ -28,7 +28,7 @@ export default {
                 <div class="d-flex">
                     <div class="fa fa-file input-group importarUsuarios">
                         <input class="rounded-0" id="importarUsers" type="file">
-                        <label for="importarUsers">Importar</label>
+                        <label for="importarUsers" style="display: block; width: 100%;">Importar</label>
                     </div>
                 </div>
                 <!-- <button class="btn btn-success rounded-0 form-control" type="file">
@@ -44,10 +44,9 @@ export default {
 </template>
 
 <style>
-
-/*input[type='file'] {
+#importarUsers {
     display: none
-}*/
+}
 
 .importarUsuarios {
     background-color: #198754 !important;
