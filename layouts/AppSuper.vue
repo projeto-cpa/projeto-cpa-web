@@ -1,7 +1,7 @@
 <script>
 import emmiter from '../helpers/emmiter.js';
 import sessions from '../helpers/sessions.js'
-import listagemUsuario from "~/api/listagem/listagemUsuario";
+// import listagemUsuarioDetalhar from "~/api/listagem/listagemUsuarioDetalhar";
 import emitter from '../helpers/emmiter.js';
 
 export default {
@@ -25,19 +25,19 @@ export default {
       }
       this.show = true;
     },
-    pegarDados: async function () {
-      var dados = await listagemUsuario(this.idUsuario);
-      console.log('dados', dados)
-      emitter.emit('dadosUsuario', dados)
-      this.dadosUsuario = dados;
-    },
+    // pegarDados: async function () {
+    //   var dados = await listagemUsuarioDetalhar(this.idUsuario);
+    //   console.log('dados', dados)
+    //   emitter.emit('dadosUsuario', dados)
+    //   this.dadosUsuario = dados;
+    // },
   },
   mounted: function () {
     emmiter.on('bodyScroll', function (value) {
       document.body.style.overflow = value ? 'auto' : 'hidden'
     });
     this.usuarioLogado();
-    this.pegarDados();
+    // this.pegarDados();
   }
 };
 </script>

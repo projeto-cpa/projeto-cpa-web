@@ -211,14 +211,12 @@ export default {
         },
         buscarIndexPeloId: function (id) {
             var i = 0;
-
             this.resultados.forEach(function (item, index) {
                 console.log(item)
                 if (item.id === id) {
                     i = index;
                 }
             });
-
             return i;
         },
         abrirEdicao: function (item) {
@@ -234,9 +232,27 @@ export default {
             this.resultados[this.buscarIndexPeloId(item.id)].nome = item.nome;
             this.resultados[this.buscarIndexPeloId(item.id)].senha = item.senha;
             this.resultados[this.buscarIndexPeloId(item.id)].email = item.email;
-            this.resultados[this.buscarIndexPeloId(item.id)].tipo = item.tipo;
+            this.resultados[this.buscarIndexPeloId(item.id)].idCargo = item.nome;
         },
         senha: function (resposta) {
+            console.log('resposta', resposta);
+            this.selecaoTodos = false;
+            this.paginacao.paginas = resposta.totalPages;
+            this.paginacao.total = resposta.totalElements;
+
+            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                this.resultados = resposta.content.map(function (item) {
+                    item.selecionado = false;
+                    item.ativando = false;
+                    item.excluindo = false;
+                    return item;
+                });
+            } else {
+                this.resultados = [];
+            }
+
+        },
+        aoListarUsuario: function (resposta) {
             console.log('resposta', resposta);
             this.selecaoTodos = false;
             this.paginacao.paginas = resposta.totalPages;
@@ -294,10 +310,10 @@ export default {
                                 <div class="item header text-center"><b>Nome do usuário</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Data de criação</b></div>
+                                <div class="item header text-center"><b>Email do usuário</b></div>
                             </div>
                             <div class="col date m-auto">
-                                <div class="item header text-center"><b>Data de alteração</b></div>
+                                <div class="item header text-center"><b>Cargo do usuário</b></div>
                             </div>
                             <div class="col options m-auto text-center">
                                 <div class="item header text-center"><b>Opções</b></div>
@@ -323,10 +339,10 @@ export default {
                                     <div class="item placeholder">Nome</div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Criado em</b></div>
+                                    <div class="item placeholder"><b>Email</b></div>
                                 </div>
                                 <div class="col date m-auto">
-                                    <div class="item placeholder"><b>Alterado em</b></div>
+                                    <div class="item placeholder"><b>Cargo</b></div>
                                 </div>
                                 <div class="col options m-auto">
                                     <div class="item placeholder"><b>Opções</b></div>
@@ -407,12 +423,12 @@ export default {
                                     <div class="col-xl col-12 col-md-6 m-xl-auto mb-2 mb-xl-auto">
                                         <div class="col-box">
                                             <div class="d-block d-xl-none">
-                                                <div class="title text-center"><b>Tipo do usuário</b></div>
+                                                <div class="title text-center"><b>Cargo do usuário</b></div>
                                             </div>
-                                            <div class="item text-center">{{ item.tipo }}</div>
+                                            <div class="item text-center">{{ item.cargo }}</div>
                                         </div>
                                     </div>
-                                    <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
+                                    <!-- <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
                                         <div class="col-box">
                                             <div class="d-block d-xl-none">
                                                 <div class="title text-center"><b>Data da criação</b></div>
@@ -433,7 +449,7 @@ export default {
                                                 <div>{{ formatarData(item.dataAtualizacao).hora }}</div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-xl col-12 options m-xl-auto mb-2 mb-xl-auto">
                                         <div class="col-box">
                                             <div class="item text-center">

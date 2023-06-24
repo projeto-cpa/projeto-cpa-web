@@ -1,6 +1,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import emmiter from '../../../helpers/emmiter';
+import unique from '~/helpers/unique';
 import alteracaoUsuario from '../../../api/alteracao/alteracaoUsuario.js';
 import listagemUsuario from '../../../api/listagem/listagemUsuario.js';
 import Swal from 'sweetalert2';
@@ -59,8 +60,8 @@ export default {
                     }
                 },
                 {
-                    etiqueta: 'Tipo de usuário',
-                    nome: 'tipo',
+                    etiqueta: 'Cargo do usuário',
+                    nome: 'idCargo',
                     valor: '',
                     valido: null,
                     id: unique.generate(),
@@ -130,7 +131,7 @@ export default {
             this.formulario[this.buscarIndexPeloNome('email')].valor = item.email;
             this.formulario[this.buscarIndexPeloNome('nome')].valor = item.nome;
             this.formulario[this.buscarIndexPeloNome('ativo')].valor = item.ativo;
-            this.formulario[this.buscarIndexPeloNome('tipo')].valor = item.tipo;
+            this.formulario[this.buscarIndexPeloNome('idCargo')].valor = item.id;
             this.formulario[this.buscarIndexPeloNome('senha')].valor = item.senha;
             this.identificacao = item.id;
             for (var x = 0; x < this.formulario.length; x++) {

@@ -233,18 +233,20 @@ export default {
 
         },
         listarCursos: async function () {
-            var resposta = await listagemCurso(0, 5);
+            var pagina = 0;
+            var quantidade = 5;
             var valores = [];
-            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
-                valores = resposta.content.map(function (item) {
+            var resposta = await listagemCurso(pagina, quantidade);
+            while (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                valores = valores.concat(resposta.content.map(function (item) {
                     item.valor = item.id;
                     return item;
-                });
-            } else {
-                valores = [];
+                }));
+                pagina++;
+                resposta = await listagemCurso(pagina, quantidade);
             }
             this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
-            console.log("RESPOSTAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", resposta, valores);
+            console.log("RESPOSTAAAAAAAAAAAA AAAAAAAAAA", resposta, valores);
         },
         buscarIndexPeloNome: function (nome) {
             console.log("valores123", this.valores);
