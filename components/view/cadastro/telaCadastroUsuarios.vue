@@ -1,6 +1,9 @@
 <script>
 import unique from '~/helpers/unique';
-//import {Requisicao as apiCadastroCargos} from '../../../api/cadastro/cadastroCargo.js'
+// import cadastroCargo from '../../../api/cadastro/cadastroCargo.js'
+// import cadastroUsuario from '../../../api/cadastro/usuarios.js'
+import cadastroUsuario from '../../../api/cadastro/cadastroUsuario.js'
+import listagemCargo from '../../../api/listagem/listagemCargo.js';
 import Swal from 'sweetalert2';
 
 export default {
@@ -15,7 +18,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Nome do usuário',
-                    nome: 'nome_usuario',
+                    nome: 'nome',
                     valor: '',
                     valido: null,
                     id: unique.generate(),
@@ -61,38 +64,12 @@ export default {
                 },
                 {
                     etiqueta: 'Tipo de usuário',
-                    nome: 'tipo-usuario',
+                    nome: 'nomeCargo',
                     valor: '',
                     valido: null,
                     id: unique.generate(),
                     tipo: 'select',
-                    valores: [
-                        {
-                            nome: 'Aluno',
-                            id: unique.generate(),
-                            valor: 0
-                        },
-                        {
-                            nome: 'Coordenador',
-                            id: unique.generate(),
-                            valor: 1
-                        },
-                        {
-                            nome: 'Diretor',
-                            id: unique.generate(),
-                            valor: 2
-                        },
-                        {
-                            nome: 'Membro da CPA',
-                            id: unique.generate(),
-                            valor: 2
-                        },
-                        {
-                            nome: 'Professor',
-                            id: unique.generate(),
-                            valor: 2
-                        }
-                    ],
+                    valores: [],
                     ajuda: 'Selecione uma das opções',
                     classe: {
                         coluna: 'col-12 mb-4'
@@ -145,80 +122,171 @@ export default {
                 return 'is-invalid';
             }
         },
-        enviarFormulario: async function () {
-            var that = this;
-            var data = new FormData(this.$refs.formularioCadastro);
-            //console.log(data);
-            var output = '';
-            for (const [key, value] of data) {
-                output += `${key}: ${value}\n`;
-            }
-            //console.log(output);
-            this.enviando = true;
-            this.$nuxt.$loading.start();
-
-            //var resposta = await apiCadastroCargos(data);
-            
-            setTimeout(function () {
-                this.$nuxt.$loading.finish()
-            }, 750);;
-            setTimeout(function () {
-                that.enviando = false;
-                if (resposta.sucesso) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso ao cadastrar',
-                        text: 'O cadastro obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/cargos' });
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ocorreu uma falha',
-                        text: 'O cadastro não obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    });
+        validarFormulario: function () {
+            var valido = true;
+            this.formulario.forEach(function (campo) {
+                campo.validar();
+                if (campo.valido === false) {
+                    valido = false;
                 }
-            }, 1000);
+            });
+            return valido;
         },
-        receberDados: async function () {
-            var that = this;
-            this.recebendo = true;
+        enviarFormulario: async function () {
+            if (!this.validarFormulario()) {
+                return;
+            }
+
+            var data = new FormData(this.$refs.formularioCadastro);
+            this.enviando = true;
 
             this.$nextTick(() => {
                 this.$nuxt.$loading.start()
+            })
+
+            var resposta = await cadastroUsuario(data);
+
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
             });
 
-            var resposta = await listagemDisciplina();
-            this.formulario[this.buscarIndexPeloNome('tipo_materia')].valores = this.passarSelecionado(resposta);
-            console.log(that.formulario[this.buscarIndexPeloNome('tipo_materia')].valores)
-            console.log(resposta)
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            });
 
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
+            this.enviando = false;
+            if (resposta.sucesso) {
+
+                var modal = await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao cadastrar',
+                    text: 'O cadastro obteve sucesso',
+                    confirmButtonText: 'Entendido'
                 });
-            }, 750);
 
-            console.log('hmmm', resposta)
-            this.resultados = resposta;
-        },
-        passarSelecionado: function (dados){
-            for (let index = 0; index < dados.length; index++) {
-                dados[index].selecionado = false;
+                if (modal) {
+                    this.$router.push({ path: '/listagem/usuarios' });
+                }
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ocorreu uma falha',
+                    text: 'O cadastro não obteve sucesso',
+                    confirmButtonText: 'Entendido'
+                });
             }
-            return dados;
-        }
+
+        },
+
+        // enviarFormulario: async function () {
+        //     var that = this;
+        //     var data = new FormData(this.$refs.formularioCadastro);
+        //     //console.log(data);
+        //     var output = '';
+        //     for (const [key, value] of data) {
+        //         output += `${key}: ${value}\n`;
+        //     }
+        //     //console.log(output);
+        //     this.enviando = true;
+        //     this.$nuxt.$loading.start();
+
+        //     var resposta = await cadastroUsuario(data);
+
+        //     setTimeout(function () {
+        //         this.$nuxt.$loading.finish()
+        //     }, 750);;
+        //     setTimeout(function () {
+        //         that.enviando = false;
+        //         if (resposta.sucesso) {
+        //             Swal.fire({
+        //                 icon: 'success',
+        //                 title: 'Sucesso ao cadastrar',
+        //                 text: 'O cadastro obteve sucesso',
+        //                 confirmButtonText: 'Entendido'
+        //             }).then(function () {
+        //                 that.$router.push({ path: '/listagem/usuarios' });
+        //             });
+        //         } else {
+        //             Swal.fire({
+        //                 icon: 'error',
+        //                 title: 'Ocorreu uma falha',
+        //                 text: 'O cadastro não obteve sucesso',
+        //                 confirmButtonText: 'Entendido'
+        //             });
+        //         }
+        //     }, 1000);
+        // },
+
+
+        // receberDados: async function () {
+        //     var that = this;
+        //     this.recebendo = true;
+
+        //     this.$nextTick(() => {
+        //         this.$nuxt.$loading.start()
+        //     });
+
+        //     var resposta = await listagemDisciplina();
+        //     // this.formulario[this.buscarIndexPeloNome('tipo_materia')].valores = this.passarSelecionado(resposta);
+        //     // console.log(that.formulario[this.buscarIndexPeloNome('tipo_materia')].valores)
+        //     this.formulario[this.buscarIndexPeloNome('tipo')].valores = this.passarSelecionado(resposta);
+        //     console.log(that.formulario[this.buscarIndexPeloNome('tipo')].valores)
+        //     console.log(resposta)
+
+        //     setTimeout(function () {
+        //         that.$nextTick(() => {
+        //             that.$nuxt.$loading.finish()
+        //         });
+        //     }, 750);
+
+        //     console.log('hmmm', resposta)
+        //     this.resultados = resposta;
+        // },
+
+        // passarSelecionado: function (dados) {
+        //     for (let index = 0; index < dados.length; index++) {
+        //         dados[index].selecionado = false;
+        //     }
+        //     return dados;
+        // }
+        listarCargos: async function () {
+            var resposta = await listagemCargo(0, 5);
+            var valores = [];
+            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                valores = resposta.content.map(function (item) {
+                    item.valor = item.id;
+                    return item;
+                });
+            } else {
+                valores = [];
+            }
+            this.formulario[this.buscarIndexPeloNome('nomeCargo')].valores = valores;
+            console.log("RESPOSTAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", resposta, valores);
+        },
+        buscarIndexPeloNome: function (nome) {
+            console.log("valores123", this.valores);
+            console.log("formuuu", this.formulario);
+            var i = 0;
+            this.formulario.forEach(function (item, index) {
+                console.log(item)
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            return i;
+        },
     },
     mounted: async function () {
+        this.listarCargos();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
             new bootstrap.Tooltip(item);
         });
-        this.receberDados();
+        // this.receberDados();
     }
 };
 </script>
@@ -284,5 +352,4 @@ textarea {
     max-height: 400px !important;
     min-height: 58px !important
 }
-
 </style>
