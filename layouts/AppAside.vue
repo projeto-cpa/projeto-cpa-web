@@ -165,6 +165,25 @@ export default {
                         }
                     ]
                 },
+                {
+                    caminho: '/avaliacoes',
+                    texto: 'Avaliações',
+                    icone: 'fa fa-book',
+                    id: unique.generate(),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/avaliacoes',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/avaliacoes',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
             ]
         };
     },
