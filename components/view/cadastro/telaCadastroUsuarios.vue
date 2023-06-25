@@ -319,7 +319,7 @@ export default {
             </article>
         </section>
         <footer class="form-footer bg-white text-end">
-            <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando" id="enviar-turma">
+            <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando" id="enviar-usuario">
                 <span>Cadastrar</span>
                 <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
             </button>

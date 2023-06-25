@@ -24,18 +24,29 @@ export default {
     <main class="col p-0 bg-light">
         <header class="bg-secondary">
             <h1 class="text-white">{{ titulo }}</h1>
-            <template v-if="importar">
+            <!-- <template v-if="importar">
+                <div>
+                    <input type="file" @change="handleFileChange">
+                    <button @click="uploadTurma">Enviar</button>
+
+                    <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando"
+                        id="enviar-usuario">
+                        <span>Importar</span>
+                        <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                    </button>
+                </div>
+                
                 <div class="d-flex">
                     <div class="fa fa-file input-group importarUsuarios">
                         <input class="rounded-0" id="importarUsers" type="file">
                         <label for="importarUsers" style="display: block; width: 100%;">Importar</label>
                     </div>
                 </div>
-                <!-- <button class="btn btn-success rounded-0 form-control" type="file">
+                <button class="btn btn-success rounded-0 form-control" type="file">
                         <span class="fa fa-file"></span>
                         <span>Importar</span>
-                    </button> -->
-            </template>
+                    </button>
+            </template> -->
         </header>
         <div class="content-frame" :class="contentFrameClass">
             <slot></slot>

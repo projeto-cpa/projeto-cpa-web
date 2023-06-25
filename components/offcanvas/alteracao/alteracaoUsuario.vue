@@ -4,6 +4,7 @@ import emmiter from '../../../helpers/emmiter';
 import unique from '~/helpers/unique';
 import alteracaoUsuario from '../../../api/alteracao/alteracaoUsuario.js';
 import listagemUsuario from '../../../api/listagem/listagemUsuario.js';
+import listagemCargo from '../../../api/listagem/listagemCargo.js';
 import Swal from 'sweetalert2';
 
 export default {
@@ -76,7 +77,7 @@ export default {
                         invalido: 'Campo inválido, verifique novamente',
                     },
                     validar: function () {
-                        if (this.valor.length > 1) {
+                        if (this.valor !== '') {
                             this.valido = true;
                         } else {
                             this.valido = false;
@@ -92,7 +93,7 @@ export default {
                     tipo: 'email',
                     ajuda: 'Deve ser email valido',
                     classe: {
-                        coluna: 'col-12 '
+                        coluna: 'col-12 mb-4'
                     },
                     validacao: {
                         valido: 'Campo validado com sucesso',
@@ -105,11 +106,62 @@ export default {
                             this.valido = false;
                         }
                     }
+                },
+                {
+                    etiqueta: 'Estado de ativação',
+                    nome: 'ativo',
+                    valor: '',
+                    valido: null,
+                    id: unique.generate(),
+                    tipo: 'select',
+                    valores: [
+                        {
+                            nome: 'Ativado',
+                            id: unique.generate(),
+                            valor: "true"
+                        },
+                        {
+                            nome: 'Desativado',
+                            id: unique.generate(),
+                            valor: "false"
+                        },
+                    ],
+                    ajuda: 'Selecione uma das opções',
+                    classe: {
+                        coluna: 'col-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor !== '') {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
                 }
             ]
         };
     },
     methods: {
+        listarCargos: async function () {
+            var pagina = 0;
+            var quantidade = 5;
+            var valores = [];
+            var resposta = await listagemCargo(pagina, quantidade);
+            while (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                valores = valores.concat(resposta.content.map(function (item) {
+                    item.valor = item.id;
+                    return item;
+                }));
+                pagina++;
+                resposta = await listagemCargo(pagina, quantidade);
+            }
+            this.formulario[this.buscarIndexPeloNome('idCargo')].valores = valores;
+            console.log("RESPOSTAAAAAAAAAAAA AAAAAAAAAA", resposta, valores);
+        },
         buscarIndexPeloNome: function (nome) {
             var i = 0;
             this.formulario.forEach(function (item, index) {
@@ -128,11 +180,11 @@ export default {
             this.Offcanvas.hide();
         },
         recuperarEstado: function (item) {
-            this.formulario[this.buscarIndexPeloNome('email')].valor = item.email;
             this.formulario[this.buscarIndexPeloNome('nome')].valor = item.nome;
-            this.formulario[this.buscarIndexPeloNome('ativo')].valor = item.ativo;
-            this.formulario[this.buscarIndexPeloNome('idCargo')].valor = item.id;
+            this.formulario[this.buscarIndexPeloNome('email')].valor = item.email;
             this.formulario[this.buscarIndexPeloNome('senha')].valor = item.senha;
+            this.formulario[this.buscarIndexPeloNome('idCargo')].valor = item.id;
+            this.formulario[this.buscarIndexPeloNome('ativo')].valor = item.ativo;
             this.identificacao = item.id;
             for (var x = 0; x < this.formulario.length; x++) {
                 this.formulario[x].valido = null;
@@ -206,21 +258,7 @@ export default {
                     confirmButtonText: 'Entendido'
                 });
             }
-        },
-        listarUsuarios: async function () {
-            var resposta = await listagemUsuario(0, 5);
-            var valores = [];
-            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
-                valores = resposta.content.map(function (item) {
-                    item.valor = item.id;
-                    return item;
-                });
-            } else {
-                valores = [];
-            }
-            this.formulario[this.buscarIndexPeloNome('idUsuario')].valores = valores;
-            console.log("RESPOSTAAAAAAAAAAAA BBBBBBBBBBBB: ", resposta, valores);
-        },
+        }
     },
     computed: {
         nomeCompleto: function () {
@@ -228,7 +266,7 @@ export default {
         }
     },
     mounted: async function () {
-        await this.listarUsuarios();
+        await this.listarCargos();
         emmiter.on('abrirEdicaoUsuario', this.abrirCanvas)
         const bootstrap = require('bootstrap')
         this.Offcanvas = new bootstrap.Offcanvas(this.$refs.offcanvas);
@@ -250,30 +288,52 @@ export default {
         </div>
         <div class="offcanvas-body">
             <!-- inicio conteudo do alterar -->
-            <form class="row m-0" ref="formularioCadastro">
+            <form class="row mx-0 mb-3" ref="formularioCadastro">
                 <div class="card p-0">
                     <div class="card-body">
                         <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                             <div class="form-floating">
-                                <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+
+                                <template v-if="campo.nome == 'nome'">
                                     <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                        :type="campo.tipo" class="form-control" :id="campo.id" @keyup="campo.validar()"
+                                        :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
                                         :class="inputClass(campo.valido)">
                                 </template>
-                                <template v-else-if="campo.tipo === 'select'">
+
+                                <template v-else-if="campo.nome == 'email'">
+                                    <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                        :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
+                                        :class="inputClass(campo.valido)">
+                                </template>
+
+                                <template v-else-if="campo.nome == 'senha'">
+                                    <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                        :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
+                                        :class="inputClass(campo.valido)">
+                                </template>
+
+                                <template v-else-if="campo.nome == 'idCargo'">
                                     <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                         class="form-control" :id="campo.id" @change="campo.validar()"
                                         :class="inputClass(campo.valido)">
-                                        <option v-for="valor in campo.valores" :key="valor.id" :v-model="valor.valor">
+                                        <option value="" disabled selected>Selecione uma opção</option>
+                                        <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
                                             {{ valor.nome }}
                                         </option>
                                     </select>
                                 </template>
-                                <template v-else>
-                                    <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                        class="form-control" :id="campo.id" @keypress="campo.validar()"
-                                        :class="inputClass(campo.valido)"></textarea>
+
+                                <template v-else-if="campo.nome == 'ativo'">
+                                    <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                        class="form-control" :id="campo.id" @change="campo.validar()"
+                                        :class="inputClass(campo.valido)">
+                                        <option value="" disabled selected>Selecione uma opção</option>
+                                        <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                            {{ valor.nome }}
+                                        </option>
+                                    </select>
                                 </template>
+
                                 <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
                                 <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
                                     data-bs-placement="bottom" data-bs-delay="250"><i class="fa fa-question-circle"
@@ -284,7 +344,7 @@ export default {
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="idUsuario" v-model="identificacao" class="d-none"/>
+                <input type="hidden" name="idUsuario" v-model="identificacao" class="d-none" />
             </form>
             <!-- fim conteudo do alterar -->
             <div class="row mx-0">

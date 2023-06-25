@@ -28,26 +28,61 @@ class Requests {
 
                 console.log('auth', auth);
 
-                //console.log(options);
+                // console.log(options);
                 var headers = new Headers();
+                // tipo padrao = json
+                var contentType = 'application/json'
+                var acceptType = 'application/json'
+                var contentTypeCount = 0
+                var acceptTypeCount = 0
 
                 if (options.headers) {
                     // console.log(options.headers)
-                    for (const header of options.headers) {
+                    for (var header of options.headers) {
+                        /**
+                         * @type {String}
+                         */
+                        var headerName = header.key.toLowerCase();
+
+                        if(contentTypeCount > 1){
+                            throw new Error('Voce so pode declarar o tipo da requisicao conteudo uma vez')
+                        }
+
+                        if(acceptTypeCount > 1){
+                            throw new Error('Voce so pode declarar o tipo da resposta conteudo uma vez')
+                        }
+                        
+                        if(headerName.toLocaleLowerCase() === 'content-type'){
+                            contentType = header.value
+                            contentTypeCount++;
+                            continue;
+                        }
+
+                        if(headerName.toLocaleLowerCase() === 'accpet'){
+                            acceptTypeCount = header.value
+                            acceptTypeCount++;
+                            continue;
+                        }
+
                         //console.log(key)
                         //console.log(key,val)
                         headers.append(header.key, header.value);
                     }
                 }
 
-                headers.append('Content-Type', 'application/json');
-                headers.append('Accept', 'application/json');
+                console.log('contentType', contentType, 'acceptType', acceptType)
+                // TODO: fazer tratamento do content type
+
+                headers.append('Content-Type', contentType);
+                headers.append('Accept', acceptType);
                 headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
                 headers.append('Access-Control-Allow-Credentials', 'true');
 
-                // headers.forEach(function (key, val) {
-                //     console.log(key, val);
-                // })
+                console.log('conteudo do header')
+                headers.forEach(function (key, val) {
+                    console.log(key, val);
+                })
+
                 //sessions.set('test', 'sou um ttest');
                 //console.log(sessions.get('test'));
 
@@ -193,6 +228,21 @@ class Requests {
         console.log('auth', auth);
         return this.use(url, body, auth, options);
     }
+
+    // post(url, body, auth, options) {
+    //     body = body || false;
+    //     auth = auth || false;
+    //     options = options || {};
+    //     options.method = 'POST';
+      
+    //     if (body instanceof FormData) {
+    //       options.headers = {
+    //         'Content-Type': 'multipart/form-data',
+    //       };
+    //     }
+      
+    //     return this.use(url, body, auth, options);
+    //   }
 
     /**
      * Requisicao de Metodo PUT

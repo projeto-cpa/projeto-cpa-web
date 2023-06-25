@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import Filtro from '../../../components/utils/Filtro.vue';
 import Paginacao from '../../../components/utils/Paginacao.vue'
 /** API */
+import importarUsuario from '../../../api/cadastro/importarUsuario.js';
 import listagemUsuario from '../../../api/listagem/listagemUsuario.js';
 import ativacaoUsuario from '../../../api/ativacao/ativacaoUsuario.js';
 import exclusaoUsuario from '../../../api/exclusao/exclusaoUsuario.js';
@@ -17,6 +18,9 @@ export default {
     },
     data: function () {
         return {
+            verificaArquivo: false,
+            selectedFile: null,
+            enviando: false,
             recebendo: false,
             resultados: [],
             requisicao: listagemUsuario,
@@ -45,7 +49,7 @@ export default {
             var modal = await Swal.fire({
                 icon: 'error',
                 title: 'Confirmar exclusão',
-                html: `Deseja excluir o usuário <b>Id.${item.id}</b>, ${item.nome}?`,
+                html: `Deseja excluir o item <b>Id.${item.id}</b>, ${item.nome}?`,
                 confirmButtonText: 'Confirmar',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar'
@@ -81,7 +85,7 @@ export default {
                     Swal.fire({
                         icon: 'error',
                         title: 'Ocorreu uma falha',
-                        text: 'Não foi possível excluir o usuário',
+                        text: 'Não foi possível excluir o item',
                         confirmButtonText: 'Entendido'
                     });
                 }
@@ -97,7 +101,7 @@ export default {
             var modal = await Swal.fire({
                 icon: icon,
                 title: `Confirmar ${term}`,
-                html: `Deseja ${text} o usuário <b>Id.${item.id}</b>, ${item.nome}?`,
+                html: `Deseja ${text} o item <b>Id.${item.id}</b>, ${item.nome}?`,
                 confirmButtonText: buttonText,
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar'
@@ -127,8 +131,8 @@ export default {
             }
 
         },
-        textoBotaoAtivar: function (ativo) {
-            if (ativo) {
+        textoBotaoAtivar: function (item) {
+            if (item.ativo) {
                 return 'Desativar';
             } else {
                 return 'Ativar';
@@ -136,11 +140,9 @@ export default {
         },
         classeBotaoExcluir: function (item) {
             var cls = 'btn-danger';
-
             if (item.excluindo) {
                 cls += ' disabled';
             }
-
             return cls;
         },
         classeItem: function (item, index) {
@@ -159,7 +161,6 @@ export default {
             if (index % 2) {
                 cls += ' card-alt';
             }
-
             return cls;
         },
         classeBotaoAtivar: function (item) {
@@ -173,7 +174,6 @@ export default {
             if (item.ativando) {
                 cls += ' disabled';
             }
-
             return cls;
         },
         formatarData: function (data) {
@@ -226,6 +226,64 @@ export default {
             var selecionado = this.resultados[this.buscarIndexPeloId(item.id)].selecionado;
             this.resultados[this.buscarIndexPeloId(item.id)].selecionado = selecionado ? false : true;
         },
+
+        handleFileChange(event) {
+            this.arquivo = event.target.files[0];
+            this.verificaArquivo = true;
+        },
+        enviarFormulario: async function () {
+
+            const arquivoInput = this.$refs.fileInput;
+            const arquivo = arquivoInput ? arquivoInput.files[0] : null;
+
+            if (this.arquivo) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', this.arquivo);
+
+                    const resposta = await importarUsuario(formData);
+
+                    this.$nextTick(() => {
+                        this.$nuxt.$loading.finish();
+                    });
+
+                    this.enviando = false;
+
+                    if (resposta.sucesso) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso ao cadastrar',
+                            text: 'O cadastro obteve sucesso',
+                            confirmButtonText: 'Entendido'
+                        }).then(() => {
+                            this.$router.push({ path: '/listagem/usuarios' });
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ocorreu uma falha',
+                            text: 'O cadastro não obteve sucesso',
+                            confirmButtonText: 'Entendido'
+                        });
+                    }
+                } catch (erro) {
+                    console.error(erro);
+                    this.$nextTick(() => {
+                        this.$nuxt.$loading.finish();
+                    });
+
+                    this.enviando = false;
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ocorreu uma falha',
+                        text: 'O cadastro não obteve sucesso',
+                        confirmButtonText: 'Entendido'
+                    });
+                }
+            }
+        },
+
         aoAlterarUsuario: function (item) {
             this.editar = false;
             this.resultados[this.buscarIndexPeloId(item.id)].ativo = item.ativo;
@@ -234,7 +292,7 @@ export default {
             this.resultados[this.buscarIndexPeloId(item.id)].email = item.email;
             this.resultados[this.buscarIndexPeloId(item.id)].idCargo = item.nome;
         },
-        senha: function (resposta) {
+        aoListarUsuario: function (resposta) {
             console.log('resposta', resposta);
             this.selecaoTodos = false;
             this.paginacao.paginas = resposta.totalPages;
@@ -252,7 +310,7 @@ export default {
             }
 
         },
-        aoListarUsuario: function (resposta) {
+        senha: function (resposta) {
             console.log('resposta', resposta);
             this.selecaoTodos = false;
             this.paginacao.paginas = resposta.totalPages;
@@ -292,10 +350,10 @@ export default {
 <template>
     <div class="container-fluid conteudo-principal">
         <section>
-            <article>
+            <article class="listing-page">
                 <Filtro></Filtro>
                 <!-- Cabeçalho da listagem -->
-                <div class="card bg-light">
+                <div class="card bg-light mb-4 mb-lg-2 d-none d-xl-block">
                     <div class="card-body">
                         <div class="row m-0">
                             <div class="col id m-auto">
@@ -304,7 +362,7 @@ export default {
                                     @click="selecionarTodos" />
                             </div>
                             <div class="col activations m-auto">
-                                <div class="item header text-center"><b>Ativar/Desativar</b></div>
+                                <div class="item header text-center"><b>Ativação</b></div>
                             </div>
                             <div class="col m-auto">
                                 <div class="item header text-center"><b>Nome do usuário</b></div>
@@ -315,9 +373,19 @@ export default {
                             <div class="col date m-auto">
                                 <div class="item header text-center"><b>Cargo do usuário</b></div>
                             </div>
-                            <div class="col options m-auto text-center">
-                                <div class="item header text-center"><b>Opções</b></div>
-                            </div>
+                            <form class="col date m-auto" enctype="multipart/form-data">
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <input type="file" class="form-control-file" name="file" id="fileInput"
+                                        @change="handleFileChange">
+                                    <label class="input-group-text btn btn-secondary rounded-5 mb-2"
+                                        for="fileInput">Arquivo CSV</label>
+                                    <button v-if="verificaArquivo" class="btn btn-primary rounded-5" @click="enviarFormulario"
+                                        :disabled="enviando">
+                                        <span>Importar</span>
+                                        <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -345,7 +413,7 @@ export default {
                                     <div class="item placeholder"><b>Cargo</b></div>
                                 </div>
                                 <div class="col options m-auto">
-                                    <div class="item placeholder"><b>Opções</b></div>
+                                    <div class="item placeholder"><b>Importar</b></div>
                                 </div>
                             </div>
                         </div>
@@ -428,28 +496,6 @@ export default {
                                             <div class="item text-center">{{ item.cargo }}</div>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
-                                        <div class="col-box">
-                                            <div class="d-block d-xl-none">
-                                                <div class="title text-center"><b>Data da criação</b></div>
-                                            </div>
-                                            <div class="item text-center">
-                                                <div>{{ formatarData(item.dataCriacao).data }}</div>
-                                                <div>{{ formatarData(item.dataCriacao).hora }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl col-12 col-md-6 date m-xl-auto mb-2 mb-xl-auto">
-                                        <div class="col-box">
-                                            <div class="d-block d-xl-none">
-                                                <div class="title text-center"><b>Data da alteração</b></div>
-                                            </div>
-                                            <div class="item text-center">
-                                                <div>{{ formatarData(item.dataAtualizacao).data }}</div>
-                                                <div>{{ formatarData(item.dataAtualizacao).hora }}</div>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <div class="col-xl col-12 options m-xl-auto mb-2 mb-xl-auto">
                                         <div class="col-box">
                                             <div class="item text-center">
@@ -490,6 +536,10 @@ export default {
 </template>
 
 <style scoped>
+#fileInput {
+    display: none
+}
+
 .placeholder {
     min-width: 100%;
     height: 100%;
