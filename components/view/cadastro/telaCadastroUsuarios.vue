@@ -192,8 +192,8 @@ export default {
             });
 
             this.enviando = false;
-            if (resposta.sucesso) {
-
+            if (resposta.status == 200 || resposta.status == 201) {
+                
                 var modal = await Swal.fire({
                     icon: 'success',
                     title: 'Sucesso ao cadastrar',

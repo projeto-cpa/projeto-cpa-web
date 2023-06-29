@@ -73,7 +73,10 @@ class Requests {
                 console.log('contentType', contentType, 'acceptType', acceptType)
                 // TODO: fazer tratamento do content type
 
-                headers.append('Content-Type', contentType);
+                if(contentType !== undefined){
+                    headers.append('Content-Type', contentType);
+                }
+
                 headers.append('Accept', acceptType);
                 headers.append('Access-Control-Allow-Origin', 'http://localhost:8080');
                 headers.append('Access-Control-Allow-Credentials', 'true');
@@ -228,21 +231,6 @@ class Requests {
         console.log('auth', auth);
         return this.use(url, body, auth, options);
     }
-
-    // post(url, body, auth, options) {
-    //     body = body || false;
-    //     auth = auth || false;
-    //     options = options || {};
-    //     options.method = 'POST';
-      
-    //     if (body instanceof FormData) {
-    //       options.headers = {
-    //         'Content-Type': 'multipart/form-data',
-    //       };
-    //     }
-      
-    //     return this.use(url, body, auth, options);
-    //   }
 
     /**
      * Requisicao de Metodo PUT

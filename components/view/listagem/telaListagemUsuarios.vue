@@ -250,19 +250,21 @@ export default {
                     this.enviando = false;
 
                     if (resposta.sucesso) {
-                        Swal.fire({
+                        var modal = await Swal.fire({
                             icon: 'success',
-                            title: 'Sucesso ao cadastrar',
-                            text: 'O cadastro obteve sucesso',
+                            title: 'Sucesso ao importar',
+                            text: 'A importação obteve sucesso',
                             confirmButtonText: 'Entendido'
-                        }).then(() => {
-                            this.$router.push({ path: '/listagem/usuarios' });
                         });
+
+                        if (modal) {
+                            this.$router.push({ path: '/listagem/turmas' });
+                        }
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Ocorreu uma falha',
-                            text: 'O cadastro não obteve sucesso',
+                            text: 'A importação não obteve sucesso',
                             confirmButtonText: 'Entendido'
                         });
                     }
@@ -277,7 +279,7 @@ export default {
                     Swal.fire({
                         icon: 'error',
                         title: 'Ocorreu uma falha',
-                        text: 'O cadastro não obteve sucesso',
+                        text: 'A importação do arquivo não obteve sucesso',
                         confirmButtonText: 'Entendido'
                     });
                 }
@@ -377,10 +379,10 @@ export default {
                                 <div class="d-flex flex-wrap justify-content-center">
                                     <input type="file" class="form-control-file" name="file" id="fileInput"
                                         @change="handleFileChange">
-                                    <label class="input-group-text btn btn-secondary rounded-5 mb-2"
-                                        for="fileInput">Arquivo CSV</label>
-                                    <button v-if="verificaArquivo" class="btn btn-primary rounded-5" @click="enviarFormulario"
-                                        :disabled="enviando">
+                                    <label class="input-group-text btn btn-secondary rounded-5 mb-2" for="fileInput">Arquivo
+                                        CSV</label>
+                                    <button v-if="verificaArquivo" class="btn btn-primary rounded-5"
+                                        @click="enviarFormulario" :disabled="enviando">
                                         <span>Importar</span>
                                         <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
                                     </button>

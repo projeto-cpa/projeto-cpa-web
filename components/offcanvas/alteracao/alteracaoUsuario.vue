@@ -4,7 +4,7 @@ import emmiter from '../../../helpers/emmiter';
 import unique from '~/helpers/unique';
 import alteracaoUsuario from '../../../api/alteracao/alteracaoUsuario.js';
 import listagemUsuario from '../../../api/listagem/listagemUsuario.js';
-import listagemCargo from '../../../api/listagem/listagemCargo.js';
+import listagemCargo from '../../../api/listagem/listagemCargo';
 import Swal from 'sweetalert2';
 
 export default {
@@ -183,7 +183,7 @@ export default {
             this.formulario[this.buscarIndexPeloNome('nome')].valor = item.nome;
             this.formulario[this.buscarIndexPeloNome('email')].valor = item.email;
             this.formulario[this.buscarIndexPeloNome('senha')].valor = item.senha;
-            this.formulario[this.buscarIndexPeloNome('idCargo')].valor = item.id;
+            this.formulario[this.buscarIndexPeloNome('idCargo')].valor = item.idCargo;
             this.formulario[this.buscarIndexPeloNome('ativo')].valor = item.ativo;
             this.identificacao = item.id;
             for (var x = 0; x < this.formulario.length; x++) {

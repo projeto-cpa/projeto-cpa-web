@@ -8,7 +8,7 @@ async function importarUsuario(data) {
             headers: [
                 {
                     key: 'Content-Type',
-                    value: 'multipart/form-data'
+                    value: undefined
                 }
             ]
         }
