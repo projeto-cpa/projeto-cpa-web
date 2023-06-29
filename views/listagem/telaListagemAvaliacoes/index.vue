@@ -1,6 +1,7 @@
 <script>
 // *Script da tela
 import scriptTela from '../../../views/listagem/telaListagemAvaliacoes/script';
+import styleTelaAvaliacoes from '../../../views/listagem/telaListagemAvaliacoes/style.vue';
 
 export default scriptTela;
 </script>

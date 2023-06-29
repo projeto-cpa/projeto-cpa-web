@@ -4,7 +4,7 @@ import AppHeader from '~/layouts/AppHeader.vue';
 import AppAside from '~/layouts/AppAside.vue';
 import AppFooter from '~/layouts/AppFooter.vue';
 import AppSuper from '~/layouts/AppSuper.vue';
-import telaCadastroCargos from '../../views/cadastro/telaCadastroCargos/index.vue';
+import telaCadastroAvaliacoes from '../../views/cadastro/telaCadastroAvaliacoes/index.vue';
 
 export default {
   name: 'cadastro-avaliacoes',
@@ -14,7 +14,7 @@ export default {
     'AppFooter': AppFooter,
     'AppHeader': AppHeader,
     'AppSuper': AppSuper,
-    'telaCadastroCargos': telaCadastroCargos
+    'telaCadastroAvaliacoes': telaCadastroAvaliacoes
   }
 }
 </script>
@@ -23,8 +23,8 @@ export default {
   <AppSuper>
     <AppHeader></AppHeader>
     <AppAside></AppAside>
-    <AppMain titulo="Tela de cadastro de cargos">  
-      <telaCadastroCargos></telaCadastroCargos>
+    <AppMain titulo="Tela de cadastro de Avaliações">  
+      <telaCadastroAvaliacoes></telaCadastroAvaliacoes>
     </AppMain>
     <AppFooter></AppFooter>
   </AppSuper>

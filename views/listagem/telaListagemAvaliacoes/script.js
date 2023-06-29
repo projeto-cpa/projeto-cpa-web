@@ -7,7 +7,7 @@ import Paginacao from '../../../components/utils/Paginacao.vue'
 import alteracaoEixo from '~/components/offcanvas/alteracao/alteracaoEixo';
 
 // *APIS
-import listagemAvaliacao from '../../../api/listagem/ListagemAvaliacao';
+import listagemAvaliacao from '../../../api/listagem/listagemAvaliacao';
 import ativacaoEixo from '../../../api/ativacao/ativacaoEixo.js';
 import exclusaoEixo from '../../../api/exclusao/exclusaoEixo.js'
 
