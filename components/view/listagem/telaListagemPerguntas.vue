@@ -71,7 +71,6 @@ export default {
                     this.$nuxt.$loading.start()
                 });
 
-                console.log(item, "item")
                 var resposta = await exclusaoPergunta(item.id);
                 console.log(resposta, "resposta")
                 await new Promise(function (solve) {
@@ -104,7 +103,6 @@ export default {
             }
         },
         ativarItem: async function (item) {
-            console.log(item, "AtivandoDesativando")
             var text = item.ativo ? 'desativar' : 'ativar';
             var icon = item.ativo ? 'warning' : 'info';
             var buttonText = text.charAt(0).toUpperCase() + text.slice(1);
