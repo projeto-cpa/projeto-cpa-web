@@ -76,13 +76,13 @@ export default {
                     this.$nuxt.$loading.finish()
                 });
 
-                if (resposta.sucesso) {
+                if (resposta && resposta.response) {
                     this.resultados.splice(this.buscarIndexPeloId(item.id), 1);
                     if (this.resultados.length === 0) {
                         paginations.set('0')
                     }
                 } else {
-                    Swal.fire({
+                    Swal.fire({ 
                         icon: 'error',
                         title: 'Ocorreu uma falha',
                         text: 'Não foi possível excluir o item',
@@ -249,7 +249,7 @@ export default {
 
                     this.enviando = false;
 
-                    if (resposta.sucesso) {
+                    if (resposta && resposta.response) {
                         var modal = await Swal.fire({
                             icon: 'success',
                             title: 'Sucesso ao importar',
@@ -258,7 +258,8 @@ export default {
                         });
 
                         if (modal) {
-                            this.$router.push({ path: '/listagem/turmas' });
+                            this.$router.push({ path: '/listagem/usuarios' });
+                            location.reload();
                         }
                     } else {
                         Swal.fire({

@@ -192,7 +192,7 @@ export default {
             });
 
             this.enviando = false;
-            if (resposta.status == 200 || resposta.status == 201) {
+            if (resposta && resposta.response) {
                 
                 var modal = await Swal.fire({
                     icon: 'success',
