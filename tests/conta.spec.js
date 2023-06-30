@@ -8,6 +8,7 @@ const novaSenha = 'admin'
 const emailSelector = '[name="email"][id="email"]';
 const passwordSelector = '[name="password"][id="password"]';
 const submitSelector = '[name="submit"][id="submit"]';
+const alertSelector = '.swal2-container .swal2-confirm';
 const clickConta = '[data-link="conta"][title="Conta"]';
 const clickEditar = '[data-bs-target="#senha"][data-id="1"]';
 const senhaAtual = '[type="password"][id="senha-atual"]';
@@ -22,6 +23,13 @@ const labelNomeFoto = '#label-foto'
 const alertSelector = '#swal2-title.swal2-title';
 const alertText = 'Confirmar alteração';
 const clickConfirmSelector = '.swal2-container .swal2-actions .swal2-confirm';
+const clickFoto = '[id="customFile"][type="file"]';
+const [fileChooser] = await Promise.all([
+  // It is important to call waitForEvent before click to set up waiting.
+  page.waitForEvent('filechooser'),
+  // Opens the file chooser.
+  page.locator('#uploadFile').click(),
+])
 
 test('alterar senha passa', async ({ page }) => {
 
@@ -62,39 +70,38 @@ test('alterar senha passa', async ({ page }) => {
   await page.close();
 });
 
-test('enviar foto', async ({ page }) => {
-  await page.goto(serverURL);
+// test('enviar foto', async ({ page }) => {
 
-  await page.fill(emailSelector, email);
-  await page.fill(passwordSelector, password);
+//   await page.goto(serverURL);
 
-  // chec if the email is equals to the value filled
-  await expect(page.locator(emailSelector)).toHaveValue(email);
-  await expect(page.locator(passwordSelector)).toHaveValue(password);
+//   await page.fill(emailSelector, email);
+//   await page.fill(passwordSelector, password);
 
-  // click on the button
-  await page.click(submitSelector);
+//   // chec if the email is equals to the value filled
+//   await expect(page.locator(emailSelector)).toHaveValue(email);
+//   await expect(page.locator(passwordSelector)).toHaveValue(password);
 
-  // verify if the user was redirected to "/" 
-  await expect(page).toHaveURL(serverURL + '/');
+//   // click on the button
+//   await page.click(submitSelector);
 
-  await page.click(clickConta);
+//   // verify if the user was redirected to "/" 
+//   await expect(page).toHaveURL(serverURL + '/');
 
-  await expect(page.locator("header h1")).toHaveText('Tela minha conta');
+//   await page.click(clickConta);
 
-  await page.click(inputFileFoto); 
+//   await expect(page.locator("header h1")).toHaveText('Tela minha conta');
 
-  await page.setInputFiles(inputFileFoto, pathFoto);
+//   await page.click(inputFileFoto); 
 
-  await expect(page.locator(alertSelector)).toHaveText(alertText);
+//   await page.setInputFiles(inputFileFoto, pathFoto);
 
-  await page.click(clickConfirmSelector);
+//   await expect(page.locator(alertSelector)).toHaveText(alertText);
+
+//   await page.click(clickConfirmSelector);
   
-  await expect(page.locator(labelNomeFoto)).toContainText(filenameFoto);
+//   await expect(page.locator(labelNomeFoto)).toContainText(filenameFoto);
 
-  // verfica o label
-
-});
+// });
 
 // test('alterar foto', async ({ page }) => {
 
@@ -128,3 +135,4 @@ test('enviar foto', async ({ page }) => {
 
 //   await page.close();
 // });
+

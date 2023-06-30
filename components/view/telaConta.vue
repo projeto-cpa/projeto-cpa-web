@@ -282,7 +282,7 @@ export default {
                     <label for="InputName" class="col-form-label">Senha atual</label>
                   </div>
                   <div class="col">
-                    <input type="password" v-model="senhaAtual" id="InputName" class="form-control"
+                    <input type="password" v-model="senhaAtual" id="senha-atual" class="form-control"
                       aria-describedby="ajuda" />
                   </div>
                 </div>
@@ -291,7 +291,7 @@ export default {
                     <label for="InputName" class="col-form-label">Nova senha</label>
                   </div>
                   <div class="col">
-                    <input type="password" v-model="senha" id="InputName" class="form-control" aria-describedby="ajuda" />
+                    <input type="password" v-model="senha" id="nova-senha" class="form-control" aria-describedby="ajuda" />
                   </div>
                 </div>
                 <div class="row g-3 align-items-center mt-1">
@@ -299,7 +299,7 @@ export default {
                     <label for="inputPassword6" class="col-form-label">Confirmar senha</label>
                   </div>
                   <div class="col">
-                    <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline"
+                    <input type="password" id="confirmar-senha" class="form-control" aria-describedby="passwordHelpInline"
                       v-model="confirmarSenha" />
                   </div>
                 </div>
@@ -314,7 +314,7 @@ export default {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="fecharModal"> Sair </button>
-              <button type="button" @click="editarSenha" class="btn btn-primary">
+              <button type="button" @click="editarSenha" id="enviar-senha" class="btn btn-primary">
                 <span>Salvar</span>
                 <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
               </button>

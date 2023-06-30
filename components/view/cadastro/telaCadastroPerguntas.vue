@@ -3,6 +3,9 @@ import unique from '~/helpers/unique';
 import cadastroPergunta from '../../../api/cadastro/cadastroPergunta.js'
 import Swal from 'sweetalert2';
 
+// api 
+import listagemEixos from '../../../api/listagem/listagemEixo.js'
+
 export default {
     loading: {
         continuous: true
@@ -45,12 +48,12 @@ export default {
                         {
                             nome: 'Descritiva',
                             id: unique.generate(),
-                            valor: 'descritiva'
+                            valor: 'DESCRITIVA'
                         },
                         {
                             nome: 'Avaliativa',
                             id: unique.generate(),
-                            valor: 'avaliativa'
+                            valor: 'AVALIATIVA'
                         },
                     ],
                     ajuda: 'Selecione uma das Opções.',
@@ -63,6 +66,30 @@ export default {
                     },
                     validar: function () {
                         if (this.valor.length > 1) {
+                            this.valido = true;
+                        } else {
+                            this.valido = false;
+                        }
+                    }
+                },
+                {
+                    etiqueta: 'Selecione o Eixo',
+                    nome: 'eixoId',
+                    valor: '',
+                    valido: null,
+                    id: unique.generate(),
+                    tipo: 'select',
+                    valores: [],
+                    ajuda: 'Selecione uma das Opções.',
+                    classe: {
+                        coluna: 'col-12 mb-4'
+                    },
+                    validacao: {
+                        valido: 'Campo validado com sucesso',
+                        invalido: 'Campo inválido, verifique novamente',
+                    },
+                    validar: function () {
+                        if (this.valor !== '') {
                             this.valido = true;
                         } else {
                             this.valido = false;
@@ -108,6 +135,44 @@ export default {
         };
     },
     methods: {
+        listarEixos: async function () {
+            var resposta = await listagemEixos(0, 10);
+            console.log("resposta", resposta);
+
+            var valores = [
+
+            ];
+
+            if (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                valores = resposta.content.map(function (item) {
+                    item.valor = item.id;
+                    return item;
+                });
+            } else {
+                valores = [];
+            }
+            console.log("valores", valores);
+            this.formulario[this.buscarIndexPeloNome('eixoId')].valores = valores;
+            console.log(resposta, valores);
+        },
+
+        buscarIndexPeloNome: function (nome) {
+            console.log("valores123", this.valores);
+            console.log("formuuu", this.formulario);
+
+            var i = 0;
+            // ele navega em cada objeto do array this.formulario pelo metodo forEach...-
+            // no forEach traz o item e a posicao do item atual
+            this.formulario.forEach(function (item, index) {
+                console.log(item)
+                // a gente compara o nome dado com o nome que existe no formulario....
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            // retorna a posicao encontrada
+            return i;
+        },
         inputClass: function (valido) {
             if (valido === true) {
                 return 'is-valid';
@@ -171,6 +236,7 @@ export default {
         }
     },
     mounted: async function () {
+        this.listarEixos();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
@@ -242,5 +308,4 @@ textarea {
     max-height: 400px !important;
     min-height: 58px !important
 }
-
 </style>

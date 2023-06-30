@@ -79,6 +79,8 @@ class Requests {
                      * @param {Reponse} response 
                      */
                     function (response) {
+                        console.log(process.env.API_URL);
+                        console.log(process.env.MODE);
                         if (response.ok) {
                             return response.json();
                         } else {

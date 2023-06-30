@@ -1,0 +1,48 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+
+  build-and-deploy-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3.4.0
+      
+    - name: Docker login
+      uses: docker/login-action@v2.1.0
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+        
+    - name: Build Docker image
+      uses: docker/build-push-action@v4.0.0
+      with:
+        context: .
+        push: true
+        tags: |
+          joaopedrogama/cpa-web:1.0.0
+          joaopedrogama/cpa-web:latest
+          
+  deploy-hostinger:
+    needs: build-and-deploy-artifact
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy using ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          docker stop cpa-web
+          docker rm cpa-web
+          docker pull joaopedrogama/cpa-web:latest
+          docker run -d -p 3005:3005 --name cpa-web joaopedrogama/cpa-web:latest
