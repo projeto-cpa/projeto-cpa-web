@@ -4,7 +4,7 @@
 class Globals{
     constructor() {
         this.server = {
-            url: "http://localhost:8080",
+            url: process.env.API_URL,
             timeout: 10000
         };
     }
