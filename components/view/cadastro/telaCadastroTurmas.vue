@@ -1,6 +1,8 @@
 <script>
+import { v4 as uuidv4 } from 'uuid';
 import unique from '~/helpers/unique';
-import { Requisicao } from '../../../api/cadastro/turmas.js'
+import cadastroTurma from '../../../api/cadastro/cadastroTurma.js'
+import listagemCurso from '../../../api/listagem/listagemCurso';
 import Swal from 'sweetalert2';
 
 export default {
@@ -13,7 +15,7 @@ export default {
             formulario: [
                 {
                     etiqueta: 'Nome da turma',
-                    nome: 'nome',
+                    nome: 'nome',   
                     valor: '',
                     valido: null,
                     id: unique.generate(),
@@ -100,49 +102,12 @@ export default {
                 },
                 {
                     etiqueta: 'Curso relacionado a turma',
-                    nome: 'curso',
+                    nome: 'idCurso',
                     valor: '',
+                    valores: [],
                     valido: null,
                     id: unique.generate(),
                     tipo: 'select',
-                    valores: [
-                        {
-                            nome: 'Análise e Desenvolvimento De Sistemas',
-                            id: unique.generate(),
-                            valor: "ads"
-                        },
-                        {
-                            nome: 'Administração',
-                            id: unique.generate(),
-                            valor: "adm"
-                        },
-                        {
-                            nome: 'Farmácia',
-                            id: unique.generate(),
-                            valor: "far"
-                        },
-                        {
-                            nome: 'Engenharia de Software',
-                            id: unique.generate(),
-                            valor: "eds"
-                        },
-                        {
-                            nome: 'Ciência de Dados',
-                            id: unique.generate(),
-                            valor: "cdd"
-                        },
-                        {
-                            nome: 'Engenharia de Bioprocessos e Biotecnologia',
-                            id: unique.generate(),
-                            valor: "edbb"
-                        },
-                        {
-                            nome: 'Ciência e Tecnologia',
-                            id: unique.generate(),
-                            valor: "ct"
-                        }
-
-                    ],
                     ajuda: 'Selecione uma das opções',
                     classe: {
                         coluna: 'col-12 col-md-12 mb-4'
@@ -223,46 +188,81 @@ export default {
             if (!this.validarFormulario()) {
                 return;
             }
-            var that = this;
 
             var data = new FormData(this.$refs.formularioCadastro);
-            that.enviando = true;
+            this.enviando = true;
 
-            that.$nextTick(() => {
-                that.$nuxt.$loading.start()
+            this.$nextTick(() => {
+                this.$nuxt.$loading.start()
             })
 
-            var resposta = await Requisicao(data);
+            var resposta = await cadastroTurma(data);
 
-            setTimeout(function () {
-                that.$nextTick(() => {
-                    that.$nuxt.$loading.finish()
+            await new Promise(function (solve) {
+                setTimeout(function () {
+                    solve();
+                }, 750);
+            });
+
+            this.$nextTick(() => {
+                this.$nuxt.$loading.finish()
+            });
+
+            this.enviando = false;
+            if (resposta.sucesso) {
+                
+                var modal = await Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso ao cadastrar',
+                    text: 'O cadastro obteve sucesso',
+                    confirmButtonText: 'Entendido'
                 });
-            }, 750);
 
-            setTimeout(function () {
-                that.enviando = false;
-                if (resposta.sucesso) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso ao cadastrar',
-                        text: 'O cadastro obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    }).then(function () {
-                        that.$router.push({ path: '/listagem/turmas' });
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ocorreu uma falha',
-                        text: 'O cadastro não obteve sucesso',
-                        confirmButtonText: 'Entendido'
-                    });
+                if (modal) {
+                    this.$router.push({ path: '/listagem/turmas' });
                 }
-            }, 1000);
-        }
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ocorreu uma falha',
+                    text: 'O cadastro não obteve sucesso',
+                    confirmButtonText: 'Entendido'
+                });
+            }
+
+        },
+        listarCursos: async function () {
+            var pagina = 0;
+            var quantidade = 5;
+            var valores = [];
+            var resposta = await listagemCurso(pagina, quantidade);
+            while (!resposta.empty && resposta.content && resposta.content.length > 0) {
+                valores = valores.concat(resposta.content.map(function (item) {
+                    item.valor = item.id;
+                    return item;
+                }));
+                pagina++;
+                resposta = await listagemCurso(pagina, quantidade);
+            }
+            this.formulario[this.buscarIndexPeloNome('idCurso')].valores = valores;
+            console.log("RESPOSTAAAAAAAAAAAA AAAAAAAAAA", resposta, valores);
+        },
+        buscarIndexPeloNome: function (nome) {
+            console.log("valores123", this.valores);
+            console.log("formuuu", this.formulario);
+            var i = 0;
+            this.formulario.forEach(function (item, index) {
+                console.log(item)
+                if (item.nome === nome) {
+                    i = index;
+                }
+            });
+            return i;
+        },
     },
     mounted: async function () {
+        this.listarCursos();
         const bootstrap = require('bootstrap');
         const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         tooltips.forEach(function (item) {
@@ -281,49 +281,52 @@ export default {
                         <div class="card-body">
                             <div v-for="campo in formulario" :key="campo.id" :class="campo.classe.coluna">
                                 <div class="form-floating">
-                                    <template v-if="campo.tipo !== 'textarea' && campo.tipo !== 'select'">
+
+                                    <template v-if="campo.tipo != 'textarea' && campo.tipo != 'select'">
                                         <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             :type="campo.tipo" class="form-control" :id="campo.id"
                                             @keypress="campo.validar()" :class="inputClass(campo.valido)">
                                     </template>
-                                    <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @change="campo.validar()"
-                                            :class="inputClass(campo.valido)">
-                                            <option value="" disabled selected>Selecione uma opção</option>
-                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
-                                                {{ valor.nome }}
-                                            </option>
-                                        </select>
-                                    </template>
 
-                                    <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @change="campo.validar()"
-                                            :class="inputClass(campo.valido)">
-                                            <option value="" disabled selected>Selecione uma opção</option>
-                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
-                                                {{ valor.nome }}
-                                            </option>
-                                        </select>
-                                    </template>
-
-                                    <template v-else-if="campo.tipo === 'select'">
-                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
-                                            class="form-control" :id="campo.id" @change="campo.validar()"
-                                            :class="inputClass(campo.valido)">
-                                            <option value="" disabled selected>Selecione uma opção</option>
-                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
-                                                {{ valor.nome }}
-                                            </option>
-                                        </select>
-                                    </template>
-
-                                    <template v-else>
+                                    <template v-else-if="campo.tipo == 'textarea'">
                                         <textarea :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                             class="form-control" :id="campo.id" @keypress="campo.validar()"
                                             :class="inputClass(campo.valido)"></textarea>
                                     </template>
+                                    
+                                    <template v-else-if="campo.nome == 'periodo'">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                            <option value="" disabled selected>Selecione uma opção</option>
+                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
+                                    </template>
+
+                                    <template v-else-if="campo.nome == 'idCurso'">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                            <option value="" disabled selected>Selecione uma opção</option>
+                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
+                                    </template>
+
+                                    <template v-else-if="campo.nome == 'ativo'">
+                                        <select :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                            class="form-control" :id="campo.id" @change="campo.validar()"
+                                            :class="inputClass(campo.valido)">
+                                            <option value="" disabled selected>Selecione uma opção</option>
+                                            <option v-for="valor in campo.valores" :value="valor.valor" :key="valor.id">
+                                                {{ valor.nome }}
+                                            </option>
+                                        </select>
+                                    </template>
+
                                     <label :for="campo.id" class="form-label w-100">{{ campo.etiqueta }}</label>
                                     <span class="label-icon float-end" data-bs-toggle="tooltip" :data-bs-title="campo.ajuda"
                                         data-bs-placement="bottom" data-bs-delay="250"><i class="fa fa-question-circle"
@@ -338,7 +341,7 @@ export default {
             </article>
         </section>
         <footer class="form-footer bg-white text-end">
-            <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando">
+            <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando" id="enviar-turma">
                 <span>Cadastrar</span>
                 <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
             </button>
