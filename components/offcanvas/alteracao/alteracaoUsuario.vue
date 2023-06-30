@@ -58,7 +58,8 @@ export default {
                         } else {
                             this.valido = false;
                         }
-                    }
+                    },
+                    visible: false
                 },
                 {
                     etiqueta: 'Cargo do usuário',
@@ -235,6 +236,7 @@ export default {
             });
 
             this.enviando = false;
+            console.log('passei aqui', resposta)
             if (resposta && resposta.response) {
 
                 var modal = await Swal.fire({
@@ -248,6 +250,7 @@ export default {
                 delete atualizado.sucesso;
 
                 this.fecharCanvas();
+                console.log('passei aqui', atualizado)
                 emmiter.emit('aoAlterarUsuario', atualizado);
 
             } else {
@@ -307,7 +310,7 @@ export default {
                                 </template>
 
                                 <template v-else-if="campo.nome == 'senha'">
-                                    <input :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
+                                    <input v-show="false" :placeholder="campo.etiqueta" :name="campo.nome" v-model="campo.valor"
                                         :type="campo.tipo" class="form-control" :id="campo.id" @keypress="campo.validar()"
                                         :class="inputClass(campo.valido)">
                                 </template>

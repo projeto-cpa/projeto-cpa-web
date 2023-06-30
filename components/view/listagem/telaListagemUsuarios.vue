@@ -230,6 +230,7 @@ export default {
         handleFileChange(event) {
             this.arquivo = event.target.files[0];
             this.verificaArquivo = true;
+            this.enviarFormulario();
         },
         enviarFormulario: async function () {
 
@@ -238,6 +239,20 @@ export default {
 
             if (this.arquivo) {
                 try {
+
+                    var confirmModal = await Swal.fire({
+                        icon: 'warning',
+                        title: 'Confirmar importação',
+                        text: 'Deseja importar o arquivo selecionado?',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: 'Enviar arquivo'
+                    })
+
+                    if (!confirmModal.isConfirmed) {
+                        return;
+                    }
+
                     const formData = new FormData();
                     formData.append('file', this.arquivo);
 
@@ -250,17 +265,16 @@ export default {
                     this.enviando = false;
 
                     if (resposta && resposta.response) {
+
                         var modal = await Swal.fire({
                             icon: 'success',
                             title: 'Sucesso ao importar',
                             text: 'A importação obteve sucesso',
                             confirmButtonText: 'Entendido'
-                        });
+                        }).then(function () {
+                            window.location.href = '/listagem/usuarios'
+                        })
 
-                        if (modal) {
-                            this.$router.push({ path: '/listagem/usuarios' });
-                            location.reload();
-                        }
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -286,14 +300,14 @@ export default {
                 }
             }
         },
-
         aoAlterarUsuario: function (item) {
+            console.log('usuario alterado', item)
             this.editar = false;
             this.resultados[this.buscarIndexPeloId(item.id)].ativo = item.ativo;
             this.resultados[this.buscarIndexPeloId(item.id)].nome = item.nome;
             this.resultados[this.buscarIndexPeloId(item.id)].senha = item.senha;
             this.resultados[this.buscarIndexPeloId(item.id)].email = item.email;
-            this.resultados[this.buscarIndexPeloId(item.id)].idCargo = item.nome;
+            this.resultados[this.buscarIndexPeloId(item.id)].idCargo = item.idCargo;
         },
         aoListarUsuario: function (resposta) {
             console.log('resposta', resposta);
@@ -370,23 +384,27 @@ export default {
                             <div class="col m-auto">
                                 <div class="item header text-center"><b>Nome do usuário</b></div>
                             </div>
-                            <div class="col date m-auto">
+                            <div class="col m-auto">
                                 <div class="item header text-center"><b>Email do usuário</b></div>
                             </div>
-                            <div class="col date m-auto">
+                            <div class="col m-auto">
                                 <div class="item header text-center"><b>Cargo do usuário</b></div>
                             </div>
-                            <form class="col date m-auto" enctype="multipart/form-data">
+                            <form class="col options m-auto text-center" enctype="multipart/form-data">
                                 <div class="d-flex flex-wrap justify-content-center">
                                     <input type="file" class="form-control-file" name="file" id="fileInput"
-                                        @change="handleFileChange">
-                                    <label class="input-group-text btn btn-secondary rounded-5 mb-2" for="fileInput">Arquivo
-                                        CSV</label>
-                                    <button v-if="verificaArquivo" style="width:110px;" class="btn btn-primary rounded-5"
+                                        @change="handleFileChange" accept=".csv">
+                                    <label class="input-group-text btn btn-success rounded-5 mb-2" for="fileInput" :style="{
+                                            'width': '160px'
+                                        }">
+                                        <span>Importar</span>
+                                        <span><i class="fa fa-upload" aria-hidden="true"></i></span>
+                                    </label>
+                                    <!-- <button v-if="verificaArquivo" style="width:110px;" class="btn btn-primary rounded-5"
                                         @click="enviarFormulario" :disabled="enviando">
                                         <span>Importar</span>
                                         <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </form>
                         </div>

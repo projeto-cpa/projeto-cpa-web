@@ -54,14 +54,13 @@ export default {
 
             if (resposta.sucesso) {
                 Swal.fire({
+                    icon: 'success',
                     title: "Senha alterada com sucesso",
                     text: "Sua senha foi alterada com sucesso.",
-                    footer:"Redirecionando para a página inicial em 3 segundos"
+                    confirmButtonText: 'Acessar conta'
                 }).then(function () {
-                    setTimeout(function () {
-                        that.redirecionarParaHome()
-                    },3000)
-                });
+                    window.location.href = '/acesso';
+                })
             }
 
             console.log('resposta', resposta)

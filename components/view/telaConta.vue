@@ -1,6 +1,6 @@
 <script>
 import listagemUsuario from "~/api/listagem/listagemUsuario";
-import alteracaoUsuario from "~/api/alteracao/alteracaoUsuario";
+import alteracaoUsuarioDois from "~/api/alteracao/alteracaoUsuarioDois";
 import Copyright from "../misc/Copyright.vue";
 import sessions from "~/helpers/sessions";
 import Swal from "sweetalert2";
@@ -96,7 +96,7 @@ export default {
         var usuario = this.dados;
         usuario.senhaAtual = this.senhaAtual;
         usuario.senha = this.senha;
-        var resposta = await alteracaoUsuario(usuario);
+        var resposta = await alteracaoUsuarioDois(usuario);
 
         await new Promise(function (solve) {
           setTimeout(function () {
@@ -110,7 +110,7 @@ export default {
           this.$nuxt.$loading.finish();
         });
 
-        if (resposta.sucesso) {
+        if (resposta.sucesso || resposta.response) {
           Swal.fire({
             icon: "success",
             title: "Senha salva com sucesso!",
@@ -143,7 +143,7 @@ export default {
 
         var usuario = this.dados;
         usuario.imagem = imagem;
-        var resposta = await alteracaoUsuario(usuario);
+        var resposta = await alteracaoUsuarioDois(usuario);
 
         await new Promise(function (solve) {
           setTimeout(function () {
@@ -157,7 +157,7 @@ export default {
           this.$nuxt.$loading.finish();
         });
 
-        if (resposta.sucesso) {
+        if (resposta.sucesso || resposta.response) {
           Swal.fire({
             icon: "success",
             title: "Foto salva com sucesso!",
@@ -342,7 +342,7 @@ export default {
                     <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Cargo </label>
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" v-model="dados.nomeCargo"
+                        <input type="text" class="form-control" v-model="dados.cargo"
                           aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
                       </div>
                     </div>
@@ -366,7 +366,7 @@ export default {
                         <input type="text" class="form-control" value="Altere sua senha" aria-label="Recipient's username"
                           aria-describedby="button-addon2" disabled />
                         <button class="btn btn-outline-secondary" type="button" id="show-modal" data-bs-toggle="modal"
-                          data-bs-target="#senha" data-id="1"> Editar </button>
+                          data-bs-target="#senha" data-id="1">Alterar</button>
                       </div>
                     </div>
                   </div>

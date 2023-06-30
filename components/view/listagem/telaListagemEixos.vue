@@ -2,6 +2,7 @@
 import Filtro from '../../utils/Filtro.vue';
 import Paginacao from '../../utils/Paginacao.vue'
 import alteracaoEixo from '~/components/offcanvas/alteracao/alteracaoEixo';
+import paginations from '~/helpers/paginations';
 
 // *APIS
 import listagemEixo from '../../../api/listagem/listagemEixo.js';
