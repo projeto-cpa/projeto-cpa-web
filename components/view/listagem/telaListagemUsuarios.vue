@@ -382,7 +382,7 @@ export default {
                                         @change="handleFileChange">
                                     <label class="input-group-text btn btn-secondary rounded-5 mb-2" for="fileInput">Arquivo
                                         CSV</label>
-                                    <button v-if="verificaArquivo" class="btn btn-primary rounded-5"
+                                    <button v-if="verificaArquivo" style="width:110px;" class="btn btn-primary rounded-5"
                                         @click="enviarFormulario" :disabled="enviando">
                                         <span>Importar</span>
                                         <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
