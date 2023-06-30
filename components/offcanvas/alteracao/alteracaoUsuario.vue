@@ -235,7 +235,7 @@ export default {
             });
 
             this.enviando = false;
-            if (resposta.sucesso) {
+            if (resposta && resposta.response) {
 
                 var modal = await Swal.fire({
                     icon: 'success',
