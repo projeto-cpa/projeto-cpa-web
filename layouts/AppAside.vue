@@ -108,25 +108,25 @@ export default {
                         }
                     ]
                 },
-                // {
-                //     caminho: '/perguntas',
-                //     texto: 'Perguntas',
-                //     icone: 'fa fa-commenting',
-                //     id: unique.generate(),
-                //     ativo: false,
-                //     items: [
-                //         {
-                //             caminho: '/cadastro/perguntas',
-                //             texto: 'Cadastrar',
-                //             icone: 'fa fa-plus',
-                //         },
-                //         {
-                //             caminho: '/listagem/perguntas',
-                //             texto: 'Listagem',
-                //             icone: 'fa fa-list',
-                //         }
-                //     ]
-                // },
+                {
+                    caminho: '/perguntas',
+                    texto: 'Perguntas',
+                    icone: 'fa fa-commenting',
+                    id: unique.generate(),
+                    ativo: false,
+                    items: [
+                        {
+                            caminho: '/cadastro/perguntas',
+                            texto: 'Cadastrar',
+                            icone: 'fa fa-plus',
+                        },
+                        {
+                            caminho: '/listagem/perguntas',
+                            texto: 'Listagem',
+                            icone: 'fa fa-list',
+                        }
+                    ]
+                },
                 {
                     caminho: '/usuarios',
                     texto: 'Usuários',

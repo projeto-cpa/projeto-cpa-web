@@ -3,6 +3,9 @@ import telaRecuperarSenha from '../components/view/telaRecuperarSenha.vue';
 
 export default {
     name: 'recuperar',
+    head: {
+      title: 'CPA - Recuperar acesso',
+    },
     components: {
         telaRecuperarSenha: telaRecuperarSenha
     }

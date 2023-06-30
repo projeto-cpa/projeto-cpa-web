@@ -85,6 +85,9 @@ export default {
                                 </div>
                                 <button class="col-12 btn btn-lg btn-primary rounded-5" @click="enviarFormulario">Enviar</button>
                             </div>
+                            <div class="col-12 mt-2">
+                                <a class="col-12 btn btn-lg btn-secondary rounded-5" href="/">Acessar conta</a>
+                            </div>
                         </div>
                     </div>
                 </div>

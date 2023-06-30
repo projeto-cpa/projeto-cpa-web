@@ -264,6 +264,8 @@ export default {
             this.paginacao.paginas = resposta.totalPages;
             this.paginacao.total = resposta.totalElements;
 
+            console.log('resposta aqui', resposta)
+
             if (!resposta.empty && resposta.content && resposta.content.length > 0) {
                 this.resultados = resposta.content.map(function (item) {
                     item.selecionado = false;
