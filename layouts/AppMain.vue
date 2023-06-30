@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['titulo', 'expand', 'footer'],
+    props: ['titulo', 'expand', 'footer', 'importar'],
     computed: {
         contentFrameClass: function () {
             var cls = '';
@@ -24,6 +24,29 @@ export default {
     <main class="col p-0 bg-light">
         <header class="bg-secondary">
             <h1 class="text-white">{{ titulo }}</h1>
+            <!-- <template v-if="importar">
+                <div>
+                    <input type="file" @change="handleFileChange">
+                    <button @click="uploadTurma">Enviar</button>
+
+                    <button class="btn btn-primary rounded-5" @click="enviarFormulario" :disabled="enviando"
+                        id="enviar-usuario">
+                        <span>Importar</span>
+                        <span v-if="enviando"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+                    </button>
+                </div>
+                
+                <div class="d-flex">
+                    <div class="fa fa-file input-group importarUsuarios">
+                        <input class="rounded-0" id="importarUsers" type="file">
+                        <label for="importarUsers" style="display: block; width: 100%;">Importar</label>
+                    </div>
+                </div>
+                <button class="btn btn-success rounded-0 form-control" type="file">
+                        <span class="fa fa-file"></span>
+                        <span>Importar</span>
+                    </button>
+            </template> -->
         </header>
         <div class="content-frame" :class="contentFrameClass">
             <slot></slot>
@@ -32,6 +55,23 @@ export default {
 </template>
 
 <style>
+#importarUsers {
+    display: none
+}
+
+.importarUsuarios {
+    background-color: #198754 !important;
+    border-radius: 5px !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    margin: 10px !important;
+    padding: 6px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 1em !important;
+}
+
 .conteudo-principal {
     padding: 0 !important;
     overflow-y: auto !important;
@@ -88,14 +128,14 @@ header h1 {
     box-shadow: inset 3px 3px 9px var(--bs-gray-400);
 }
 
-.content-frame.expand{
+.content-frame.expand {
     position: relative;
     height: 100% !important;
     z-index: 2;
     box-shadow: inset 3px 3px 9px var(--bs-gray-400);
 }
 
-.content-frame.expand .container-fluid{
+.content-frame.expand .container-fluid {
     height: 100%;
 }
 
