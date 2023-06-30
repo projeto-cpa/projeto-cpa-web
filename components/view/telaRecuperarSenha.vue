@@ -1,4 +1,6 @@
 <script>
+import recuperarLogin from '../../api/sessao/recuperarLogin'
+
 export default {
     data: function () {
         return {
@@ -10,15 +12,27 @@ export default {
         }
     },
     methods: {
+        enviarFormulario: async function () {
+            if (this.validaEmail()) {
+
+                const resposta = await recuperarLogin({
+                    email:this.email
+                })
+
+                console.log('resposta', resposta)
+            }
+        },
         validaEmail: function () {
             var that = this;
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!regex.test(this.email)) {
                 that.mensagem = "E-mail incorreto";
                 this.abrirToast()
+                return false;
             } else {
                 that.escondeDiv = false;
                 that.mostrando = true;
+                return true;
             }
         },
         abrirToast: function () {
@@ -40,13 +54,11 @@ export default {
                     <div class="div-img-cpa col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <img class="img-cpa" loading="lazy" src="../../static/logoCpa.jpg">
                     </div>
-
                     <div class="alinha-form-senha div-recuperar-senha col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <div class="w-60">
                             <div class="col-12 text-email">
                                 <h2 class="display-5">Recuperação de senha</h2>
                             </div>
-
                             <div class="col-12">
                                 <div v-if="mostrando" class="col-12" style="margin: 30px 0px 0px 0px;">
                                     <div class="alert alert-success d-flex align-items-center" role="alert">
@@ -56,13 +68,11 @@ export default {
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-12" v-if="escondeDiv">
                                 <div class="col-12 p-email">
                                     <p style="font-size: 18px;">Olá, digite seu email para recuperar sua senha.</p>
                                 </div>
                             </div>
-
                             <div class="col-12" v-if="escondeDiv">
                                 <div class="config-input-login mb-2">
                                     <i class="fa fa-envelope icon-email" aria-hidden="true"></i>
@@ -73,14 +83,15 @@ export default {
                                         placeholder="E-mail:" required style="border-radius: 0px;">
                                     <label for="email" style="color: #000;">Insira o e-mail:</label>
                                 </div>
-                                <button class="col-12 btn btn-lg btn-primary rounded-5" @click="validaEmail">Enviar</button>
+                                <button class="col-12 btn btn-lg btn-primary rounded-5" @click="enviarFormulario">Enviar</button>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <a class="col-12 btn btn-lg btn-secondary rounded-5" href="/">Acessar conta</a>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
             <div class="toast-container position-fixed top-0 end-0 p-3">
                 <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
                     aria-atomic="true" ref="toast">
@@ -169,7 +180,7 @@ h2 {
 
 .img-cpa {
     width: 100%;
-    padding:15%;
+    padding: 15%;
 }
 
 .div-recuperar-senha {

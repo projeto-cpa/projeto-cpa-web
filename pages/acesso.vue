@@ -3,6 +3,9 @@ import telaAcesso from '../components/view/telaAcesso.vue';
 
 export default {
     name: 'acesso',
+    head: {
+      title: 'CPA - Acessar conta',
+    },
     components: {
         telaAcesso: telaAcesso
     }

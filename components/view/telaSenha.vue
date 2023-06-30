@@ -1,7 +1,12 @@
 <script>
+import Swal from 'sweetalert2';
+import recuperarAcesso from '../../api/sessao/recuperarAcesso'
+
 export default {
     data: function () {
         return {
+            email: '',
+            codigo: '',
             password: '',
             confirmaPassword: '',
             toast: null,
@@ -26,16 +31,40 @@ export default {
         validaSenha: function () {
             if (this.password != this.confirmaPassword) {
                 this.mensagem = 'As senhas devem ser iguais';
+                this.abrirToast()
             } else if (this.password.length < 8 || this.confirmaPassword.length < 8) {
                 this.mensagem = 'A senha não pode ter menos que 8 caracteres';
+                this.abrirToast()
             } else {
-                this.redirecionarParaHome();
+                this.enviarFormulario()
             }
-            this.abrirToast()
         },
-
         abrirToast: function () {
             this.toast.show();
+        },
+        enviarFormulario: async function () {
+
+            var that = this;
+
+            const resposta = await recuperarAcesso({
+                email: this.email,
+                codigo: this.codigoRecuperacao,
+                senha: this.password
+            })
+
+            if (resposta.sucesso) {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Senha alterada com sucesso",
+                    text: "Sua senha foi alterada com sucesso.",
+                    confirmButtonText: 'Acessar conta'
+                }).then(function () {
+                    window.location.href = '/acesso';
+                })
+            }
+
+            console.log('resposta', resposta)
+
         },
         redirecionarParaHome() {
             this.$router.push({ path: '/' })
@@ -134,9 +163,23 @@ export default {
                 default:
                     break;
             }
+        },
+        recuperarDados: function () {
+            var dados = window.atob(this.codigoRecuperacao).split(',')
+            this.email = dados[1]
+            this.codigo = dados[0]
+            console.log('dados', dados[0], dados[1])
+        }
+    },
+    computed: {
+        codigoRecuperacao: function () {
+            return this.$route.query.codigo || ''
         }
     },
     mounted: function () {
+        this.recuperarDados();
+        var that = this
+        console.log('router', that.$route)
         const bootstrap = require('bootstrap')
         this.toast = new bootstrap.Toast(this.$refs.toast);
     }
@@ -156,11 +199,9 @@ export default {
                             <div class="col-md-12 text-email">
                                 <h2 class="display-5">Alteração de senha</h2>
                             </div>
-
                             <div class="col-md-12 p-email">
                                 <p style="font-size: 18px;">Olá, digite a nova senha que você irá usar.</p>
                             </div>
-
                             <div class="config-input-login text-white mb-2">
                                 <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
                                 <h4 class="d-inline-block">Senha de acesso</h4>
@@ -172,8 +213,7 @@ export default {
                                     style="border-radius: 0px; color: #000;">
                                 <label for="password">Digite a senha:</label>
                                 <span class="input-group-text" id="mostra-senha" style="padding: 0px; border-radius: 0px;">
-                                    <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{
-                                        showPassword ?
+                                    <a class="icone-olho" v-on:click="mostraSenha" @click="showPassword = !showPassword">{{ showPassword ?
                                         '' : '' }}
                                         <span v-if="!liked">
                                             <i class="fa fa-eye" style="height: 56px; padding: 15px;"></i>
@@ -184,7 +224,6 @@ export default {
                                     </a>
                                 </span>
                             </div>
-
                             <div class="config-input-login mb-2 text-white">
                                 <i class="fa fa-lock icon-senha" aria-hidden="true"></i>
                                 <h4 class="d-inline-block">Confirme a senha</h4>
@@ -208,7 +247,6 @@ export default {
                                     </a>
                                 </span>
                             </div>
-
                             <div class="col-12">
                                 <div class="col-12 config-cor-senha" v-if="this.password.length < 1">
                                     <div class="col-2 cor-senha"
@@ -297,9 +335,7 @@ export default {
                                         v-bind:style="{ backgroundColor: corExtremamenteForte ? 'white' : 'white' }"></div>
                                 </div>
                             </div>
-
                             <div class="heigth-15"></div>
-
                             <div class="col-md-12 alert alert-primary" role="alert">
                                 <p class="cor-azul" v-if="showRequirements">Status da senha: {{ passwordStrength }} </p>
                                 <p class="cor-azul mb-0" v-else><b>Status da senha: Vazia</b></p>
@@ -310,14 +346,12 @@ export default {
                                     <li>Inclua no minimo 8 caracteres</li>
                                 </ul>
                             </div>
-
-                            <button @click="validaSenha" href="/" class="col-12 btn btn-lg rounded-5 btn-primary btn-senha">Enviar</button>
-
+                            <button @click="validaSenha" href="/"
+                                class="col-12 btn btn-lg rounded-5 btn-primary btn-senha">Enviar</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="toast-container position-fixed top-0 end-0 p-3">
                 <div class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive"
                     aria-atomic="true" ref="toast">
@@ -332,9 +366,7 @@ export default {
                     </div>
                 </div>
             </div>
-
         </div>
-
     </section>
 </template>
 
@@ -393,7 +425,7 @@ input {
 
 .img-cpa {
     width: 100%;
-    padding:15%;
+    padding: 15%;
 }
 
 .icone-olho {

@@ -3,6 +3,9 @@ import telaSenha from '../components/view/telaSenha.vue';
 
 export default {
     name: 'senha',
+    head: {
+      title: 'CPA - Recuperação de acesso',
+    },
     components: {
         telaSenha: telaSenha
     }

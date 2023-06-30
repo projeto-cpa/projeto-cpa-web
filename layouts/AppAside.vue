@@ -51,25 +51,25 @@ export default {
                         }
                     ]
                 },
-                {
-                    caminho: '/disciplinas',
-                    texto: 'Disciplinas',
-                    icone: 'fa fa-book',
-                    id: unique.generate(),
-                    ativo: false,
-                    items: [
-                        {
-                            caminho: '/cadastro/disciplinas',
-                            texto: 'Cadastrar',
-                            icone: 'fa fa-plus',
-                        },
-                        {
-                            caminho: '/listagem/disciplinas',
-                            texto: 'Listagem',
-                            icone: 'fa fa-list',
-                        }
-                    ]
-                },
+                // {
+                //     caminho: '/disciplinas',
+                //     texto: 'Disciplinas',
+                //     icone: 'fa fa-book',
+                //     id: unique.generate(),
+                //     ativo: false,
+                //     items: [
+                //         {
+                //             caminho: '/cadastro/disciplinas',
+                //             texto: 'Cadastrar',
+                //             icone: 'fa fa-plus',
+                //         },
+                //         {
+                //             caminho: '/listagem/disciplinas',
+                //             texto: 'Listagem',
+                //             icone: 'fa fa-list',
+                //         }
+                //     ]
+                // },
                 {
                     caminho: '/turmas',
                     texto: 'Turmas',

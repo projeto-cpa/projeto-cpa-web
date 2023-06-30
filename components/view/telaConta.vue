@@ -1,6 +1,6 @@
 <script>
 import listagemUsuario from "~/api/listagem/listagemUsuario";
-import alteracaoUsuario from "~/api/alteracao/alteracaoUsuario";
+import alteracaoUsuarioDois from "~/api/alteracao/alteracaoUsuarioDois";
 import Copyright from "../misc/Copyright.vue";
 import sessions from "~/helpers/sessions";
 import Swal from "sweetalert2";
@@ -23,6 +23,7 @@ export default {
       supportedMimeTypes: supportedMimeTypes,
       imagemPadrao: require("../../static/user.png"),
       enviando: false,
+      labelFoto: '',
       dados: {
         email: null,
         nome: null,
@@ -95,7 +96,7 @@ export default {
         var usuario = this.dados;
         usuario.senhaAtual = this.senhaAtual;
         usuario.senha = this.senha;
-        var resposta = await alteracaoUsuario(usuario);
+        var resposta = await alteracaoUsuarioDois(usuario);
 
         await new Promise(function (solve) {
           setTimeout(function () {
@@ -109,7 +110,7 @@ export default {
           this.$nuxt.$loading.finish();
         });
 
-        if (resposta.sucesso) {
+        if (resposta.sucesso || resposta.response) {
           Swal.fire({
             icon: "success",
             title: "Senha salva com sucesso!",
@@ -142,7 +143,7 @@ export default {
 
         var usuario = this.dados;
         usuario.imagem = imagem;
-        var resposta = await alteracaoUsuario(usuario);
+        var resposta = await alteracaoUsuarioDois(usuario);
 
         await new Promise(function (solve) {
           setTimeout(function () {
@@ -156,7 +157,7 @@ export default {
           this.$nuxt.$loading.finish();
         });
 
-        if (resposta.sucesso) {
+        if (resposta.sucesso || resposta.response) {
           Swal.fire({
             icon: "success",
             title: "Foto salva com sucesso!",
@@ -174,39 +175,32 @@ export default {
       }
     },
     readImage: async function (params) {
-      var that = this;
       console.log("reading");
 
       const input = this.$refs.input;
 
-      var base64 = await new Promise(function (resolve) {
+      var imageObject = await new Promise(function (resolve) {
+        
         if (!input.files || !input.files[0]) {
           console.error("filelist is null");
           return;
         }
 
         if (!supportedMimeTypes.includes(input.files[0].type)) {
-
           throw new uploadException("Formato de arquivo não suportado", 0)
-
-
-          // console.table(that.$refs.form)
-          return;
-          // console.error("not supported mime type");
-          // return;
         }
-
-        console.log("files", input.files);
 
         const FR = new FileReader();
 
         FR.addEventListener("load", function (evt) {
-          resolve(evt.target.result);
+          resolve({
+            base64: evt.target.result,
+            filename: input.files[0].name
+          });
         });
 
         FR.readAsDataURL(input.files[0]);
       }).catch(function (e) {
-        // console.log('e', e)
         Swal.fire({
           icon: "error",
           title: "Ocorreu uma falha",
@@ -215,10 +209,11 @@ export default {
         })
       });
 
-      console.log('aaa', base64)
+      console.log('image obj', imageObject)
 
-      if (base64) {
-        this.image = base64;
+      if (imageObject.base64 && imageObject.filename) {
+        this.labelFoto = imageObject.filename
+        this.image = imageObject.base64;
 
         var modal = await Swal.fire({
           icon: "info",
@@ -230,7 +225,7 @@ export default {
         });
 
         if (modal.isConfirmed) {
-          this.editarFoto(base64);
+          this.editarFoto(imageObject.base64);
         }
 
         this.$refs.form.reset();
@@ -347,7 +342,7 @@ export default {
                     <div class="col-12 col-xl-6">
                       <label for="formGroupExampleInput" class="form-label">Cargo </label>
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" v-model="dados.nomeCargo"
+                        <input type="text" class="form-control" v-model="dados.cargo"
                           aria-label="Recipient's username" aria-describedby="button-addon2" disabled />
                       </div>
                     </div>
@@ -371,7 +366,7 @@ export default {
                         <input type="text" class="form-control" value="Altere sua senha" aria-label="Recipient's username"
                           aria-describedby="button-addon2" disabled />
                         <button class="btn btn-outline-secondary" type="button" id="show-modal" data-bs-toggle="modal"
-                          data-bs-target="#senha" data-id="1"> Editar </button>
+                          data-bs-target="#senha" data-id="1">Alterar</button>
                       </div>
                     </div>
                   </div>
@@ -389,8 +384,9 @@ export default {
                         <!-- Default bootstrap file upload-->
                         <h6 class="text-center mb-4 text-muted"> Envie uma imagem para seu perfil</h6>
                         <form class="custom-file overflow-hidden mb-4" ref="form">
-                          <input id="customFile" :accept="supportedMimeTypes.join(', ').trim()" type="file"
+                          <input id="upload-foto" :accept="supportedMimeTypes.join(', ').trim()" type="file"
                             class="form-control" ref="input" @change="readImage" />
+                            <span id="label-foto" class="d-none">{{ labelFoto }}</span>
                         </form>
                       </div>
                     </div>

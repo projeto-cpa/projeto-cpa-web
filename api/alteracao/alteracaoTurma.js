@@ -10,12 +10,11 @@ import globals from "../../helpers/globals.js";
  * 
  * @returns {Object}
  */
-async function alteracaoUsuario(data) {
-    console.log('data', data)
-    var url = `${globals.server.url}/usuario`;
+async function alteracaoTurma(data) {
+    var url = `${globals.server.url}/turma`;
     var json = formToJSON(data);
     var resposta = await request.put(url, json, true);
     return resposta;
 }
 
-export default alteracaoUsuario;
+export default alteracaoTurma;
